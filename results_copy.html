@@ -589,11 +589,11 @@ header_small_font {
 					html += '<col align="center" style="width:' + width_num + '%">';
 				}
 		
-				html += '<thead><tr><th align="center">Param name</th>';
+				html += '<thead><tr><td align="center" style="font-size:15px"><span style="font-weight:bold">Parameter / Model</td></span>';
 				//for (var head_i = 0; head_i < (Object.keys(data[0]).length - 1); head_i++){
 				for (var head_i = 0; head_i < num_data_col-1; head_i++){
 					
-					html += '<th align="left" style="font-size:10px">'+arr_headers[head_i] +'</font></th>'
+					html += '<td align="center" style="font-size:15px"><span style="font-weight:bold">'+changeModelName(arr_headers[head_i]) +'</font></td></span>'
 				}
 				html += '</thead><tbody>';
 					
@@ -696,11 +696,13 @@ header_small_font {
 					html += '<col align="center" style="width:' + width_num + '%">';
 				}
 		
-				html += '<thead><tr><th align="center">Test satistic (original percentiles)</th>';
+				// html += '<thead><tr><th align="center">Statistic / Model</th>';
+				html += '<thead><tr><td align="center" style="font-size:15px"><span style="font-weight:bold">Statistic / Model</td></span>';
 				//for (var head_i = 0; head_i < (Object.keys(data[0]).length - 1); head_i++){
 				for (var head_i = 0; head_i < num_data_col-1; head_i++){
 					//if (arr_headers[head_i]){
-						html += '<th align="left"><font size="1.5">'+arr_headers[head_i] +'</font></th>'
+						//html += '<th align="left"><font size="1.5">'+ changeModelName(arr_headers[head_i]) +'</font></th>'
+						html += '<td align="center" style="font-size:15px"><span style="font-weight:bold">'+changeModelName(arr_headers[head_i]) +'</font></td></span>'
 					//}
 				}
 				html += '</thead><tbody>';
@@ -722,7 +724,7 @@ header_small_font {
 						//	} else {
 						//	html += '<td align="center">'+data[i].Header1 +'</td>';
 						//}
-						if (data[i].Header1.includes("Dist Statistics")) {
+						if (data[i].Header1.includes("Statistics distributions")) {
 							statis_img_link='ON';
 						}
 					} 
