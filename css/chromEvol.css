@@ -1,0 +1,684 @@
+		@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+		@import '~pretty-checkbox/src/pretty-checkbox.scss';
+
+
+		/*html, body, .container,.container .jumbotron , .jumbotron, .ofer, iframe { height: 100%; }*/
+		/*html, body, .container, ofer,iframe { height: 100%; }*/
+
+
+		html {
+			width:90%;
+		 /*overflow-y: -moz-scrollbars-vertical;
+		 overflow-y: scroll;*/
+		}
+
+		body 
+		{
+			/*background-image:url('http://clumpak.tau.ac.il/img/edited_cells2.jpg');*/
+			/*background-size:100%; */
+			/*background: #F9F9F7 url('http://clumpak.tau.ac.il/img/a1.gif') repeat-x;*/
+			/*background: #F9F9F7 url('http://onetwotree.tau.ac.il/images/tree_1.jpg') repeat-x;*/
+			/*background: url('http://onetwotree.tau.ac.il/images/tree_1.jpg') repeat-x;*/
+			
+			padding-top: 0px;
+			padding-bottom: 0px;
+		}
+
+		.boxes {
+		  margin: auto;
+		  padding: 50px;
+		  background: #484848;
+		}
+
+		/*Checkboxes styles*/
+		input[type="checkbox"] { display: none; }
+
+		input[type="checkbox"] + label {
+		  display: block;
+		  position: relative;
+		  padding-left: 35px;
+		  margin-bottom: 20px;
+		  font: 14px/20px 'Open Sans', Arial, sans-serif;
+		  color: #ddd;
+		  cursor: pointer;
+		  -webkit-user-select: none;
+		  -moz-user-select: none;
+		  -ms-user-select: none;
+		}
+
+		input[type="checkbox"] + label:last-child { margin-bottom: 0; }
+
+		input[type="checkbox"] + label:before {
+		  content: '';
+		  display: block;
+		  width: 20px;
+		  height: 20px;
+		  border: 1px solid #6cc0e5;
+		  position: absolute;
+		  left: 0;
+		  top: 0;
+		  opacity: .6;
+		  -webkit-transition: all .12s, border-color .08s;
+		  transition: all .12s, border-color .08s;
+		}
+
+		input[type="checkbox"]:checked + label:before {
+		  width: 10px;
+		  top: -5px;
+		  left: 5px;
+		  border-radius: 0;
+		  opacity: 1;
+		  border-top-color: transparent;
+		  border-left-color: transparent;
+		  -webkit-transform: rotate(45deg);
+		  transform: rotate(45deg);
+		}
+
+
+		h1.small {
+			font-variant:small-caps;
+			display: inline;	
+			font-size: 50px;
+		}
+
+		.navbar
+		{
+			margin-bottom: 0px;
+			border: 0px;
+		}
+
+		.navbar-default .navbar-collapse
+		{
+			background-color: #f4f7ef;
+			margin-top: 0px;
+			margin-bottom: -10px;
+			margin-right: 0px;
+			margin-left: 0px;
+			font-size: 20px;
+			#padding-left: 55px;
+			padding-right: 55px;
+
+		}
+		
+		
+		.navbar-default .navbar-nav > .active > a, 
+		.navbar-default .navbar-nav > .active > a:hover, 
+		.navbar-default .navbar-nav > .active > a:focus 
+		{
+			background-color: #9FD08B; /*backgroung of tab headers*/
+		}		
+		
+		
+		#load_jobid {
+		  float: right;
+		  min-width: 280px;
+		  max-width: 400px;
+		  margin-right: 100px;
+		  margin-top: 50px;
+		  font-size: 18px;
+		}	
+		
+		.header_img
+		{
+		    /*position: relative;
+			top: 120px;*/
+			margin: 0 auto;
+			width: 85%;
+			padding-left: 0px;
+			padding-right: 0px;
+		}
+
+		.container 
+		{
+		    /*position: relative;
+			top: 120px;*/
+			margin: 0 auto;
+			width: 85%;
+			padding-left: 0px;
+			padding-right: 0px;
+		}
+		
+		.container .jumbotron 
+		{
+			margin-top: 0px;
+			margin-bottom: 0px;
+			#background-color: #E3CFAC;
+			#background-color: #A6A6A6;
+			#background-color: #D3D3D3;
+			background-color: white;
+			border-radius: 0px;
+		}
+
+		.jumbotron 
+		{
+
+			#font-family: "Georgia", Times, serif;
+			#font-size: 16px;
+ 			margin-top: 0px;
+			margin-bottom: 0px;
+			padding-top: 10px;
+			padding-bottom: 10px;
+			height:100%;
+			
+		}	
+		
+		
+		
+		.row,.rowOfer
+		{
+			width: 100%;
+			padding-top: 20px;
+			padding-bottom: 20px;
+			padding-left: 10px;
+			padding-right: 10px;
+
+			margin-right: 0px;
+			margin-left: 0px;
+
+			#background-color: #9CB57B;
+			#background-color: #9CB57B;
+			#background-color: #D8E4BE;
+		}
+
+		.rowOfer
+		{
+			background-color: white;  /* Inner blocks color*/
+			padding-top: 0px;
+			padding-bottom: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+			#line-height: 130%;
+		}
+
+		.rowOferWhite
+		{
+			background-color: white;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+			#line-height: 130%;
+		}
+		
+
+		.params
+		{
+			
+			background-color: white;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+			line-height: 130%;
+		}
+		
+		.popover-content 
+		{
+			font-size: 15px;
+		}
+		
+		.form-control
+		{
+			width: 200px;
+		}
+
+		.form-wide-control
+		{
+			width: 300px;
+		}
+		
+		
+		.divOfer
+		{
+			border:2px solid #58aaa4; 
+			padding-left: 25px;
+			padding-right: 25px;
+			padding-top: 25px;
+			padding-bottom: 25px;
+
+			background-color: #dcdae5; /*B4B2BA outer block colors*/
+
+		}
+
+		.Ofer
+		{
+			width: 100%;
+			height: 100%; 
+			z-index: 0;
+		}
+
+		.rerunTable
+		{
+			background-color: white;
+			font-size:medium;
+		}
+
+		.fontMedium
+		{
+			font-size:medium;
+			font-weight: normal;
+			#font-size:smaller;
+		}
+
+		.fontBold
+		{
+			font-weight: bold;
+			#font-size:smaller;
+		}
+
+		.font15
+		{
+			font-size:15px;
+		}
+
+		.infoIcon
+		{
+			font-size:12px;
+		}
+
+		.lineHeightNormal
+		{
+			line-height: normal;
+		}
+
+		.sub1, .sub2 { display: none; }
+
+		:checked ~ .sub1, :checked ~ .sub2 {
+			display: block;
+			margin-left: 40px;
+		}
+		
+		
+		.transparentBorder, .transparentBorder:hover
+		{
+			border-color:transparent;
+			background-color:transparent;
+		}
+		
+		.ottArrow
+		{
+			top:-30px;
+		}
+
+		.fontSize_21px
+		{
+			font-size:21px;
+		}
+
+		.fontSize_14px
+		{
+			font-size:14px;
+		}
+
+		.noPadding
+		{
+			padding: 0px 0px 0px 0px;
+		}
+
+		.myWidth
+		{
+			width: 150px;
+			height: 22px;
+		}
+
+		.myWidthAndMore
+		{
+			width: 200px;
+			height: 22px;
+		}
+
+		.myDownloadSelect
+		{
+			width: 79px;
+			height: 22px;
+			padding: 0px 0px 0px 0px;
+		}
+
+		.myDownloadBtn
+		{
+			width: 18px;
+			height: 22px;
+			padding: 0px 0px 0px 0px;
+			margin: -1px 0px 0px 2px;			
+		}
+
+		.myPaddingLeft
+		{
+			padding-left: 25px;
+		}
+
+	a.back-to-top {
+		display: none;
+		width: 60px;
+		height: 60px;
+		text-indent: -9999px;
+		position: fixed;
+		z-index: 999;
+		right: 20px;
+		bottom: 20px;
+		background: #27AE61 url('http://onetwotree.tau.ac.il/images/up-arrow.png') no-repeat center 20%;
+		-webkit-border-radius: 30px;
+		-moz-border-radius: 30px;
+		border-radius: 30px;
+	}
+	
+		#radio-demo {
+	  max-width:400px;
+	  margin:94px auto 0 auto;
+	}
+
+	#radio-demo input[type="radio"] {
+	  position: absolute;
+	  opacity: 0;
+	  -moz-opacity: 0;
+	  -webkit-opacity: 0;
+	  -o-opacity: 0;
+	}
+
+	#radio-demo input[type="radio"] + label {
+	  position: relative;
+	  padding: 0 0 0 25px;
+	  font-size: 16px;
+	  line-height: 25px;
+	  margin:0 0 10px 0;
+	}
+
+	#radio-demo input[type="radio"] + label:before {
+	  content: "";
+	  display: block;
+	  position: absolute;
+	  top: 2px;
+	  height: 14px;
+	  width: 14px;
+	  background: white;
+	  border: 1px solid gray;
+	  box-shadow: inset 0px 0px 0px 2px white;
+	  -webkit-box-shadow: inset 0px 0px 0px 2px white;
+	  -moz-box-shadow: inset 0px 0px 0px 2px white;
+	  -o-box-shadow: inset 0px 0px 0px 2px white;
+	  -webkit-border-radius: 8px;
+	  -moz-border-radius: 8px;
+	  -o-border-radius: 8px;
+	}
+
+	#radio-demo input[type="radio"]:checked + label:before {
+	  background: #ef8700;
+	}		
+
+/*-------------------------------------*/
+.container_top{
+  width: 100%;
+  height: 40%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  #align-items: center;
+}
+.container_buttom {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  #align-items: center;
+}
+
+.control-group {
+	#opacity: 0.3;
+    #background-image: url('http://onetwotree.tau.ac.il/images/OTT_Head3.jpg');
+  display: inline-block;
+  vertical-align: top;
+  #background: #fff;
+  #background-image: url('http://onetwotree.tau.ac.il/images/OTT_Head3.jpg');
+  text-align: center;
+  #box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  padding: 10px;
+  float: center;
+  width: 48%;
+  margin: 0 1%;
+  font-size: 18px;
+  border:2px solid #333; 
+}
+.control-group-center {
+	 margin: auto;
+    width: 50%;
+	#position:float;
+    #top: 50%;
+    #left: 50%;
+	#opacity: 0.3;
+    #background-image: url('http://onetwotree.tau.ac.il/images/OTT_Head3.jpg');
+  display: inline-block;
+  vertical-align: top;
+  #background: #fff;
+  #background-image: url('http://onetwotree.tau.ac.il/images/OTT_Head3.jpg');
+  text-align: center;
+  #box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  #padding: 10px;
+  #float: center;
+  width: 50%;
+  #margin: 0 1%;
+  font-size: 18px;
+  border:2px solid #333; 
+}
+.control-group-buttom {
+  display: inline-block;
+  vertical-align: top;
+  background: #fff;
+  text-align: left;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  padding: 10px;
+  float: left;
+  width: 100%;
+  margin: 0 1%;
+  font-size: 18px;
+}
+.control {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-size: 15px;
+}
+.control input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+.control__indicator {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background: #e6e6e6;
+}
+.control--radio .control__indicator {
+  border-radius: 50%;
+}
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
+  background: #ccc;
+}
+.control input:checked ~ .control__indicator {
+  background: #2aa1c0;
+}
+.control:hover input:not([disabled]):checked ~ .control__indicator,
+.control input:checked:focus ~ .control__indicator {
+  background: #0e647d;
+}
+.control input:disabled ~ .control__indicator {
+  background: #e6e6e6;
+  opacity: 0.6;
+  pointer-events: none;
+}
+.control__indicator:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+.control input:checked ~ .control__indicator:after {
+  display: block;
+}
+.control--checkbox .control__indicator:after {
+  left: 8px;
+  top: 4px;
+  width: 3px;
+  height: 8px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.control--checkbox input:disabled ~ .control__indicator:after {
+  border-color: #7b7b7b;
+}
+.control--radio .control__indicator:after {
+  left: 7px;
+  top: 7px;
+  height: 6px;
+  width: 6px;
+  border-radius: 50%;
+  background: #fff;
+}
+.control--radio input:disabled ~ .control__indicator:after {
+  background: #7b7b7b;
+}
+.select {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 15px;
+  width: 100%;
+}
+.select select {
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+  padding: 10px 15px;
+  outline: 0;
+  border: 0;
+  border-radius: 0;
+  background: #e6e6e6;
+  color: #7b7b7b;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+.select select::-ms-expand {
+  display: none;
+}
+.select select:hover,
+.select select:focus {
+  color: #000;
+  background: #ccc;
+}
+.select select:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.select__arrow {
+  position: absolute;
+  top: 16px;
+  right: 15px;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  border-style: solid;
+  border-width: 8px 5px 0 5px;
+  border-color: #7b7b7b transparent transparent transparent;
+}
+.select select:hover ~ .select__arrow,
+.select select:focus ~ .select__arrow {
+  border-top-color: #000;
+}
+.select select:disabled ~ .select__arrow {
+  border-top-color: #ccc;
+  }
+  
+  
+#inTurnFadingTextG{
+	width:234px;
+	margin:auto;
+}
+
+.inTurnFadingTextG{
+	color: #4f932f;
+	font-family:Arial;
+	font-size:36px;
+	text-decoration:none;
+	font-weight:normal;
+	font-style:normal;
+	float:left;
+	animation-name:bounce_inTurnFadingTextG;
+		-o-animation-name:bounce_inTurnFadingTextG;
+		-ms-animation-name:bounce_inTurnFadingTextG;
+		-webkit-animation-name:bounce_inTurnFadingTextG;
+		-moz-animation-name:bounce_inTurnFadingTextG;
+	animation-duration:2.09s;
+		-o-animation-duration:2.09s;
+		-ms-animation-duration:2.09s;
+		-webkit-animation-duration:2.09s;
+		-moz-animation-duration:2.09s;
+	animation-iteration-count:infinite;
+		-o-animation-iteration-count:infinite;
+		-ms-animation-iteration-count:infinite;
+		-webkit-animation-iteration-count:infinite;
+		-moz-animation-iteration-count:infinite;
+	animation-direction:normal;
+		-o-animation-direction:normal;
+		-ms-animation-direction:normal;
+		-webkit-animation-direction:normal;
+		-moz-animation-direction:normal;
+}
+
+#inTurnFadingTextG_1{
+	animation-delay:0.75s;
+		-o-animation-delay:0.75s;
+		-ms-animation-delay:0.75s;
+		-webkit-animation-delay:0.75s;
+		-moz-animation-delay:0.75s;
+}
+#inTurnFadingTextG_2{
+	animation-delay:0.9s;
+		-o-animation-delay:0.9s;
+		-ms-animation-delay:0.9s;
+		-webkit-animation-delay:0.9s;
+		-moz-animation-delay:0.9s;
+}
+#inTurnFadingTextG_3{
+	animation-delay:1.05s;
+		-o-animation-delay:1.05s;
+		-ms-animation-delay:1.05s;
+		-webkit-animation-delay:1.05s;
+		-moz-animation-delay:1.05s;
+}
+#inTurnFadingTextG_4{
+	animation-delay:1.2s;
+		-o-animation-delay:1.2s;
+		-ms-animation-delay:1.2s;
+		-webkit-animation-delay:1.2s;
+		-moz-animation-delay:1.2s;
+}
+#inTurnFadingTextG_5{
+	animation-delay:1.35s;
+		-o-animation-delay:1.35s;
+		-ms-animation-delay:1.35s;
+		-webkit-animation-delay:1.35s;
+		-moz-animation-delay:1.35s;
+}
+#inTurnFadingTextG_6{
+	animation-delay:1.5s;
+		-o-animation-delay:1.5s;
+		-ms-animation-delay:1.5s;
+		-webkit-animation-delay:1.5s;
+		-moz-animation-delay:1.5s;
+}
+#inTurnFadingTextG_7{
+	animation-delay:1.64s;
+		-o-animation-delay:1.64s;
+		-ms-animation-delay:1.64s;
+		-webkit-animation-delay:1.64s;
+		-moz-animation-delay:1.64s;
+}
+
+
+

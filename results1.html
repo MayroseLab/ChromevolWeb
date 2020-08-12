@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+
+<style>
+.form-radio
+{
+     -webkit-appearance: none;
+     -moz-appearance: none;
+     appearance: none;
+     display: inline-block;
+     position: relative;
+     background-color: #f1f1f1;
+     color: #666;
+     top: 10px;
+     height: 30px;
+     width: 30px;
+     border: 0;
+     border-radius: 50px;
+     cursor: pointer;     
+     margin-right: 7px;
+     outline: none;
+}
+.form-radio:checked::before
+{
+     position: absolute;
+     font: 13px/1 'Open Sans', sans-serif;
+     left: 11px;
+     top: 7px;
+     content: '\02143';
+     transform: rotate(40deg);
+}
+.form-radio:hover
+{
+     background-color: #f7f7f7;
+}
+.form-radio:checked
+{
+     background-color: #f1f1f1;
+}
+
+
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+line {
+	width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+	height: 100px;
+	background-color:#2020ab;
+	opcaity: 0.5;
+}
+
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  padding: 4px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+div.content {
+	width: 1100px;
+	margin: auto;
+}
+
+ul {
+  list-style-type: none;
+  margin: auto;
+  /*padding: 6px;*/
+  text-align: center;
+  padding-left: 20px;
+  width: 1090px;
+  font-size:14px;
+  overflow: hidden;
+  background-color: #007399;
+}
+
+li {
+  float: left;
+}
+
+li.right {
+  float: right;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+
+header_font {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 45px;
+}
+header_small_font {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 20px;
+}
+
+
+</style>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"  content="width=device-width, initial-scale=1, user-scalable=yes">
+	<link rel="shortcut icon" href="images/shutterstock_443040703-1000x480.jpg"/>
+  <title>Welcome to chromEvol.tau.ac.il</title>
+
+ 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+	
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
+	<link rel="stylesheet" href="//cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
+	
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
+
+	<link rel="stylesheet" type="text/css" href="chromEvol.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+
+
+	
+   
+	<script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.3.js"></script>
+	
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+	
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+
+
+	<script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.3.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script> 
+  	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js"></script>
+    <script src="js/jquery.localscroll-1.2.7-min.js"></script>
+	<script src="/jquery-csv-master/src/jquery.csv.js"></script>
+    <script src='js/purl.js'></script>
+
+<script>
+
+		
+		var amountScrolled = 300;
+		$(window).scroll(function() {
+		if ( $(window).scrollTop() > amountScrolled ) {
+			$('a.back-to-top').fadeIn('slow');
+		} else {
+			$('a.back-to-top').fadeOut('slow');
+		}
+	    });	
+
+
+	
+	
+		$(document).ready(function () {
+
+			document.getElementById("JobToLoadID")
+				.addEventListener("keyup", function(event) {
+				event.preventDefault();
+				if (event.keyCode == 13) {
+					document.getElementById("LoadJob_button").click();
+				}
+			});	
+
+		
+			  
+			$.localScroll();
+
+				SetMenuWidth();
+
+				jobId		= $.url().param('jobId');
+				
+				myTitle		=  "Job ID: " + jobId;
+				jobTitle	= "Chromevol Testing"; // $.url().param('jobTitle');
+				if (jobTitle && jobTitle.trim())
+				{
+					myTitle += ", Job Name: " + jobTitle;
+				}
+				
+				$("#resultsHeader").text(myTitle);
+				$("#JobID_text").text(jobId);
+
+				GetResultsFromServer();
+
+		});
+
+
+	   
+		function SetMenuWidth() {
+            var sizeOfList = $("#templatemo_menu ul li").size();
+
+            var widthOfMenuItem = 80;
+
+            var totalMenuWidth = widthOfMenuItem * sizeOfList;
+
+            $("#templatemo_menu").css('width', totalMenuWidth + "px");
+        }
+
+        function GetResultsFromServer() {
+            $.getJSON("/cgi-bin/chromEvol_Results.cgi", { 'jobId': jobId }, GetResultFromServerResponse);
+        }
+
+		var reader = new FileReader();
+		function readText(that){
+
+			if(that.files && that.files[0]){
+				var reader = new FileReader();
+				reader.onload = function (e) {  
+					var output=e.target.result;
+
+					//process text to show only lines with "@":				
+					output=output.split("\n").filter(/./.test, /\@/).join("\n");
+
+					return output;
+				};//end onload()
+				reader.readAsText(that.files[0]);
+			}//end if html5 filelist support
+		} 
+
+
+
+	   
+        function GetResultFromServerResponse(data, status) {
+
+			$("#resultsData").css("display", "block");
+
+			if (data.errorOccured) {
+               HandleError(data.error);
+            }
+            else {
+                var jobStatus = HandleData(data)
+            }
+
+
+            //var jobStatus = 'Running'; //data.jobStatus;
+			var running_estimate = data.jobTimeEstimation;	//see in chromEvol_Results.cgi
+			$("#jobStatus").append(  running_estimate );
+			//Check if exists to stop refresh
+			var vInput_report = data.input_files_report;
+			var vChromParams = data.chrom_counts_data;
+			var vDone_file = data.done_file;
+			
+            //if (jobStatus.valueOf() != 'PASS'.valueOf() && vInput_report != true) {
+            //if (vDone_file.exists != true) {
+			//	setTimeout(function () { 
+			//	location.reload();
+			//	}, 90 * 1000); // 30 seconds
+            ////} else if (jobStatus.valueOf() == "PASS".valueOf()){
+            //} else if (vDone_file){
+			//	//setTimeout(function () { 
+			//	//location.reload();
+			//	//}, 90 * 1000000); // 30 seconds
+			//}
+        }
+
+        function HandleError(error) {
+            $("#resultsData").css("display", "none");
+            $("#resultsError").css("display", "block");
+            $("#erorText").text(error);
+        }
+		
+		function HandleData(data) {
+
+            jobId = $.url().param('jobId');
+            
+            
+			
+			// Get all params which indicates which result files are in the summary dir so we can present even partial data:
+			//var vLocusTreeNum = data.LocusTreeNumber;
+			var vModelArray = change_headers_names(data.ModelsNamesArr);
+			var vBestModelArr = change_headers_names(data.BestModelsPerTreeArr);	//first for tree 1 etc...
+			var vMA_Ploidy_Arr = data.MA_Ploidy_Flags_Arr;	//first for tree 1 etc...
+			var vJobID = data.LinuxJobNumber;
+			var vTreePathArr = data.TreesDirArr;
+			var vModel = data.SelectedModel;
+			var vInput_report = data.input_files_report;
+			var vChromParams = data.chrom_counts_data;
+			var vAdequacy_data = data.adequacy_data;
+			var vploidy_ON = data.ploidy_ON;
+
+			//if(vploidy_ON == 'On'){
+				$("#ReRunOp").show();
+				$('#ReRunOp').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"http://chromevol.tau.ac.il/index_ContRun.html?jobId=" + jobId + " target=\"_blank\">Continue with Model Adequacy & Ploidy</a></font>");
+				//$('#rerunbutton').append("<button id=\"btnRerun\" href=\"http://chromevol.tau.ac.il/index.html?jobId=" + jobId + ";\" class=\"rerun_button\" title=\"Perform rerun using cluster data ..................\">RERUN your data</button>");
+			//}
+			
+			$("#resultsData").css("display", "block");
+            $("#resultsError").css("display", "none");
+
+            $("#logText").text(data.logText);
+
+            var jobStatus = data.jobStatus;
+			
+			
+			if (jobStatus == "Running"){
+			
+				$("#jobStatus").append( "Running" );
+
+			} else if(jobStatus == "PASS") {
+			
+					$("#jobStatus").append( "Completed - " );
+					$("#jobStatus").append( jobStatus );
+					
+				} else {
+				
+					$("#jobStatus").append( jobStatus );
+					
+			}
+			
+			
+			displayParams(jobId);
+			
+
+			
+			if(jobStatus == "PASS")	{
+			//divChromResults
+				$("#divOutput2").show();
+			
+			}
+			
+			
+			$('#div_InputReport').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/countsFile\" target=\"_blank\">[Counts file],</a></font>");
+			$('#div_InputReport').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/TreesFile.txt\" target=\"_blank\">[Tree file],</a>");
+			$('#div_InputReport').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/selected_models.txt\" target=\"_blank\">[Selected Models],</a></font>");
+					
+			
+			if(vInput_report) {
+				$('#div_InputReport').append("<div> <font face=\"serif\" size=\"4\">"+vInput_report+"</div></font>");
+				
+			} else {
+				$('#div_InputReport').append("<div> Checking input files...<br> </div>");
+			}
+			if(vChromParams){
+				$('#div_InputReport').append("Chromevol running parameters: ["+vChromParams+"]");
+			
+				//Tree number
+				var i = 1;
+				
+				//urlTree = "http://chromEvol.tau.ac.il/phyd3-master/view.php?id=" + jobId + "&treeNum=1&model=" + vModelArray[i] + "&treeType=mlAncestors&f=xml_ml";
+				//$('#divOutput_tree').append("<div id=\"divWasabiDynamic\"><iframe id=\"iframeWasabiDynamic\" src=\"" + urlTree + "\" style=\"position:relative; top:0px; left:0px; bottom:0px; right:0px; width:80%; height:750px; border:none; margin:0; padding:0; overflow:hidden; z-index:0;\">Your browser doesn't support iframes</iframe></div>");
+
+				//RESULTS for all selected models:
+				//---------------------------------------------------------------------
+				$('#divChromevl_selModel_and_Table').show();
+				//selected model for tree 1 (may chnage to multiple trees in the future:
+				$('#divChromevl_selModel_and_Table').append("<br><font face=\"serif\" size=\"4\" color=\"#4271bc\"><b>Best model is: </b>" + vBestModelArr[0] + "   </font>");
+				//$('#divChromevl_selModel_and_Table').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/result_sum.txt\" target=\"_blank\">  [Chromevol result summary]</a></font>");
+				
+				// this shows the clusters table
+				getJobData(jobId); 
+				//getJobData_singleTree(jobId); 
+
+				$('#divChromevl_Models_resultsFiles').append("<br><font face=\"serif\" size=\"4\" color=\"#4271bc\"><b><u>All models result files: </u></b></font>");
+				$('#divChromevl_Models_resultsFiles').append("<div class=\"boxes\">");
+
+				for (i = 0; i < vModelArray.length; i++)
+				{
+					console.log(vModelArray[i])
+					$('#divChromevl_Models_resultsFiles').append("<br><div class=\"pretty p-icon p-toggle\"><input type=\"checkbox\" id=\"mod_"+vModelArray[i]+"\" onclick=\"myFunction(\'"+vModelArray[i]+"\')\">" +
+					"<div class=\"state p-on\"><i class=\"icon mdi mdi-minus-box\"></i><label>" + vModelArray[i] + "</label></div><div class=\"state p-off\"><i class=\"icon mdi mdi-plus-box\"></i><label>" + vModelArray[i] + "</label></div></div><br>" +
+					"<div id=\""+vModelArray[i] + "\" style=\"display:none\"><a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/" + vModelArray[i] + "_results.zip\" download>[Download All]</a><br>" + 
+					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/expectations.txt\" download>[Expectations file]</a>" +
+					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/chromEvol.res\" download>[ChromEvol results]</a>" + 
+					"<a href=\"http://chromEvol.tau.ac.il/phyd3-master/view.php?id=" + jobId + "&treeNum=1&model=" + vModelArray[i] + "&treeType=mlAncestors&f=xml_ml\" target=\"_blank\">[mlAncestors tree]</a>" + 
+					"<a href=\"http://chromEvol.tau.ac.il/phyd3-master/view.php?id=" + jobId + "&treeNum=1&model=" + vModelArray[i] + "&treeType=posteriorAncestors&f=xml_post\" target=\"_blank\">[posteriorAncestors tree]</a>" +
+					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/Results_ExpNum.csv\" download>[Events expectation per node]</a>" +
+					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/Results_Events.csv\" download>[Expected number of events from root to leaf]</a></div>");
+					
+
+				}
+				if(vMA_Ploidy_Arr[0] == 'ON'){
+					$('#divChromevl_Models_resultsFiles').append("<br><font face=\"serif\" size=\"4\" color=\"#4271bc\"><b><a href=\"chromEvol_results/" + jobId + "/ploidy.csv\" download>[Ploidy results]</a></b>");
+				}
+				$('#divChromevl_Models_resultsFiles').append("<\div>");
+				
+				
+				
+				if (vMA_Ploidy_Arr[0] == 'OFF' && vMA_Ploidy_Arr[1] == 'OFF'){
+					$('#PostRun').show();
+					//$('#PostRun').append("");
+					$('#PostRun').append("<b><font face=\"serif\" size=\"4\" color=\"#1D598F\"><a href=\"http://chromevol.tau.ac.il/index_ContRun.html?jobId=" + jobId + "\" target=\"_blank\">[Perform model adequacy & ploidy inference]</a><font></b><div>");
+				} else if (vMA_Ploidy_Arr[0] == 'OFF'){ // ploidy is on
+					$('#PostRun').show();
+					//$('#PostRun').append("");
+					$('#PostRun').append("<b><font face=\"serif\" size=\"4\" color=\"#1D598F\"><a href=\"http://chromevol.tau.ac.il/index_ContRun.html?jobId=" + jobId + "\" target=\"_blank\">[Perform ploidy inference]</a><font></b><div>");
+				} else if (vMA_Ploidy_Arr[1] == 'OFF'){ // MA is on
+					$('#PostRun').show();
+					//$('#PostRun').append("");
+					$('#PostRun').append("<b><font face=\"serif\" size=\"4\" color=\"#1D598F\"><a href=\"http://chromevol.tau.ac.il/index_ContRun.html?jobId=" + jobId + "\" target=\"_blank\">[Perform model adequacy]</a><font></b><div>");
+				}
+
+
+				return jobStatus
+			} else {
+				setTimeout(function () { 
+				location.reload();
+				}, 90 * 1000); // 30 seconds
+			}
+			if(vAdequacy_data){
+			
+			} else {
+				setTimeout(function () { 
+				location.reload();
+				}, 90 * 1000); // 30 seconds
+			}
+		
+
+				
+        }
+		
+
+	function myFunction(model) {
+		
+		var array_models = ["BASE_NUM","BASE_NUM_DUPL","CONST_RATE","CONST_RATE_NO_DUPL","CONST_RATE_DEMI","CONST_RATE_DEMI_EST"]
+		
+		// Get the checkbox
+		var checkBox = document.getElementById("mod_"+model);
+		// Get the output text
+		
+		//alert("mod_"+model);
+		var text = document.getElementById(model);
+
+		// If the checkbox is checked, display the output text
+		if (checkBox.checked == true){
+			text.style.display = "block";
+		} else {
+			text.style.display = "none";
+		}
+	}		
+	
+	function myFunction_Adeq() {
+		
+		// Get the checkbox
+		var checkBox = document.getElementById("Adeq_check");
+		// Get the output text
+		
+		//alert("mod_"+model);
+		var text = document.getElementById("Adeq_results");
+
+		// If the checkbox is checked, display the output text
+		if (checkBox.checked == true){
+			text.style.display = "block";
+		} else {
+			text.style.display = "none";
+		}
+	}	
+	
+
+	
+
+
+	//Function for presenting different files for download:
+	function present_finalSpecies_msa(jobId){
+	
+		$('#divOutput2').append("<br>");
+		$('#divOutput2').append("<link_head>Final species list: "); 
+		$('#divOutput2').append("<a href=\"chromEvol_results/" + jobId + "/SummaryDir/FinalSpeciesList.txt\" download>[download]</a></link_head>");
+		$('#divOutput2').append("<br>");
+		$('#divOutput2').append("<link_head>MSA file: "); //1492588348-concat-aligned.fasta
+		$('#divOutput2').append("<a href=\"chromEvol_results/" + jobId + "/SummaryDir/" + jobId + "-concat-aligned.fasta\" download> [ fasta ] </a>");
+		$('#divOutput2').append("<a href=\"chromEvol_results/" + jobId + "/SummaryDir/msa_nexus.txt\" download> [ nexus ] </a></link_head>");						
+	
+	}
+	function present_partition(jobId){
+	
+		$('#divOutput2').append("<br>");
+		$('#divOutput2').append("<link_head>Partition file: "); // Partition_file.txt
+		$('#divOutput2').append("<a href=\"chromEvol_results/" + jobId + "/SummaryDir/web_partition.txt\" download>[download]</a></link_head>");
+	}
+
+
+	function present_MBconfig(jobId){
+
+		$('#divOutput2').append("<br>");
+		$('#divOutput2').append("<link_head>MrBayes config file: ");  //For MB only !!!
+		$('#divOutput2').append("<a href=\"chromEvol_results/" + jobId + "/SummaryDir/mb_config.nex\" download>[download]</a></link_head>");
+	}
+
+	function present_TreeFile(jobId){
+
+		$('#divOutput2').append("<br>");
+		$('#divOutput2').append("<link_head>Tree file: ");
+		$('#divOutput2').append("<a href=\"chromEvol_results/" + jobId + "/SummaryDir/Result_Tree_" + jobId + ".tre\" download>[ tre ]</a></link_head>");
+		$('#divOutput2').append("<a href=\"chromEvol_results/" + jobId + "/SummaryDir/Result_Tree_" + jobId + ".pdf\" download> [ pdf ] </a></link_head>");						
+
+	}
+	
+	function present_SpeciesAccessionsFile(jobId){
+
+		$('#divOutput2').append("<br>");
+		$('#divOutput2').append("<link_head>Species vs. Accession numbers matrix: ");
+		$('#divOutput2').append("<a href=\"chromEvol_results/" + jobId + "/SummaryDir/AccessionsMatrix.csv\" download>[download]</a></link_head>");
+	}
+
+	function present_DownloadAll(jobId){
+		$('#divOutput2').append("<br>");
+		$('#divOutput2').append("<a class=\"buttonDownload\" href=\"chromEvol_results/" + jobId + "/chromEvol_Output_" + jobId + ".zip\" target=\"_blank\">Download all output</a>");
+		$('#divOutput2').append("<br>");
+	}
+	function change_headers_names(arr_headers){
+
+		for (var i = 0; i < arr_headers.length; i++){
+			if(arr_headers[i] == "CONST_RATE_NO_DUPL"){
+				arr_headers[i] = 'Dys'
+			}
+			if(arr_headers[i] == "CONST_RATE"){
+				arr_headers[i] = 'DysDup'
+			}
+			if(arr_headers[i] == "CONST_RATE_DEMI"){
+				arr_headers[i] = 'DysDupDem*'
+			}
+			if(arr_headers[i] == "CONST_RATE_DEMI_EST"){
+				arr_headers[i] = 'DysDupDem'
+			}
+			if(arr_headers[i] == "BASE_NUM"){
+				arr_headers[i] = 'DysBnum'
+			}
+			if(arr_headers[i] == "BASE_NUM_DUPL"){
+				arr_headers[i] = 'DysBnumDup'
+			}
+		}
+		return arr_headers
+	}
+		
+					
+	function check_value_and_round(checked_value){
+		original_value = checked_value
+		checked_value = parseFloat(checked_value)
+		if (!isNaN(checked_value)){
+			checked_value = Math.round((checked_value + Number.EPSILON) * 100) / 100
+			return checked_value
+		}
+		else{
+			return original_value
+		}
+	}
+
+
+		// this shows the clusters table
+	function getJobData(jobId){
+		console.log("getJobData");
+
+		//create ajax request, connect events to it, and send it
+		var ajaxRequest = new Request({
+			url:"http://chromEvol.tau.ac.il/chromEvol_results/" + jobId + "/RESULT_PRINTOUT.csv",
+			
+			onSuccess:function(response){
+				console.log("getJobData onSuccess");
+				
+				// get csv data as objects
+				var data = $.csv.toObjects(response);
+				//console.log(data);
+				
+				// construct table
+				var arr_headers = [data[0].Header2,data[0].Header3,data[0].Header4,data[0].Header5,data[0].Header6,data[0].Header7,data[0].Header8,data[0].Header9,data[0].Header10]
+				
+				// aug 2020: changing headers names
+				arr_headers = change_headers_names(arr_headers)
+
+				//var html = '<br><br>Chromevol results:<br>';
+				//var html = '<br><br><font face="serif" size="3.5" color=black>** Output files will be stored on chromEvol server for one month. It is advisable to download the output Files.<br><br>';
+				var html = '<table style="table-layout: fixed; width: 100%" id="myDataTable" name="myDataTable" class="table Tablefont table-responsive table-bordered rerunTable">';
+				//html += '<col style="width:30%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:10%"><col style="width:20%">';
+				
+				var num_data_col = Object.keys(data[0]).length-1;
+				var width_num = ( 80 / num_data_col).toString();
+				var header_col = (100 - num_data_col*(( 80 / num_data_col))).toString();
+
+				html += '<col align="center" style="width:'+ header_col + '%">';
+				for (var head_i = 0; head_i < num_data_col-1; head_i++){
+				
+					html += '<col align="center" style="width:' + width_num + '%">';
+				}
+		
+				html += '<thead><tr><th align="center">Param name</th>';
+				//for (var head_i = 0; head_i < (Object.keys(data[0]).length - 1); head_i++){
+				for (var head_i = 0; head_i < num_data_col-1; head_i++){
+					
+					html += '<th align="left">'+arr_headers[head_i] +'</font></th>'
+				}
+				html += '</thead><tbody>';
+					
+				for (var i = 1; i < data.length; i++) {
+					
+					
+					if (data[i].Header1.includes("Distance from best AIC")){
+						html += '<tr bgcolor="#c0c0c0">';
+					} else {
+						html += '<tr>';
+					}
+					if (data[i].Header1){
+						if (data[i].Header1.includes("Distance from best AIC")){
+							html += '<td align="center">'+ '<i class="fa fa-delta"></i> AIC</td>';
+							} else {
+							html += '<td align="center">'+data[i].Header1 +'</td>';
+						}
+					} 
+					if (data[i].Header2){
+						html += '<td align="center">' + check_value_and_round(data[i].Header2) +'</td>';
+					} 
+					if (data[i].Header3){
+						html += '<td align="center">' + check_value_and_round(data[i].Header3) +'</td>';
+					} 
+					if (data[i].Header4){
+						html += '<td align="center">' + check_value_and_round(data[i].Header4) +'</td>';
+					} 
+					if (data[i].Header5){
+						html += '<td align="center">' + check_value_and_round(data[i].Header5) + '</td>';					
+					}
+					if (data[i].Header6){
+						html += '<td align="center">' + check_value_and_round(data[i].Header6) + '</td>';					
+					}
+					if (data[i].Header7){
+						html += '<td align="center">' + check_value_and_round(data[i].Header7) + '</td>';					
+					}
+					if (data[i].Header8){
+						html += '<td align="center">' + check_value_and_round(data[i].Header8) + '</td>';					
+					}
+					if (data[i].Header9){
+						html += '<td align="center">' + check_value_and_round(data[i].Header9) + '</td>';					
+					}
+				}
+				
+				// close table tags
+				html += '</tbody>';
+				html += '</table>';
+				//$("#divChromevl_Models_resultsFiles").show();
+				$('#divChromevl_selModel_and_Table').append(html);
+				//This sections will add the option for table sort in each column
+				//$('#myDataTable').DataTable( {
+				//	paging:		false, 
+				//	info:		false,
+				//	searching:	false,
+				//
+				//	//add these config to remove empty header
+				//	"bJQueryUI":true,
+				//	"sDom": 'lfrtip',
+				//	"order": [[0, "asc"]]
+				//} );
+				
+			},
+        
+			onFailure:function(response){
+				console.log("getJobData onError");
+				$('#myModal').find('.modal-header').html('<b>Result not found<b><br>');
+				$('#myModal').find('.modal-body').html('Sorry, result ID "'  + userJobId + '" was not found.');
+				$("#myModal").modal();
+			}
+		}).send(); //Don't forget to send our request!
+
+		//Model Adequacy read results:
+		//create ajax request, connect events to it, and send it
+		var ajaxRequest = new Request({
+			url:"http://chromEvol.tau.ac.il/chromEvol_results/" + jobId + "/MA_RESULT_PRINTOUT.csv",
+			
+			onSuccess:function(response){
+				console.log("getJobData onSuccess");
+				
+				// get csv data as objects
+				var data = $.csv.toObjects(response);
+				//console.log(data);
+				
+
+				// construct table
+				var arr_headers = [data[0].Header2,data[0].Header3,data[0].Header4,data[0].Header5,data[0].Header6,data[0].Header7,data[0].Header8,data[0].Header9,data[0].Header10]
+
+				// aug 2020: changing headers names
+				arr_headers = change_headers_names(arr_headers)
+
+				//var html = '<br><br>Chromevol results:<br>';
+				//var html = '<br><br><font face="serif" size="3.5" color=black>** Output files will be stored on chromEvol server for one month. It is advisable to download the output Files.<br><br>';
+				var html = '<table style="table-layout: fixed; width: 100%" id="myDataTable" name="myDataTable" class="table Tablefont table-responsive table-bordered rerunTable">';
+				//html += '<col style="width:30%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:10%"><col style="width:20%">';
+				
+				var num_data_col = Object.keys(data[0]).length - 1;
+				var width_num = ( 80 / num_data_col).toString();
+				var header_col = (100 - num_data_col*(( 80 / num_data_col))).toString();
+				
+				html += '<col align="center" style="width:'+ header_col + '%">';
+				for (var head_i = 0; head_i < num_data_col-1; head_i++){
+				
+					html += '<col align="center" style="width:' + width_num + '%">';
+				}
+		
+				html += '<thead><tr><th align="center">Test satistic (original percentiles)</th>';
+				//for (var head_i = 0; head_i < (Object.keys(data[0]).length - 1); head_i++){
+				for (var head_i = 0; head_i < num_data_col-1; head_i++){
+					//if (arr_headers[head_i]){
+						html += '<th align="left"><font size="1.5">'+arr_headers[head_i] +'</font></th>'
+					//}
+				}
+				html += '</thead><tbody>';
+
+				
+				statis_img_link='OFF';
+				for (var i = 1; i < data.length; i++) {
+					
+					html += '<tr>';
+					//if (data[i].Header1.includes("Distance from best AIC")){
+					//	html += '<tr bgcolor="#c0c0c0">';
+					//} else {
+					//	html += '<tr>';
+					//}
+					if (data[i].Header1){
+						html += '<td align="center">' +data[i].Header1 +'</td>';
+						//if (data[i].Header1.includes("Distance from best AIC")){
+						//	html += '<td align="center">'+ '<i class="fa fa-delta"></i> AIC</td>';
+						//	} else {
+						//	html += '<td align="center">'+data[i].Header1 +'</td>';
+						//}
+						if (data[i].Header1.includes("Dist Statistics")) {
+							statis_img_link='ON';
+						}
+					} 
+					// name of image for graphs -> for each model dir -> dists.pdf
+					if (data[i].Header2 && statis_img_link=='OFF'){
+						if (parseFloat(data[i].Header2) < 97.5 && parseFloat(data[i].Header2) > 2.5){
+							html += '<td align="center"><font color="Red">' +data[i].Header2 +'</font></td>';
+						} else {
+							html += '<td align="center"><font color="Blue">' +data[i].Header2 +'</font></td>';
+						}
+					} else if (data[i].Header2 && statis_img_link=='ON'){ 
+						html += '<td align="center"><a href=\"http://chromEvol.tau.ac.il/chromEvol_results/' + jobId + '/ChromEvol_Tree_1/'+data[0].Header2+'/adequacy_test/dists.pdf\" target=\"_blank\">pdf stats link</a></td>';
+					}
+					if (data[i].Header3){
+						if (data[i].Header3.length && statis_img_link=='OFF'){
+							html += '<td align="center">' +data[i].Header3 +'</td>';
+						} else if (data[i].Header3 && statis_img_link=='ON'){ 
+							html += '<td align="center"><a href=\"http://chromEvol.tau.ac.il/chromEvol_results/' + jobId + '/ChromEvol_Tree_1/'+data[0].Header3+'/adequacy_test/dists.pdf\" target=\"_blank\">pdf stats link</a></td>';
+						}
+					}
+					if (data[i].Header4 && statis_img_link=='OFF'){
+						html += '<td align="center">' +data[i].Header4 +'</td>'; 
+					} else if (data[i].Header4 && statis_img_link=='ON'){ 
+						html += '<td align="center"><a href=\"http://chromEvol.tau.ac.il/chromEvol_results/' + jobId + '/ChromEvol_Tree_1/'+data[0].Header4+'/adequacy_test/dists.pdf\" target=\"_blank\">pdf stats link</a></td>';
+					}
+					if (data[i].Header5 && statis_img_link=='OFF'){
+						html += '<td align="center">' + data[i].Header5 + '</td>';					
+					} else if (data[i].Header5 && statis_img_link=='ON'){ 
+						html += '<td align="center"><a href=\"http://chromEvol.tau.ac.il/chromEvol_results/' + jobId + '/ChromEvol_Tree_1/'+data[0].Header5+'/adequacy_test/dists.pdf\" target=\"_blank\">pdf stats link</a></td>';
+					}
+					if (data[i].Header6 && statis_img_link=='OFF'){
+						html += '<td align="center">' + data[i].Header6 + '</td>';					
+					} else if (data[i].Header6 && statis_img_link=='ON'){ 
+						html += '<td align="center"><a href=\"http://chromEvol.tau.ac.il/chromEvol_results/' + jobId + '/ChromEvol_Tree_1/'+data[0].Header6+'/adequacy_test/dists.pdf\" target=\"_blank\">pdf stats link</a></td>';
+					}
+					if (data[i].Header7 && statis_img_link=='OFF'){
+						html += '<td align="center">' + data[i].Header7 + '</td>';					
+					} else if (data[i].Header7 && statis_img_link=='ON'){ 
+						html += '<td align="center"><a href=\"http://chromEvol.tau.ac.il/chromEvol_results/' + jobId + '/ChromEvol_Tree_1/'+data[0].Header7+'/adequacy_test/dists.pdf\" target=\"_blank\">pdf stats link</a></td>';
+					}
+					if (data[i].Header8 && statis_img_link=='OFF'){
+						html += '<td align="center">' + data[i].Header8 + '</td>';					
+					} else if (data[i].Header8 && statis_img_link=='ON'){ 
+						html += '<td align="center"><a href=\"http://chromEvol.tau.ac.il/chromEvol_results/' + jobId + '/selected_models.txt\" target=\"_blank\">' +data[0].Header8 +'_Dist</a></td>';
+					}
+					if (data[i].Header9 && statis_img_link=='OFF'){
+						html += '<td align="center">' + data[i].Header9 + '</td>';					
+					} else if (data[i].Header9 && statis_img_link=='ON'){ 
+						html += '<td align="center"><a href=\"http://chromEvol.tau.ac.il/chromEvol_results/' + jobId + '/selected_models.txt\" target=\"_blank\">' +data[0].Header9 +'_Dist</a></td>';
+					}
+				}
+				
+				$("#divAdequacyExpand").show();
+				//$('#divAdequacyExpand').append("<div class=\"pretty p-icon p-smooth\"><input type=\"checkbox\" id=\"Adeq_check\" onclick=\"myFunction_Adeq()\"><div class=\"state p-success\">" + 
+				//"<i class=\"icon fa fa-plus-square-o\"></i><label>Model Adequacy results</label></div></div>");
+				
+				$('#divAdequacyExpand').append("<div class=\"pretty p-icon p-toggle\"><input type=\"checkbox\" id=\"Adeq_check\" onclick=\"myFunction_Adeq()\"><div class=\"state p-on\">" +
+				"<i class=\"icon mdi mdi-minus-box\"></i><label>Model Adequacy results</label></div><div class=\"state p-off\"><i class=\"icon mdi mdi-plus-box\"></i><label>Model Adequacy results</label></div></div><br>");
+							
+				$("#Adeq_results").hide();
+				$('#Adeq_results').append(html);
+				
+				$('#myDataTable2').DataTable( {
+					paging:		false, 
+					info:		false,
+					searching:	false,
+        
+					//add these config to remove empty header
+					"bJQueryUI":true,
+					"sDom": 'lfrtip',
+					"order": [[0, "asc"]]
+				} );
+			},
+        
+			onFailure:function(response){
+				console.log("getJobData onError");
+				$('#myModal').find('.modal-header').html('<b>Result not found<b><br>');
+				$('#myModal').find('.modal-body').html('Sorry, result ID "'  + userJobId + '" was not found.');
+				$("#myModal").modal();
+			}
+		}).send(); //Don't forget to send our request!
+		//$('#divOutput_Clusters').append("<h5> ** Output files will be stored on chromEvol server for one month. It is advisable to download the output Files.</h5>");
+	}			
+
+	function OnErrorUrl(url){
+				console.log("getJobData onError");
+				$('#myModal').find('.modal-header').html('<b>Result not found<b><br>');
+				$('#myModal').find('.modal-body').html('Sorry, result ID "'  + url + '" was not found.');
+				$("#myModal").modal();
+	}
+	
+	function getDownloadSelectBoxHtml(jobId,clusterId,IncludedInConcat){
+
+		var disabled = "";
+		if (IncludedInConcat === '0'){
+		disabled = "disabled";}
+		
+		var html = '<td>';
+		html 	+= '<form action=\"../cgi-bin/zipAndDownload.cgi\" method=\"post\">';
+		//html 	+= '<form action=\"../cgi-bin/DownloadFile.cgi\" method=\"post\">';
+		html 	+=	'<select name=\"dropdown\" class=\"myDownloadSelect\">';
+		html 	+=	'<option value=\"aligned\"'+disabled+'>Aligned</option>';
+		html 	+=	'<option value=\"notAligned\">Unaligned</option>';
+		html 	+=	'<option value=\"both\"'+disabled+'>Both</option>';
+		html 	+=	'</select>';
+		html 	+=	'<input type=\"hidden\" name=\"jobId\" value=\"'+jobId+'\">';
+		html 	+=	'<input type=\"hidden\" name=\"clusterId\" value=\"'+clusterId+'\">';
+		html 	+=	'<button type=\"submit\" class=\"btn btn-default myDownloadBtn\"><span class=\"glyphicon glyphicon-download-alt\"></span></button>';
+		html 	+=	'</form>';
+		html 	+=	'</td>';
+	
+		//console.log(html);
+
+		return html;
+	}
+	
+
+	
+	// this shows the clusters table
+	function displayParams(jobId){
+		//console.log("displayParams");
+
+		// create ajax request, connect events to it, and send it
+		var ajaxRequest = new Request({
+			url:"http://chromEvol.tau.ac.il/chromEvol_results/" + jobId + "/params.txt",
+
+			onSuccess:function(response){
+				//console.log("displayParams onSuccess");
+				
+				//paramName = "jobTitle:";
+				//var s = response.substring(response.lastIndexOf(paramName)+ paramName.length,response.lastIndexOf("\n"));
+				//console.log(paramName + s);
+
+				// construct html
+				var html = '';
+				
+				// Job title:
+				//param = "jobTitle:";
+				//val = parseOneParamFromResponse(param,response);
+				//html += getHtmlForOneParamVal("Job title:", val);
+				
+				
+				
+				// Running options:
+				param = "runningOptions:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal("Running options:", val);
+
+				// date
+				param = "date:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal("Submitted at:", val);
+					
+				// the 3 Include_
+				param = "Include__Hybrids:";
+				val = parseOneParamFromResponse(param,response);
+				if (val === "on"){
+					html += getHtmlForOneParamVal("Include_ Hybrids:", val);
+					}
+
+				param = "Include__SubSp:";
+				val = parseOneParamFromResponse(param,response);
+				if (val === "on"){
+					html += getHtmlForOneParamVal("Include_ SubSp:", val);
+				}
+
+				param = "Include__Unresolved:";
+				val = parseOneParamFromResponse(param,response);
+				if (val === "on"){
+					html += getHtmlForOneParamVal("Include_ Unresolved:", val);
+				}
+				
+				// rerun
+				param = "OriginJobID:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal("Rerun:", val);
+				
+				//Outgroup selection:
+				param = "Outgroup_Flag:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal("Outgroup selection:", val);
+
+				if (val === "User"){
+					param = "Outgroup_User:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented(val,"");				
+				}
+				
+				html += getHtmlForOneParamVal("Clustering options:", "");
+				
+				param = "Seq_Ratio:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal_idented("Sequence ratio cutoff:", val);				
+
+				param = "Ortho_Inflation:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal_idented("Orthomcl Inflation Index:",val);				
+
+				
+				// MSA software:
+				param = "MSA_Software:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal("MSA software:", val);
+			
+				if (val === "MAFFT"){
+					param = "MAFFT_maxiterate:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Max iterations:", val);
+
+					param = "PairwiseAlignmentMethod:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Pairwise alignment method:", val);
+				}
+				
+				if (val === "PRANK"){
+					param = "trustInserions:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Trust inserions (+F):", val);
+				}
+				
+				// MSA filter
+				param = "FilterMSA_Method:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal("MSA filter:", val);
+				
+				if (val === "Trimal"){
+					param = "Trimal_CutOff:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Fraction of seqs with a gap allowed:", val);
+				}
+				
+				if (val === "gBlocks"){
+					param = "gb_SmallerBlocks:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Allow smaller final blocks:", val);
+					
+					param = "gb_AllowGaps:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Allow gap positions in final blocks:", val);
+					
+					param = "gb_LessStrictFlanking:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Allow less strict flanking positions:", val);
+				}
+
+				
+				// Species List Exclude:
+				html += "<br>Exclude Species Options:"
+				param = "Include_Hybrids:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal_idented("Include Hybrids:", val);
+				
+				param = "Include_SubSp:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal_idented("Include SubSp:", val);
+				
+				param = "Include_Unresolved:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal_idented("Include Unresolved:", val);
+				
+				
+				// genome
+				html += "<br>Genome:"
+				param = "include_Nuc:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal_idented("Include Nucleus:", val);
+				
+				param = "include_Mt:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal_idented("Include Mitochondrial:", val);
+				
+				param = "include_CP:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal_idented("Include Chloroplast:", val);
+
+				// tree
+				param = "Tree_Method:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal("Phylogeny inference tool:", val);
+
+				// tree Type
+				param = "Tree_Type:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal("Phylogeny Concat/perCluster:", val);
+				//var Tree_Method_html = "<input type=\"hidden\" id=\"Tree_Method\" name=\"Tree_Method\" value=\""+val+"\">";				
+				//html += Tree_Method_html;
+				/*if (val === "MrBayes"){
+					$("#divMB_LOG").show();
+				}
+				else{
+					$("#divMB_LOG").show();
+				}*/
+
+
+				
+				if (val === "RAxML"){
+					param = "User_RAxML_Model:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Model choice:", val);
+				}
+				
+				if (val === "MrBayes"){
+					param = "User_MrBayes_Model:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Model choice:", val);
+
+					param = "ngen:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Number of generations:", val);
+
+					param = "samplefreq:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Sample frequency:", val);
+					
+					param = "nchains:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Number of chains:", val);
+					
+					param = "burninFrac:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Burnin fraction:", val);
+					
+					param = "checkFreq:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Check freq", val);
+				}
+				
+				// email
+				param = "inputEmail:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal("Email:", val);
+				
+			
+				$("#params").append(html);
+			},
+
+			onFailure:function(response){
+				console.log("displayParams onError");
+			}
+		}).send(); //Don't forget to send our request!
+		
+	}	
+	
+	function parseOneParamFromResponse(param, response){
+		start	= response.indexOf(param)+param.length;
+		end		= start + response.substring(start).indexOf("\n");
+		return response.substring(start,end);
+	}
+	
+	function getHtmlForOneParamVal(name, val){
+		html  = "<div class=\"row rowOferWhite\">";
+		html += "<div class=\"col-sm-3 col-md-3 col-lg-3 params\">" + name + "</div>";
+		html += "<div class=\"col-sm-9 col-md-9 col-lg-9 params\">"+ val + "&nbsp</div><br>";
+		html += "</div>";
+		return html;
+	}
+	
+	function getHtmlForOneParamVal_idented(name, val){
+		html  = "<div class=\"row rowOferWhite\">";
+		html += "<div class=\"col-sm-3 col-md-3 col-lg-3 params\"></div>";
+		html += "<div class=\"col-sm-3 col-md-3 col-lg-3 params fontMedium  myPaddingLeft \">" + name + "</div>";
+		html += "<div class=\"col-sm-6 col-md-6 col-lg-6 params fontMedium \">"+ val + "&nbsp</div><br>";
+		html += "</div>";
+		return html;
+	}
+	
+// Function for param check:
+	function returnParamVal(param,jobId){
+		//console.log("displayParams");
+
+		// create ajax request, connect events to it, and send it
+		var ajaxRequest = new Request({
+			url:"http://chromEvol.tau.ac.il/chromEvol_results/" + jobId + "/params.txt",
+
+			onSuccess:function(response){
+				//console.log("displayParams onSuccess");
+				
+				//paramName = "jobTitle:";
+				//var s = response.substring(response.lastIndexOf(paramName)+ paramName.length,response.lastIndexOf("\n"));
+				//console.log(paramName + s);
+
+				// construct html
+				//var html = '';
+				return param;
+				val = parseOneParamFromResponse(param,response);
+				return val;
+			},
+
+			onFailure:function(response){
+				return 'ErrReadingParams';	
+				console.log("displayParams onError");
+			}
+		}).send(); //Don't forget to send our request!
+		
+	}	
+	
+
+	function showHideFunction(vModelName){
+		
+		var x = document.getElementById('divBASE_NUM');
+		if (x.style.display === "none") {
+		x.style.display = "block";
+		} else {
+		x.style.display = "none";
+		}		
+	};
+	
+	$(function(){
+	  $("#header").load("header.html"); 
+	  //$("#footer").load("footer.html"); 
+	});
+
+</script> 
+
+ 
+ </head>
+<body>
+
+
+<div class="content">
+
+	<div id="header"></div>
+
+	<div class="topnav-right">
+				<input type="text" id="JobToLoadID" value="" placeholder="Enter your results ID"/>
+				<a href='' id="LoadJob_button" onclick="this.href='http://chromEvol.tau.ac.il/results.html?jobId='+document.getElementById('JobToLoadID').value+'&jobTitle=check'">Load previous results</a>
+
+	</div>	
+	<br><br>	
+								
+		
+		<center> <font face="serif" size="6" color="#000000">Status:
+		<a style="text-decoration:none" id="jobStatus" style="display: none;"></a><br> </font>
+		<font face="serif" size="5" color="#000000" id="resultsHeader"></font></center> 
+		
+		
+		<br>
+		<div class="control-group">
+			
+			
+			</font>
+				<u><font face="serif" size="5" color="#000000">User inputs: <br></font></u>
+				<p style="text-decoration:none" id="div_InputReport" style="display: none;"></p>
+				<u><font face="serif" size="5" color="#000000">Chromevol results: </font></u>&nbsp&nbsp
+				<font face="serif" size="3.5" color=black>** Output files will be stored on chromEvol server for one month. <!--It is advisable to download the output Files.<br>-->
+				<p style="text-decoration:none" id="divChromevl_selModel_and_Table" style="display: none;"></p>
+				<p style="text-decoration:none" id="divAdequacyExpand" style="display: none;"></p>
+				<p style="text-decoration:none" id="Adeq_results" style="display: none;"></p>
+				<br>
+				<p style="text-decoration:none" id="divChromevl_Models_resultsFiles" style="display: none;"></p>
+				<p style="text-decoration:none" id="PostRun" style="display: none;"></p>
+				
+
+			</div>
+
+
+		<br><br>
+		<div class="control-group">
+			<font face="serif" size="5" color="#000000">
+			
+			<a style="text-decoration:none" id="div_CheckParamsFile" style="display: none;"></a>
+			<a style="text-decoration:none" id="divOutput2" style="display: none;"></a>
+			<!--p style="text-decoration:none" id="divOutput_tree" style="display: none;"></p-->
+			
+			
+		</div>	
+		<!--h2>CSV data table:</h2-->
+
+
+
+</div>
+	<script>
+function reloadIndex(){
+
+	location.href = "http://chromevol.tau.ac.il/index.html?model_CONST_RATE_NO_DUPL='on'";
+}
+
+function getFoodItem(){
+ 
+	var list1 = document.getElementById('firstList');
+	var list2 = document.getElementById("secondList");
+	var list1SelectedValue = list1.options[list1.selectedIndex].value;
+	
+	list2.options.length=0;
+	list2.options[0] = new Option('--Select--', '');
+
+
+	if (list1SelectedValue=='Snacks') {
+		//do something
+		//list2.options[1] = new Option('Burger123', 'Burger123');
+		list2.options[2] = new Option('Pizza123', 'Pizza123');
+	} 
+	
+	
+	if (list1SelectedValue=='Snacks')
+	{
+		 
+		//list2.options.length=0;
+		//list2.options[0] = new Option('--Select--', '');
+		//list2.options[1] = new Option('Burger', 'Burger');
+		//list2.options[2] = new Option('Pizza', 'Pizza');
+		list2.options[3] = new Option('Hotdog', 'Hotdog');
+		list2.options[4] = new Option('Potato Chips', 'Potato Chips');
+		list2.options[5] = new Option('French Fries', 'French Fries');
+		 
+	}
+	else if (list1SelectedValue=='Drinks')
+	{
+		 
+		list2.options.length=0;
+		list2.options[0] = new Option('--Select--', '');
+		list2.options[1] = new Option('Coca Cola', 'Coca Cola');
+		list2.options[2] = new Option('7up', '7up');
+		list2.options[3] = new Option('Pepsi', 'Pepsi');
+		list2.options[4] = new Option('Coffee', 'Coffee');
+		list2.options[5] = new Option('Tea', 'Tea');
+		 
+	}
+	
+}
+
+
+
+
+	
+	//function MA_AdequacyTest_user() {
+	//	var MA_user_div = document.getElementById("MA_AdequacyTest_UserDiv");
+	//	var MA_chrom_div = document.getElementById("MA_AdequacyTest_ChromDiv");
+	//	var MA_all_div = document.getElementById("MA_AdequacyTest_AllDiv");
+	//	MA_user_div.style.display = "block";
+	//	MA_chrom_div.style.display = "none";
+	//	MA_all_div.style.display = "none";
+	//
+	//}
+	
+	function MA_AdequacyTest_chrom() {
+		var MA_user_div = document.getElementById("MA_AdequacyTest_UserDiv");
+		var MA_chrom_div = document.getElementById("MA_AdequacyTest_ChromDiv");
+		//var MA_all_div = document.getElementById("MA_AdequacyTest_AllDiv");
+		MA_user_div.style.display = "none";
+		MA_chrom_div.style.display = "block";
+		//MA_all_div.style.display = "none";
+	
+	}
+	
+	var AdeqDiv = document.getElementById("AdeqTest_DIV");
+	//AdeqDiv.style.display = "block";
+	
+	//function ShowAdeqTest() {
+	//	var AdeqDiv = document.getElementById("AdeqTest_DIV");
+	//	AdeqDiv.style.display = "block";
+	//}
+	//
+	//function RemoveAdeqTest() {
+	//	var AdeqDiv = document.getElementById("AdeqTest_DIV");
+	//	AdeqDiv.style.display = "none";
+	//}
+	
+	
+	function clearModelList() {
+	
+		var list1 = document.getElementById('MA_userModelSelect');
+	 	var index=0;
+		list1.options.length=0;
+		
+		//Clear user chice to default:
+		//document.getElementById("MA_AdequacyTest").value = "ChromBestModel";
+
+		document.getElementById("MA_AdequacyTest11").val = "ChromBestModel";;
+		document.getElementById("MA_AdequacyTest11").checked = true;
+		//document.getElementById("MA_AdequacyTest_ChromDiv").val = false;;
+		//document.getElementById("MA_AdequacyTest_AllDiv").val = false;;
+		var MA_user_div = document.getElementById("MA_AdequacyTest_UserDiv");
+		var MA_chrom_div = document.getElementById("MA_AdequacyTest_ChromDiv");
+		//var MA_all_div = document.getElementById("MA_AdequacyTest_AllDiv");
+		var MA_userMo_div = document.getElementById("MA_userModelSelect");
+		MA_userMo_div.style.display = "none";
+		MA_user_div.style.display = "none";
+		MA_chrom_div.style.display = "block";
+		//MA_all_div.style.display = "none";
+
+		
+	}
+	
+	
+	
+	
+	
+	function MA_AdequacyTest_user() {
+
+		var model_BASE_NUM = $("#model_BASE_NUM").val();
+		var model_BASE_NUM_DUPL = $("#model_BASE_NUM_DUPL").val();
+		var model_CONST_RATE = $("#model_CONST_RATE").val();
+		var model_CONST_RATE_NO_DUPL = $("#model_CONST_RATE_NO_DUPL").val();
+		var model_CONST_RATE_DEMI = $("#model_CONST_RATE_DEMI").val();
+		var model_CONST_RATE_DEMI_EST = $("#model_CONST_RATE_DEMI_EST").val();
+		
+		//Code for populating dropdown lists:
+		var list1 = document.getElementById('MA_userModelSelect');
+	 	var index=0;
+		list1.options.length=0;
+		list1.options[0] = new Option('--Select--', '');
+		index=index+1;
+
+		if ($("#model_BASE_NUM").is(":checked")){
+			document.getElementById('model_BASE_NUM_hidden').disabled = true;
+			list1.options[index] = new Option('BASE_NUM', 'BASE_NUM');
+			index=index+1;
+		}
+		if ($("#model_BASE_NUM_DUPL").is(":checked")){
+			document.getElementById('model_BASE_NUM_DUPL_hidden').disabled = true;
+			list1.options[index] = new Option('BASE_NUM_DUPL', 'BASE_NUM_DUPL');
+			index=index+1;
+		}
+		if ($("#model_CONST_RATE").is(":checked")){
+			document.getElementById('model_CONST_RATE_hidden').disabled = true;
+			list1.options[index] = new Option('CONST_RATE', 'CONST_RATE');
+			index=index+1;
+		}
+		if ($("#model_CONST_RATE_NO_DUPL").is(":checked")){
+			document.getElementById('model_CONST_RATE_NO_DUPL_hidden').disabled = true;
+			list1.options[index] = new Option('CONST_RATE_NO_DUPL', 'CONST_RATE_NO_DUPL');
+			index=index+1;
+		}
+		if ($("#model_CONST_RATE_DEMI").is(":checked")){
+			list1.options[index] = new Option('CONST_RATE_DEMI', 'CONST_RATE_DEMI');
+			index=index+1;
+		}
+		if ($("#model_CONST_RATE_DEMI_EST").is(":checked")){
+			document.getElementById('model_CONST_RATE_DEMI_EST_hidden').disabled = true;
+			list1.options[index] = new Option('CONST_RATE_DEMI_EST', 'CONST_RATE_DEMI_EST');
+			index=index+1;
+		}
+
+		
+			var MA_chrom_div = document.getElementById("MA_AdequacyTest_ChromDiv");
+			var MA_user_div = document.getElementById("MA_AdequacyTest_UserDiv");
+			var MA_all_div = document.getElementById("MA_AdequacyTest_AllDiv");
+			var MA_userMo_div = document.getElementById("MA_userModelSelect");
+			MA_userMo_div.style.display = "block";
+			MA_chrom_div.style.display = "none";
+			MA_user_div.style.display = "block";
+			MA_all_div.style.display = "none";
+		
+	}	
+		
+	function MA_AdequacyTest_all() {
+
+		var MA_user_div = document.getElementById("MA_AdequacyTest_UserDiv");
+		var MA_userMo_div = document.getElementById("MA_userModelSelect");
+		MA_userMo_div.style.display = "none";
+		MA_user_div.style.display = "none";
+		
+	}
+		
+		
+	
+	</script>
+
+
+	 
+
+</body>
+</html>

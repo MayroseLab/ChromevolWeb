@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<style>
+.form-radio
+{
+     -webkit-appearance: none;
+     -moz-appearance: none;
+     appearance: none;
+     display: inline-block;
+     position: relative;
+     background-color: #f1f1f1;
+     color: #666;
+     top: 10px;
+     height: 30px;
+     width: 30px;
+     border: 0;
+     border-radius: 50px;
+     cursor: pointer;     
+     margin-right: 7px;
+     outline: none;
+}
+.form-radio:checked::before
+{
+     position: absolute;
+     font: 13px/1 'Open Sans', sans-serif;
+     left: 11px;
+     top: 7px;
+     content: '\02143';
+     transform: rotate(40deg);
+}
+.form-radio:hover
+{
+     background-color: #f7f7f7;
+}
+.form-radio:checked
+{
+     background-color: #f1f1f1;
+}
+label
+{
+     font: 15px/1.7 'Open Sans', sans-serif;
+     color: #333;
+     -webkit-font-smoothing: antialiased;
+     -moz-osx-font-smoothing: grayscale;
+     cursor: pointer;
+} 
+
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+line {
+	width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+	height: 100px;
+	background-color:#2020ab;
+	opcaity: 0.5;
+}
+
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  padding: 4px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+div.content {
+	width: 1100px;
+	margin: auto;
+}
+
+ul {
+  list-style-type: none;
+  margin: auto;
+  /*padding: 6px;*/
+  text-align: center;
+  padding-left: 20px;
+  width: 1090px;
+  font-size:14px;
+  overflow: hidden;
+  background-color: #007399;
+}
+
+li {
+  float: left;
+}
+
+li.right {
+  float: right;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+
+header_font {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 45px;
+}
+header_small_font {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 20px;
+}
+
+</style>
+<html lang="en">
+<head>
+  <link rel="shortcut icon" type="image/png" href="{% static 'favicon/favicon.png' %}?ver=2"/>
+  <meta charset="utf-8">
+  <meta name="viewport"  content="width=device-width, initial-scale=1, user-scalable=yes">
+	<link rel="shortcut icon" href="images/shutterstock_443040703-1000x480.jpg"/>
+  <title>Welcome to chromEvol.tau.ac.il</title>
+
+
+	<link rel="stylesheet" type="text/css" href="chromEvol.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+
+	<link rel="icon" href="data:;base64,=">
+    <!--script type='text/javascript' src='http://dstats.net/sitetracker.php?url=http://PhyComb.tau.ac.il/search'></script-->
+	
+	<script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.3.js"></script>
+	
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script> 
+	
+ 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+	
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+	
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+
+
+<script>
+
+	$(document).ready(function(){
+
+	//-------------------------------------------------------------		
+	// Load file of user into Text Area of node dating section:
+	function readTextFile(file, callback, encoding) {
+		var reader = new FileReader();
+		reader.addEventListener('load', function (e) {
+			callback(this.result);
+		});
+		if (encoding) reader.readAsText(file, encoding);
+		else reader.readAsText(file);
+	
+		
+	}
+
+	$(function(){
+	  $("#header").load("header.html"); 
+	  //$("#footer").load("footer.html"); 
+	});	
+
+	
+	function fileChosen(input, output) {
+		if (input.files && input.files[0]) {
+			readTextFile(
+				input.files[0],
+				function (str) {
+					output.value = str;
+				}
+			);
+		}
+	}
+
+
+	$('#TreeFile').on('change', function () {
+		fileChosen(this, document.getElementById('TreeFile_txt'));
+	});
+	
+	$('#CountsFile').on('change', function () {
+		fileChosen(this, document.getElementById('CountsFile_txt'));
+	});
+	
+	
+	//$("body").tooltip({ selector: '[data-toggle=tooltip]' });
+	
+	//Present results file:
+	jobId = $.url().param('jobId');
+	
+	$('#Counts_output').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a>1554118136</a> ");
+	$('#Counts_output').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/countsFile\" download>[download]</a> ");
+	$('#Counts_output').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/countsFile\" target=\"_blank\">[open]</a> <br>");
+
+
+});
+	
+
+
+function eraseInputText() {
+    document.getElementById("inputText").value = "";
+}
+function eraseInputTextCounts() {
+    $(".inputTextCounts").text = "";
+    //document.getElementById("inputTextCounts").value = "";
+}
+
+
+  function handleFileSelect(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    var files = evt.dataTransfer.files; // FileList object.
+
+    // files is a FileList of File objects. List some properties.
+    var output = [];
+    for (var i = 0, f; f = files[i]; i++) {
+      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                  f.size, ' bytes, last modified: ',
+                  f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+                  '</li>');
+    }
+    document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+  }
+
+  function handleDragOver(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+  }
+
+
+  	function validateForm(){	
+	//// verify there is input
+	//var treeFile				= document.forms["myForm"]["TreeFile"].value;
+	////var countsFile				= document.forms["myForm"]["CountsFile"].value;
+	//
+	//	if (treeFile == "")  
+	//	{
+	//		alert('Please enter tree and counts data !!');
+	//		return false;
+	//		
+	//	}
+	}
+	
+	
+	function returnResults(){
+	
+		jobID_var = $.url().param('OriginJobID');
+		document.writeIn(jobId + 'cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx <br>');
+	}
+
+	
+
+</script> 
+
+ 
+ </head>
+<body>
+
+
+<div class="content">
+
+	<div class="header_img">
+	<img src="../images/shutterstock_443040703-1000x480.jpg" width="180" height="86.4"><header_font> &nbsp; ChromEvol&nbsp;&nbsp;</header_font> <header_small_font>a tool for analyzing changes in chromosome-number</header_small_font>
+	</div>
+
+<font face="serif bold" size="3">Prof. Itay Mayrose, TAU - Plant Evolution, bioinformatics, & comparative genomics</font><br>
+	<ul>
+	  <li><a href="index.html"><i class="fa fa-home"></i>&nbsp;Chromevol home</a></li> 
+	  <!--li><a class="active" href="#home">Home</a></li-->
+	  <li><a href="https://m.tau.ac.il/~itaymay/cp/chromEvol/index.html"  target="_blank" >News</a></li>
+	  <li><a href="DownloadCounts.html">Download CCDB counts</a></li>
+	  <li><a href="#contact">Contact</a></li>
+	  <li><a href="#about">About</a></li>
+	</ul>
+	
+	<br>	
+
+
+	<div class="topnav-right">
+				<input type="text" id="JobToLoadID" value="" placeholder="Enter your results ID"/>
+				<a href='' id="LoadJob_button" onclick="this.href='http://chromEvol.tau.ac.il/results.html?jobId='+document.getElementById('JobToLoadID').value+'&jobTitle=check'">Load previous results</a>
+
+	</div>	
+	
+	<br><br>
+
+
+	<form name="myForm" method="post" action="../cgi-bin/chromEvol_Counts.cgi" enctype="multipart/form-data" onsubmit="return validateForm()">
+			
+			
+			<div class="col-md-6 col-lg-6">
+			<font face="serif" size="5" color="#4271bc">Load your Tree file:</font><br>
+			<input type="file" id="TreeFile" name="TreeFile" >
+			<textarea id="TreeFile_txt" name="TreeFile_txt" rows=10 cols=60></textarea>
+			</div>
+
+			
+			<div class="col-md-12 col-lg-12">	
+				<br><br>
+				<font face="serif" size="5" color="#4271bc">Select counts Type:</font>
+				<span class="glyphicon glyphicon-info-sign infoIcon" data-toggle="tooltip" title="Enter the number of trees to select from the input file"></span><br>
+				
+				<select>
+				  <option value="Median">Default</option>
+				  <option value="Min">Min</option>
+				  <option value="Max">Max</option>
+				  <option value="Dist">Distribution</option>
+				</select>
+
+			</div>	
+
+
+			<br><br>
+			<div class="col-md-12 col-lg-12" style="text-align:center"> 
+				<p><input class="submitButton" type="submit" name="Submit" value="   Get Counts   " id="submitFormBtn" onsubmit="returnResults(); return False"></p>
+			</div>  
+
+		
+		<a style="text-decoration:none" id="Counts_output" ></a>
+	
+	</form>
+
+	
+		
+	<div id="resultsData">
+		<!--<center> <font face="serif" size="6" color="#000000">Status:-->
+		<a style="text-decoration:none" id="jobStatus" style="display: none;"></a><br> </font>
+		<font face="serif" size="5" color="#000000" id="resultsHeader"></font></center> 
+	</div>
+
+
+		
+	 <br> <br> <br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br>
+	 <br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br>
+	 <br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br>
+	 <br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br>
+
+</div>
+</body>
+</html>

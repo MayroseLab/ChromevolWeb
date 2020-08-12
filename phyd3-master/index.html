@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" class="fill-container">
+<head>
+    <meta content="text/html;charset=UTF-8" http-equiv="content-type">
+    <title>PhyD3</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="libs/css/bootstrap-material-design.min.css" />
+    <link rel="stylesheet" href="libs/css/vib.css" />
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="libs/js/material.min.js"></script>
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-61194136-8', 'auto');
+        ga('send', 'pageview');
+    </script>
+</head>
+<body class="fill-container">
+    <br />
+    <a href="index.html"><img id="phyd3logo" src="img/logo-name.svg" alt="PhyD3" /></a>
+    <a href="http://www.vib.be"><img id="viblogo" src="img/vib_tagline_pos_rgb.png" alt="VIB" /></a>
+    <div class="container fill-container center-container">
+        <div class="vertical-center-row">
+            <div class="row well">
+            <div class="col-sm-9">
+                <h2>Welcome to PhyD3!</h2>
+            </div>
+            <div class="col-sm-3 text-right">
+                <a href="index.html"><img id="phyd3inlinelogo" src="img/logo-name.svg" height="50" width="50" alt="PhyD3" /></a>
+                <a href="http://www.bits.vib.be"><img src="img/BITS.png" height="80" alt="Bioinformatics Core" /></a>
+                <a href="http://www.vib.be"><img src="img/vib_tagline_pos_rgb.png" height="50" alt="VIB" /></a>
+            </div>
+            <div class="col-sm-12">
+                <br />
+                PhyD3 is a phylogenetic tree viewer based on <a href="http://d3js.org" target="_blank">d3.js</a>.<br />
+                It was developed as an alternative to <a href="https://sites.google.com/site/cmzmasek/home/software/archaeopteryx" target="_blank">Archaeopteryx</a> inspired by <a href="http://bl.ocks.org/kueda/1036776" target="_blank">
+                d3.phylogram.js</a>.<br /><br />
+                You can use it, host it, embed it, extend it. Licensed under GPL v3.<br />See more info in the <a href="documentation.html">documentation</a>.<br /><br />
+                Kreft L, Botzki A, Coppens F, Vandepoele K, Van Bel M<br />
+                <a href="https://academic.oup.com/bioinformatics/article-abstract/doi/10.1093/bioinformatics/btx324/3835380/PhyD3-a-phylogenetic-tree-viewer-with-extended">
+                    <b>"PhyD3: a phylogenetic tree viewer with extended phyloXML support for functional genomics data visualization"</b>
+                </a>
+                <br />
+                Bioinformatics 2017 doi: 10.1093/bioinformatics/btx324
+            </div>
+            <div class="col-sm-4 text-center">
+                <a class="btn btn-primary" href="submit.php">Submit</a>
+            </div>
+            <div class="col-sm-4 text-center">
+                <a class="btn btn-primary" href="view.php?id=91162629d258a876ee994e9233b2ad87&f=xml">Demo</a>
+            </div>
+            <div class="col-sm-4 text-center">
+                <a class="btn btn-primary" href="documentation.html">Documentation</a>
+            </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $.material.init();
+    </script>
+</body>
+</html>

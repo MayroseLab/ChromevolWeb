@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<style>
+link_head{
+	font-family: sans-serif bold;
+	color:	black;
+	font-size:	20px;
+    text-align:left;
+}
+link_head a{
+    float:center;
+	font-family: sans-serif;
+	#color:	#0000FF;
+	font-size:	16px;
+}
+.Tablefont{
+	font-family: sans-serif;
+	color:	#0000FF;
+	font-size:	14px;
+
+}
+
+.buttonLocusTree {
+	display: inline-block;
+	position: relative;
+	padding: 2px 2px;
+		
+	background-color: #4f932f;
+	color: white;
+  
+	font-family: sans-serif;
+	text-decoration: none;
+	#font-size: 0.9em;
+	text-align: center;
+	text-indent: 5px;
+}
+
+/* Style the tab */
+div.tab {
+    overflow: hidden;
+    border: 1px solid #4f932f;
+    background-color: #4f932f;
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: #4f932f;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #4f932f;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: #4f932f;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+/*----------------------------------------------*/
+.relative {
+   position: relative;
+	}
+
+.rerun_button {
+    position: absolute;
+ 	right: 250px;
+	top: 230px;
+ 	
+	background-color: #4f932f; /* Green */
+    border: none;
+    color: white;
+    padding: 4px 30px;
+	font-family: "Georgia", Times, serif;
+	text-decoration: none;
+	#font-size: 0.9em;
+	text-align: center;
+	text-indent: 15px;
+}
+
+.buttonDownload {
+	display: inline-block;
+	position: relative;
+	padding: 10px 20px;
+  
+	background-color: #4f932f;
+	color: white;
+  
+	font-family: sans-serif;
+	text-decoration: none;
+	#font-size: 0.9em;
+	text-align: center;
+	text-indent: 15px;
+}
+
+.buttonDownload:hover {
+	background-color: #333;
+	color: white;
+}
+
+div.content {
+	width: 1250px;
+	margin: auto;
+}
+
+.buttonDownload:before, .buttonDownload:after {
+	content: ' ';
+	display: block;
+	position: absolute;
+	left: 15px;
+	top: 52%;
+}
+
+/* Download box shape  */
+.buttonDownload:before {
+	width: 10px;
+	height: 2px;
+	border-style: solid;
+	border-width: 0 2px 2px;
+}
+
+/* Download arrow shape */
+.buttonDownload:after {
+	width: 0;
+	height: 0;
+	margin-left: 1px;
+	margin-top: -7px;
+  
+	border-style: solid;
+	border-width: 4px 4px 0 4px;
+	border-color: transparent;
+	border-top-color: inherit;
+	
+	animation: downloadArrow 2s linear infinite;
+	animation-play-state: paused;
+}
+
+.buttonDownload:hover:before {
+	border-color: #4CC713;
+}
+
+.buttonDownload:hover:after {
+	border-top-color: #4CC713;
+	animation-play-state: running;
+}
+
+/* keyframes for the download icon anim */
+@keyframes downloadArrow {
+	/* 0% and 0.001% keyframes used as a hackish way of having the button frozen on a nice looking frame by default */
+	0% {
+		margin-top: -7px;
+		opacity: 1;
+	}
+	
+	0.001% {
+		margin-top: -15px;
+		opacity: 0;
+	}
+	
+	50% {
+		opacity: 1;
+	}
+	
+	100% {
+		margin-top: 0;
+		opacity: 0;
+	}
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li.right {
+  float: right;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+
+.topnav-right {
+  float: right;
+}
+
+header_font {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 45px;
+}
+header_small_font {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 20px;
+}
+
+</style>
+
+	<script type="text/javascript">
+        function insert(){
+            var src = document.getElementById("gamediv");
+            var img = document.createElement("img");
+            img.src = "images/OTT_Head3.jpg";
+            src.appendChild(img);
+        }
+	</script>
+
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<link rel="shortcut icon" href="images/tree_1.jpg"/>
+	
+    <title>chromEvol server</title>
+
+	<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+	<script src="/jquery-csv-master/src/jquery.csv.js"></script>
+    <script src='js/purl.js'></script>
+	
+    <script>
+	
+
+		var amountScrolled = 300;
+		$(window).scroll(function() {
+		if ( $(window).scrollTop() > amountScrolled ) {
+			$('a.back-to-top').fadeIn('slow');
+		} else {
+			$('a.back-to-top').fadeOut('slow');
+		}
+	    });	
+
+		
+	
+		$(document).ready(function () {
+
+		document.getElementById("JobToLoadID")
+			.addEventListener("keyup", function(event) {
+			event.preventDefault();
+			if (event.keyCode == 13) {
+				document.getElementById("LoadJob_button").click();
+			}
+		});	
+
+		$.localScroll();
+
+            SetMenuWidth();
+
+            jobId		= $.url().param('jobId');
+            myTitle		=  "Job ID: " + jobId;
+			jobTitle	= $.url().param('jobTitle');
+			if (jobTitle && jobTitle.trim())
+			{
+				myTitle += ", Job Name: " + jobTitle;
+			}
+            
+			$("#resultsHeader").text(myTitle);
+			$("#JobID_text").text(jobId);
+
+			GetResultsFromServer();
+        });
+
+		
+		function SetMenuWidth() {
+            var sizeOfList = $("#templatemo_menu ul li").size();
+
+            var widthOfMenuItem = 80;
+
+            var totalMenuWidth = widthOfMenuItem * sizeOfList;
+
+            $("#templatemo_menu").css('width', totalMenuWidth + "px");
+        }
+
+        function GetResultsFromServer() {
+            $.getJSON("/cgi-bin/chromEvol_Results.cgi", { 'jobId': jobId }, GetResultFromServerResponse);
+        }
+
+        function GetResultFromServerResponse(data, status) {
+
+			$("#resultsData").css("display", "block");
+
+			if (data.errorOccured) {
+               HandleError(data.error);
+            }
+            else {
+                HandleData(data)
+            }
+
+            var jobStatus = data.jobStatus;
+			var running_estimate = data.jobTimeEstimation;	//see in chromEvol_Results.cgi
+			$("#jobStatus").append(  running_estimate );
+			
+            if (jobStatus == 'Running' ) {
+				setTimeout(function () { 
+				location.reload();
+				}, 90 * 1000); // 30 seconds
+            } else /*if (jobStatus == 'WaitingInQueue')*/ {
+				setTimeout(function () { 
+				location.reload();
+				}, 90 * 1000); // 30 seconds
+			}
+        }
+
+        function HandleError(error) {
+            $("#resultsData").css("display", "none");
+            $("#resultsError").css("display", "block");
+            $("#erorText").text(error);
+        }
+		
+		function HandleData(data) {
+
+            jobId = $.url().param('jobId');
+			// Get all params which indicates which result files are in the summary dir so we can present even partial data:
+			var vLocusTreeNum = data.LocusTreeNumber;
+			var vSpecies_finalReady = data.species_final_ready;
+			var vMSA_concatReady = data.msa_concat_ready;
+			var vClustersDataReady = data.all_clusters_data_ready;
+			var vWebPartitionReady  = data.web_partition_ready;
+			var vlocusTreesZipReady  = data.locusTrees_zip_ready;
+			var vAccessionMatrixReady  = data.AccessionsMatrix_ready;
+			var vAllDataZipReady  = data.all_data_zip_ready;
+			var vFinalTreeReady  = data.TreeFile_ready;
+			var vParamsWebReady  = data.ParamsForWeb_ready;
+			var vLinuxJobNumber = data.LinuxJobNumber;
+			var vTreeRemark = $.trim(data.TreeUserRemark);
+ 
+			if ( vTreeRemark == 'NoTree'){
+				$("#TreeSection").hide();
+			}else{
+				// This will enable us to add remarks regarding the tree (e.g. if node dating was not performed because split names ewere not included in the tree, etc)
+				$("#TreeRemark").append($.trim(data.TreeUserRemark));
+			}
+			
+			$("#resultsData").css("display", "block");
+            $("#resultsError").css("display", "none");
+
+            $("#logText").text(data.logText);
+
+            var jobStatus = data.jobStatus;
+			
+			
+			if (jobStatus == null){
+			
+				$("#jobStatus").append( "ERROR" );
+				
+			} else {
+			
+				if (~jobStatus.indexOf("PASS ")){
+					$("#jobStatus").append( "Completed " );
+				} else {
+					
+					$("#jobStatus").find('i').remove();
+					$("#jobStatus").children().remove();
+					//$("#jobStatus").append( $('<i>').append(jobStatus) );
+					$("#jobStatus").append( jobStatus );
+				}
+			}
+	
+			displayParams(jobId);
+								
+		
+  			// All cases !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			if ("yes" == "yes"){
+			
+				var vTreeType = $.trim(data.TreeType);
+				var vRunningOptions = $.trim(data.runningOptions);
+				var vTreeMethod = $.trim(data.TreeMethod); // Check if MrBayes
+				
+				$("#divOutput2").show();
+				if (vSpecies_finalReady == "YES"){		present_finalSpecies_msa(jobId);	}
+				if (vWebPartitionReady == "YES"){		present_partition(jobId);			}
+				
+				
+				
+				// In case the user chose Raxml/Examl (not MrBayes):
+				if (vTreeMethod != "MrBayes")
+				{
+					if (vTreeType == "PerLocusTree" && vlocusTreesZipReady == "YES") {
+					
+						$('#divOutput2').append("<br>");
+						$('#divOutput2').append("<a style=\"text-decoration:none\">Trees per cluster zip file: </a>");
+						$('#divOutput2').append("<a href=\"chromEvol_results/" + jobId + "/SummaryDir/LocusTrees_" + jobId + ".zip\" download>[download]</a>");
+						
+					} else
+					{
+						if (vFinalTreeReady == "YES") {	present_TreeFile(jobId);	}
+					}
+				} else {
+				// In case the user chose MrBayes:
+					if (vFinalTreeReady == "YES") {	
+						present_MBconfig(jobId);
+						present_TreeFile(jobId);	
+					}
+				};
+				if (vAccessionMatrixReady == "YES"){	present_SpeciesAccessionsFile(jobId);	}
+				$('#divOutput2').append("<br>");
+				$('#divOutput2').append("<link_head>"+data.summary+"</link_head>");
+
+				//console.log("Finished");
+				if (vAllDataZipReady == "YES"){		present_DownloadAll(jobId);		}
+				
+				//$("#rerunbutton").show();
+				//$('#rerunbutton').append("<button id=\"btnRerun\" class=\"rerun_button\" title=\"Perform rerun using cluster data ..................\">RERUN your data</button>");
+ 
+       
+				if (vParamsWebReady == "YES"){
+					$('#div_CheckParamsFile').append("<iframe width=\"40%\" height=\"410\" src=\"chromEvol_results/" + jobId + "/params_for_web.txt\"></iframe>");
+				} else {
+					$('#div_CheckParamsFile').append("<iframe width=\"40%\" height=\"410\" src=\"chromEvol_results/" + jobId + "/params.txt\"></iframe>");
+				}
+				$('#div_CheckParamsFile').append("<iframe width=\"40%\" height=\"410\" src=\"chromEvol_results/" + jobId + "/userInput.txt\"></iframe>");
+				
+				//$('#div_CheckParamsFile').append("<iframe width=\"40%\" height=\"410\" src=\"chromEvol_results/" + jobId + "/chromevol_out/infer/infer_tree_100/BASE_NUM/\"></iframe>");
+				
+				
+	    //		// Tree wasabi prep and present:
+		
+				if ((vFinalTreeReady == "YES" || vlocusTreesZipReady == "YES") && (vRunningOptions != "clustering")){
+        
+					$("#divOutput_tree").show();
+					$('#divOutput_tree').append("<a id=\"Tree_wasabi\">");
+			
+					// NewNew -> Use NumOfClusterTrees.txt to define number of buttons for wasabi:
+					if (vTreeType == "PerLocusTree") {
+			
+						//Prepare the buttons for all trees:
+						$('#divOutput_tree').append("<div class=\"w3-container\">");
+						$('#divOutput_tree').append("<div class=\"w3-bar w3-black\">");
+			
+			
+						//$('#divOutput_tree').append("<div class=\"tab\">");
+						for (var i = 0; i < vLocusTreeNum.length; i++) {
+							// Trying tabs:
+							$('#divOutput_tree').append("<button class=\"tablinks buttonLocusTree\" onclick=\"setWasabi\("+jobId+","+vLocusTreeNum[i]+")\">Tree Cluster "+vLocusTreeNum[i]+"</button>");
+						}
+						$('#divOutput_tree').append("</div>");
+						$('#divOutput_tree').append("</div>");
+						
+						// this shows the clusters table
+						getJobData(jobId); 
+						
+						document.getElementById("btnRerun").onclick = function () {
+							location.href = "http://chromEvol.tau.ac.il/index.html?jobId=" + $.url().param('jobId');
+						};
+			
+					
+					} else {
+					
+						urlTree = "http://chromEvol.tau.ac.il/wasabi/?url=http://chromEvol.tau.ac.il/chromEvol_results/" + jobId + "/SummaryDir/Result_Tree_"+ jobId +".tre";
+					}
+					
+					$('#divOutput_tree').append("<div id=\"divWasabiDynamic\"><iframe id=\"iframeWasabiDynamic\" src=\"" + urlTree + "\" style=\"position:relative; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:0;\">Your browser doesn't support iframes</iframe></div>");
+					
+					// wait & showWasabi only after it is ready
+					var checkExist = setInterval(function() 
+					{
+						if ($('#iframeWasabiDynamic').height) 
+						{
+							showWasabi();
+							clearInterval(checkExist);
+					
+						}
+					}, 500); // check every 500ms	
+			
+					// this shows the clusters table
+					//getJobData(jobId); 
+					
+				}//End of Tree if
+				
+				// Rerun Button:
+				document.getElementById("btnRerun").onclick = function () {
+					location.href = "http://chromEvol.tau.ac.il/index.html?jobId=" + $.url().param('jobId');
+				}
+				
+				if (vClustersDataReady == "YES" ){
+					getJobData(jobId); 
+				}
+
+			}//End of last else
+			
+        }
+		
+	//Function for presenting different files for download:
+	function present_finalSpecies_msa(jobId){
+	
+		$('#divOutput2').append("<br>");
+		$('#divOutput2').append("<link_head>Final species list: "); 
+		$('#divOutput2').append("<a href=\"chromEvol_results/" + jobId + "/SummaryDir/FinalSpeciesList.txt\" download>[download]</a></link_head>");
+		$('#divOutput2').append("<br>");
+		$('#divOutput2').append("<link_head>MSA file: "); //1492588348-concat-aligned.fasta
+		$('#divOutput2').append("<a href=\"chromEvol_results/" + jobId + "/SummaryDir/" + jobId + "-concat-aligned.fasta\" download> [ fasta ] </a>");
+		$('#divOutput2').append("<a href=\"chromEvol_results/" + jobId + "/SummaryDir/msa_nexus.txt\" download> [ nexus ] </a></link_head>");						
+	
+	}
+	function present_partition(jobId){
+	
+		$('#divOutput2').append("<br>");
+		$('#divOutput2').append("<link_head>Partition file: "); // Partition_file.txt
+		$('#divOutput2').append("<a href=\"chromEvol_results/" + jobId + "/SummaryDir/web_partition.txt\" download>[download]</a></link_head>");
+	}
+
+	function present_MBconfig(jobId){
+
+		$('#divOutput2').append("<br>");
+		$('#divOutput2').append("<link_head>MrBayes config file: ");  //For MB only !!!
+		$('#divOutput2').append("<a href=\"chromEvol_results/" + jobId + "/SummaryDir/mb_config.nex\" download>[download]</a></link_head>");
+	}
+
+	function present_TreeFile(jobId){
+
+		$('#divOutput2').append("<br>");
+		$('#divOutput2').append("<link_head>Tree file: ");
+		$('#divOutput2').append("<a href=\"chromEvol_results/" + jobId + "/SummaryDir/Result_Tree_" + jobId + ".tre\" download>[ tre ]</a></link_head>");
+		$('#divOutput2').append("<a href=\"chromEvol_results/" + jobId + "/SummaryDir/Result_Tree_" + jobId + ".pdf\" download> [ pdf ] </a></link_head>");						
+
+	}
+	
+	function present_SpeciesAccessionsFile(jobId){
+
+		$('#divOutput2').append("<br>");
+		$('#divOutput2').append("<link_head>Species vs. Accession numbers matrix: ");
+		$('#divOutput2').append("<a href=\"chromEvol_results/" + jobId + "/SummaryDir/AccessionsMatrix.csv\" download>[download]</a></link_head>");
+	}
+
+	function present_DownloadAll(jobId){
+		$('#divOutput2').append("<br>");
+		$('#divOutput2').append("<a class=\"buttonDownload\" href=\"chromEvol_results/" + jobId + "/chromEvol_Output_" + jobId + ".zip\" target=\"_blank\">Download all output</a>");
+		$('#divOutput2').append("<br>");
+	}
+
+					
+					
+
+	
+	function setWasabi(jobId,ClusterId){
+		urlTree = "http://chromEvol.tau.ac.il/wasabi/index.html?url=http://chromEvol.tau.ac.il/chromEvol_results/" + jobId + "/SummaryDir/LocusTrees/Result_Tree_"+ jobId +"_Cluster" + ClusterId +".tre";
+		$('#divOutput_tree').children("div").remove();
+		$('#divOutput_tree').append("<div id=\"divWasabiDynamic\"><iframe id=\"iframeWasabiDynamic\" src=\"" + urlTree + "\" style=\"position:relative; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:0;\">Your browser doesn't support iframes</iframe></div>");
+		
+		// wait & showWasabi only after it is ready
+		var checkExist = setInterval(function() 
+		{
+			if ($('#iframeWasabiDynamic').height) 
+			{
+				showWasabi();
+				clearInterval(checkExist);
+		
+			}
+		}, 500); // check every 500ms	
+	
+	}
+		
+	function getJobDataRerun(){
+		// init: clear div, get job num, clear choose file and load example
+		document.getElementById('divClustersTable').empty();
+		$("#divClustersTable").hide();
+		var userJobId = document.getElementById('editBoxOriginJobID').value;
+		$("#inputFile").val("");
+		$("#inputText").val("");
+		
+		// create ajax request, connect events to it, and send it
+		var ajaxRequest = new Request({
+			url:"http://chromEvol.tau.ac.il/chromEvol_results/" + userJobId + "/SummaryDir/All_Clusters_data.csv",
+			onSuccess:function(response){
+				console.log("getJobDataRerun onSuccess");
+				document.getElementById('OriginJobID').value = userJobId;
+				$("#divRerun").show();
+				$("#divRerunTxt").html("Re-run options for job " + userJobId + ":");
+				$("#divUplaodFile").hide();
+				$("#divOR").hide();
+				
+				$("#divRooted").hide();
+				
+				// get csv data as objects
+				var data = $.csv.toObjects(response);
+				//console.log(data);
+				
+				// construct table
+				var html = '<div class="fontMedium">Check the clusters to re-run:</div>';
+				//html += '<td><input type="checkbox" name="Merge_Clusters"></td><th> Merge Clusters </th>';
+				//html += '<table id="myDataTable" name="myDataTable" class="table table-hover table-responsive table-bordered table-sm rerunTable">';
+				html += '<table id="myDataTable" name="myDataTable" >';
+				html += '<thead>';
+					html += '<tr>';
+						//html += '<th id="idSelectAllCell"><input type="checkbox" id="idSelectAll" onclick="onSelectAll()"> Cluster</th>';
+						html += '<th id="idSelectAllCell"> Cluster</th>';
+						html += '<th>  Merge Cluster  </th>';
+						html += '<th width="30%">Description</th>';
+						html += '<th>Type</th>';
+						html += '<th width="12%">Median Length</th>';
+						html += '<th width="12%">Num of species</th>';
+						html += '<th>Included</th>';
+					html += '</tr>';
+				html += '</thead>';
+				
+				html += '<tbody>';
+				for (var i = 0; i < data.length; i++) {
+					html += '<tr>';
+					html += '<td><input type="checkbox" name="cluster_' + data[i].ClusterID +'"> ' + data[i].ClusterID + '</td>';
+
+					html += '<td width="15%"><input type="checkbox" name="cluster_' + data[i].ClusterID +'"> ' + '  Merge to Cluster   ';
+					html +=	'<select name=\"Merge_' + data[i].ClusterID + '\">';
+					html +=	'<option value=\"None\">None</option>';				
+					//Add all clusters as merge options:
+					for (var clust_i=0; clust_i < data.length; clust_i++){
+						html 	+=	'<option value=\"'+data[clust_i].ClusterID+'\">' + data[clust_i].ClusterID  + '</option>';
+					}
+					html 	+=	'</select></td>';
+
+					html += '<td>' + data[i].Desc + '</td>';
+					html += '<td>' + data[i].Type + '</td>';					
+					html += '<td width="12%">' + data[i].length + '</td>';					
+					html += '<td width="12%">' + data[i].SpeciesCnt + '</td>';					
+					//html += '<td>' + data[i].SpeciesIds + '</td>';
+					html += '<td>' + data[i].IncludedInConcat + '</td>';					
+					html += '</tr>';
+				}
+				
+				html += '</tbody>';
+				html += '</table>';
+				
+				$('#divClustersTable').html(html);
+				
+				getRerunTaxaList();
+				$('#myDataTable').DataTable( {
+					paging:		false, 
+					info:		false,
+					searching:	false,
+
+					//add these config to remove empty header
+					"bJQueryUI":true,
+					"sDom": 'lfrtip',
+					"order": [[0, "asc"]]
+				} );
+			},
+
+			onFailure:function(response){
+				console.log("getJobDataRerun onError");
+				$('#myModal').find('.modal-header').html('<b>Result not found<b><br>');
+				$('#myModal').find('.modal-body').html('Sorry, result ID "'  + userJobId + '" was not found.');
+				$("#myModal").modal();
+				$("#divUplaodFile").show();
+				$("#divOR").show();
+
+			}
+		}).send(); //Don't forget to send our request!
+		
+	}
+		// this shows the clusters table
+	function getJobData(jobId){
+		//console.log("getJobData");
+
+		// create ajax request, connect events to it, and send it
+		var ajaxRequest = new Request({
+			url:"http://chromEvol.tau.ac.il/chromEvol_results/" + jobId + "/SummaryDir/All_Clusters_data.csv",
+			
+			onSuccess:function(response){
+				console.log("getJobData onSuccess");
+				
+				// get csv data as objects
+				var data = $.csv.toObjects(response);
+				//console.log(data);
+				
+				// construct table
+				var html = '<br>';
+				html += '<table style="table-layout: fixed; width: 100%" id="myDataTable" name="myDataTable" class="table Tablefont table-responsive table-bordered rerunTable">';
+				//html += '<table border="1" width="100%" id="myDataTable" name="myDataTable" class="Tablefont">';
+				html += '<col style="width:10%"><col style="width:35%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:10%"><col style="width:20%">';
+		
+				var desc_rem_space =''
+				html += '<thead><tr><th>Cluster</th><th>Description</th><th>Type</th><th> Median Length</th><th>Num of species</th><th>Included</th><th>Download</th></tr></thead>';
+				html += '<tbody>';
+				
+				for (var i = 0; i < data.length; i++) {
+					html += '<tr>';
+					html += '<td align="center">' + data[i].ClusterID + '</td>';
+					//var desc_rem_space = (data[i].Desc).replace(/\s+|\-/g, '');
+					html += '<td style="word-wrap: break-word" align="center" >' + data[i].Desc + '</td>';
+					html += '<td align="center">' + data[i].Type + '</td>';					
+					html += '<td align="center">' + data[i].length + '</td>';					
+					html += '<td align="center">' + data[i].SpeciesCnt + '</td>';					
+					//html += '<td>' + data[i].SpeciesIds + '</td>';
+					html += '<td align="center">' + data[i].IncludedInConcat + '</td>';					
+					
+					// if  IncludedInConcat is zero, don't print download links because files don't exist
+					/*
+					if (data[i].IncludedInConcat === '0'){
+						downloadLinks = '<td><br><a href=\"chromEvol_results/' + jobId + '/' + data[i].ClusterID +'/seqs-no-multiple-accessions.fasta\" download> not aligned</a></td>';
+					}
+					else {
+						downloadLinks = '<td><a href=\"chromEvol_results/' + jobId + '/concat/' + data[i].ClusterID +'/seqs-organism-concat.fasta\" download>aligned</a><br><a href=\"chromEvol_results/' + jobId + '/' + data[i].ClusterID +'/seqs-no-multiple-accessions.fasta\" download> not aligned</a></td>';
+					}
+					html += downloadLinks;
+					*/
+					html += getDownloadSelectBoxHtml(jobId,data[i].ClusterID,data[i].IncludedInConcat);
+					
+					//html += '</tr>';
+				}
+				
+				// close table tags
+				html += '</tbody>';
+				html += '</table>';
+				$("#divOutput_Clusters").show();
+				$('#divOutput_Clusters').append(html);
+				$('#myDataTable').DataTable( {
+					paging:		false, 
+					info:		false,
+					searching:	false,
+
+					//add these config to remove empty header
+					"bJQueryUI":true,
+					"sDom": 'lfrtip',
+					"order": [[0, "asc"]]
+				} );
+				
+				$('#divOutput_Clusters').append("<br>");	
+				$('#divOutput_Clusters').append("<h5>Output files will be stored on chromEvol server for one month. It is advisable to download the output Files.</h5>");	
+			},
+
+			onFailure:function(response){
+				console.log("getJobData onError");
+				$('#myModal').find('.modal-header').html('<b>Result not found<b><br>');
+				$('#myModal').find('.modal-body').html('Sorry, result ID "'  + userJobId + '" was not found.');
+				$("#myModal").modal();
+			}
+		}).send(); //Don't forget to send our request!
+		
+	}			
+
+	function OnErrorUrl(url){
+				console.log("getJobData onError");
+				$('#myModal').find('.modal-header').html('<b>Result not found<b><br>');
+				$('#myModal').find('.modal-body').html('Sorry, result ID "'  + url + '" was not found.');
+				$("#myModal").modal();
+	}
+	
+	function getDownloadSelectBoxHtml(jobId,clusterId,IncludedInConcat){
+
+		var disabled = "";
+		if (IncludedInConcat === '0'){
+		disabled = "disabled";}
+		
+		var html = '<td>';
+		html 	+= '<form action=\"../cgi-bin/zipAndDownload.cgi\" method=\"post\">';
+		//html 	+= '<form action=\"../cgi-bin/DownloadFile.cgi\" method=\"post\">';
+		html 	+=	'<select name=\"dropdown\" class=\"myDownloadSelect\">';
+		html 	+=	'<option value=\"aligned\"'+disabled+'>Aligned</option>';
+		html 	+=	'<option value=\"notAligned\">Unaligned</option>';
+		html 	+=	'<option value=\"both\"'+disabled+'>Both</option>';
+		html 	+=	'</select>';
+		html 	+=	'<input type=\"hidden\" name=\"jobId\" value=\"'+jobId+'\">';
+		html 	+=	'<input type=\"hidden\" name=\"clusterId\" value=\"'+clusterId+'\">';
+		html 	+=	'<button type=\"submit\" class=\"btn btn-default myDownloadBtn\"><span class=\"glyphicon glyphicon-download-alt\"></span></button>';
+		html 	+=	'</form>';
+		html 	+=	'</td>';
+	
+		//console.log(html);
+
+		return html;
+	}
+	
+		function setClusterWasabi(jobId,clusterId,IncludedInConcat){
+
+		var disabled = "";
+		if (IncludedInConcat === '0'){
+		disabled = "disabled";}
+		
+		
+		//Path for example:
+		///bioseq/data/results/chromEvol/1496740738/SummaryDir/LocusTrees/Result_Tree_1496740738_Cluster1.tre
+		
+		urlTree = "http://chromEvol.tau.ac.il/wasabi/index.html?url=http://chromEvol.tau.ac.il/chromEvol_results/" + jobId + "/SummaryDir/LocusTrees/Result_Tree_"+ jobId +"_Cluster" + clusterId +".tre";
+		//var html = $('#divOutput_tree').append("<div id=\"divWasabiDynamic\"><iframe id=\"iframeWasabiDynamic\" src=\"" + urlTree + "\" style=\"position:relative; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:0;\">Your browser doesn't support iframes</iframe></div>");
+		var html = ("<div id=\"divWasabiDynamic\"><iframe id=\"iframeWasabiDynamic\" src=\"" + urlTree + "\" style=\"position:relative; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:0;\">Your browser doesn't support iframes</iframe></div>");
+
+		return html;
+	}
+
+
+	
+	// this shows the clusters table
+	function displayParams(jobId){
+		//console.log("displayParams");
+
+		// create ajax request, connect events to it, and send it
+		var ajaxRequest = new Request({
+			url:"http://chromEvol.tau.ac.il/chromEvol_results/" + jobId + "/params.txt",
+
+			onSuccess:function(response){
+				//console.log("displayParams onSuccess");
+				
+				//paramName = "jobTitle:";
+				//var s = response.substring(response.lastIndexOf(paramName)+ paramName.length,response.lastIndexOf("\n"));
+				//console.log(paramName + s);
+
+				// construct html
+				var html = '';
+				
+				// Job title:
+				//param = "jobTitle:";
+				//val = parseOneParamFromResponse(param,response);
+				//html += getHtmlForOneParamVal("Job title:", val);
+				
+				
+				
+				// Running options:
+				param = "runningOptions:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal("Running options:", val);
+
+				// date
+				param = "date:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal("Submitted at:", val);
+					
+				// the 3 Include_
+				param = "Include__Hybrids:";
+				val = parseOneParamFromResponse(param,response);
+				if (val === "on"){
+					html += getHtmlForOneParamVal("Include_ Hybrids:", val);
+					}
+
+				param = "Include__SubSp:";
+				val = parseOneParamFromResponse(param,response);
+				if (val === "on"){
+					html += getHtmlForOneParamVal("Include_ SubSp:", val);
+				}
+
+				param = "Include__Unresolved:";
+				val = parseOneParamFromResponse(param,response);
+				if (val === "on"){
+					html += getHtmlForOneParamVal("Include_ Unresolved:", val);
+				}
+				
+				// rerun
+				param = "OriginJobID:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal("Rerun:", val);
+				
+				//Outgroup selection:
+				param = "Outgroup_Flag:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal("Outgroup selection:", val);
+
+				if (val === "User"){
+					param = "Outgroup_User:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented(val,"");				
+				}
+				
+				html += getHtmlForOneParamVal("Clustering options:", "");
+				
+				param = "Seq_Ratio:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal_idented("Sequence ratio cutoff:", val);				
+
+				param = "Ortho_Inflation:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal_idented("Orthomcl Inflation Index:",val);				
+
+				
+				// MSA software:
+				param = "MSA_Software:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal("MSA software:", val);
+			
+				if (val === "MAFFT"){
+					param = "MAFFT_maxiterate:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Max iterations:", val);
+
+					param = "PairwiseAlignmentMethod:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Pairwise alignment method:", val);
+				}
+				
+				if (val === "PRANK"){
+					param = "trustInserions:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Trust inserions (+F):", val);
+				}
+				
+				// MSA filter
+				param = "FilterMSA_Method:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal("MSA filter:", val);
+				
+				if (val === "Trimal"){
+					param = "Trimal_CutOff:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Fraction of seqs with a gap allowed:", val);
+				}
+				
+				if (val === "gBlocks"){
+					param = "gb_SmallerBlocks:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Allow smaller final blocks:", val);
+					
+					param = "gb_AllowGaps:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Allow gap positions in final blocks:", val);
+					
+					param = "gb_LessStrictFlanking:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Allow less strict flanking positions:", val);
+				}
+
+				
+				// Species List Exclude:
+				html += "<br>Exclude Species Options:"
+				param = "Include_Hybrids:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal_idented("Include Hybrids:", val);
+				
+				param = "Include_SubSp:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal_idented("Include SubSp:", val);
+				
+				param = "Include_Unresolved:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal_idented("Include Unresolved:", val);
+				
+				
+				// genome
+				html += "<br>Genome:"
+				param = "include_Nuc:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal_idented("Include Nucleus:", val);
+				
+				param = "include_Mt:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal_idented("Include Mitochondrial:", val);
+				
+				param = "include_CP:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal_idented("Include Chloroplast:", val);
+
+				// tree
+				param = "Tree_Method:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal("Phylogeny inference tool:", val);
+
+				// tree Type
+				param = "Tree_Type:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal("Phylogeny Concat/perCluster:", val);
+				//var Tree_Method_html = "<input type=\"hidden\" id=\"Tree_Method\" name=\"Tree_Method\" value=\""+val+"\">";				
+				//html += Tree_Method_html;
+				/*if (val === "MrBayes"){
+					$("#divMB_LOG").show();
+				}
+				else{
+					$("#divMB_LOG").show();
+				}*/
+
+
+				
+				if (val === "RAxML"){
+					param = "User_RAxML_Model:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Model choice:", val);
+				}
+				
+				if (val === "MrBayes"){
+					param = "User_MrBayes_Model:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Model choice:", val);
+
+					param = "ngen:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Number of generations:", val);
+
+					param = "samplefreq:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Sample frequency:", val);
+					
+					param = "nchains:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Number of chains:", val);
+					
+					param = "burninFrac:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Burnin fraction:", val);
+					
+					param = "checkFreq:";
+					val = parseOneParamFromResponse(param,response);
+					html += getHtmlForOneParamVal_idented("Check freq", val);
+				}
+				
+				// email
+				param = "inputEmail:";
+				val = parseOneParamFromResponse(param,response);
+				html += getHtmlForOneParamVal("Email:", val);
+				
+			
+				$("#params").append(html);
+			},
+
+			onFailure:function(response){
+				console.log("displayParams onError");
+			}
+		}).send(); //Don't forget to send our request!
+		
+	}	
+	
+	function parseOneParamFromResponse(param, response){
+		start	= response.indexOf(param)+param.length;
+		end		= start + response.substring(start).indexOf("\n");
+		return response.substring(start,end);
+	}
+	
+	function getHtmlForOneParamVal(name, val){
+		html  = "<div class=\"row rowOferWhite\">";
+		html += "<div class=\"col-sm-3 col-md-3 col-lg-3 params\">" + name + "</div>";
+		html += "<div class=\"col-sm-9 col-md-9 col-lg-9 params\">"+ val + "&nbsp</div><br>";
+		html += "</div>";
+		return html;
+	}
+	
+	function getHtmlForOneParamVal_idented(name, val){
+		html  = "<div class=\"row rowOferWhite\">";
+		html += "<div class=\"col-sm-3 col-md-3 col-lg-3 params\"></div>";
+		html += "<div class=\"col-sm-3 col-md-3 col-lg-3 params fontMedium  myPaddingLeft \">" + name + "</div>";
+		html += "<div class=\"col-sm-6 col-md-6 col-lg-6 params fontMedium \">"+ val + "&nbsp</div><br>";
+		html += "</div>";
+		return html;
+	}
+	
+// Function for param check:
+	function returnParamVal(param,jobId){
+		//console.log("displayParams");
+
+		// create ajax request, connect events to it, and send it
+		var ajaxRequest = new Request({
+			url:"http://chromEvol.tau.ac.il/chromEvol_results/" + jobId + "/params.txt",
+
+			onSuccess:function(response){
+				//console.log("displayParams onSuccess");
+				
+				//paramName = "jobTitle:";
+				//var s = response.substring(response.lastIndexOf(paramName)+ paramName.length,response.lastIndexOf("\n"));
+				//console.log(paramName + s);
+
+				// construct html
+				//var html = '';
+				return param;
+				val = parseOneParamFromResponse(param,response);
+				return val;
+			},
+
+			onFailure:function(response){
+				return 'ErrReadingParams';	
+				console.log("displayParams onError");
+			}
+		}).send(); //Don't forget to send our request!
+		
+	}	
+	
+   </script>
+
+	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  
+</head>
+
+<!--<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
+<body>
+ 
+	<a href="#" class="back-to-top">Back to Top</a>
+
+ <!--script type="text/javascript" src="/js/require.js"></script-->
+	<script type="text/javascript">
+
+    //window.onload = function hidemsg()
+    //{
+	//	//console.log("onload");
+    //}
+
+
+	
+	function getFrameSize(frameID) {
+		var result = {height:0, width:0};
+		if (document.getElementById) {
+			var frame = parent.document.getElementById(frameID);
+			if (frame.scrollWidth) {
+				result.height = frame.scrollHeight;
+				result.width = frame.scrollWidth;
+			}
+		}
+		return result;
+	}	
+
+	function showWasabi()
+    {
+		console.log("showWasabi start ");
+
+		document.getElementById('divWasabiDynamic').setAttribute('style','visibility:visible');
+		document.getElementById('divWasabiDynamic').style.width = '100%';
+		document.getElementById('divWasabiDynamic').style.height = '100%';
+		
+		myheight = document.getElementById('iframeWasabiDynamic').contentWindow.document.getElementById('page').offsetHeight + 'px';
+
+		//console.log('frame height: '+ myheight);
+		document.getElementById('iframeWasabiDynamic').style.height = myheight;
+		
+		//frameheight = getFrameSize('iframeWasabiDynamic');
+
+		console.log("showWasabi end ");
+    }
+	
+		var amountScrolled = 300;
+		$(window).scroll(function() {
+		if ( $(window).scrollTop() > amountScrolled ) {
+			$('a.back-to-top').fadeIn('slow');
+		} else {
+			$('a.back-to-top').fadeOut('slow');
+		}
+	    });	
+
+	
+</script>
+
+ </head>
+<body>
+<div class="content">
+
+	<div class="header_img">
+	<img src="../images/shutterstock_443040703-1000x480.jpg" width="180" height="86.4"><header_font> &nbsp; ChromEvol&nbsp;&nbsp;</header_font> <header_small_font>a tool for analyzing changes in chromosome-number</header_small_font>
+	</div>
+
+
+	<ul>
+	  <li><a href=""><i class="fa fa-home"></i>&nbsp;Chromevol home</a></li> 
+	  <!--li><a class="active" href="#home">Home</a></li-->
+	  <li><a href="https://m.tau.ac.il/~itaymay/cp/chromEvol/index.html"  target="_blank" >News</a></li>
+	  <li><a href="#contact">Contact</a></li>
+	  <li><a href="#about">About</a></li>
+	</ul>
+	
+	
+	<br><br>
+	  <div class="topnav-right">
+				<input type="text" id="JobToLoadID" value="" placeholder="Enter your results ID"/>
+				<a href='' id="LoadJob_button" onclick="this.href='http://chromEvol.tau.ac.il/results.html?jobId='+document.getElementById('JobToLoadID').value+'&jobTitle=check'">Load previous results</a>
+
+		</div>	
+  
+		
+		<!-- jumbotron -->
+        <!--div class="jumbotron"-->
+	
+			<!--<a href="http://chromEvol.tau.ac.il/Testl.html?jobId=1490727315&jobTitle=check"> Load job ID XXX</a>-->
+               <font color="#516267" size="3">
+					If you run into problems please email <a href="mailto:#"><i>evolseq@post.tau.ac.il</i></a> and specify the job ID.
+                </font>
+ 			
+ 
+			<!--<a href="http://chromEvol.tau.ac.il/Testl.html?jobId=1490727315&jobTitle=check"> Load job ID XXX</a>-->
+               <center><font color="#516267" size="4" >
+					This page refreshes automatically every 1.5 minute
+                </font></center>
+ 			
+ 
+		<br>
+		<h2>Parameters/User input:</h2>
+				<a id="div_CheckParamsFile"></a>
+		
+  
+			<div id="templatemo_wrapper">
+                <div id="templatemo_main">
+                    <div class="content_box">
+                        <h2 id="resultsHeader"></h2>
+
+								<!--<input type="hidden" id="OriginJobID" name="OriginJobID" value="None">
+								<input type="hidden" id="OriginJobDir" name="OriginJobDir" value="">
+								<!--input type="text" id="editBoxOriginJobID" value="1487493777" placeholder="Enter your results ID"></input-->
+
+								<div  id="resultsData" style="display: none"></div>
+								<h2 id="jobStatus" style="color:#497a0c;">Status: </h2>
+								<a id="rerunbutton" style="display: none;"></a>
+								
+								<!--<div class="col-md-6 col-lg-6 params" id="jobStatus"></div>-->
+ 
+ 
+		
+				
+ <div class="container_top">
+
+		<div class="control-group">
+			<!--<a id="cancelJobButton" style="display: none;"></a>-->
+			<h2>Parameters/User input:</h2>
+				<a id="div_CheckParamsFile"></a>
+				<!--<iframe width="50%" height="400" id="params" style="display: none;></iframe>-->
+
+				<!--<a id="rerunbutton" style="display: none;"></a>
+				<!--<a id="params"></a>
+				<a id="rerunbutton" style="display: none;"></a>-->
+			<br>
+		</div>
+
+		<div class="control-group">
+			<h2 >Results: </h2>
+				
+				<a style="text-decoration:none" id="divOutput2" style="display: none;"></a>
+
+		</div>
+		
+    </div>
+	
+	<br>
+
+		<div id='TreeSection'>
+		<h2 id="TreeRemark" name='TreeRemark'>Tree:</h2>
+			<a id="divOutput_tree" style="display: none;"></a>
+			
+		</div>
+		
+		<h2>Clusters table:</h2>
+			<a style="text-decoration:none" id="divOutput_Clusters" style="display: none;"></a>
+
+					
+                            <div id="logData">
+                                
+								
+								<!--<h3>Messages:</h3>-->
+                                <pre id="logText"></pre>
+                            </div>
+                        </div>
+                        <div id="resultsError" style="display: none">
+                            <h3>Error!</h3>
+                            <pre id="erorText"></pre>
+                        </div>
+                    </div> <!-- end of a content box -->
+                </div> <!-- end of main -->
+            </div>
+
+
+			<!--/div--> <!--jumbotron-->
+			<!--/div--> <!--container-->
+			
+			<br><br><br><br>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap-3.0.3/dist/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="bootstrap-3.0.3/examples/navbar/navbar.css" rel="stylesheet">
+
+	<!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/103/css/dataTables.bootstrap.min.css">	-->
+    <link rel="stylesheet" type="text/css" href="http://chromEvol.tau.ac.il/css/chromEvol.css">
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js"></script>
+    <!--<script src="js/jquery.scrollTo-1.4.3-min.js"></script>-->
+    <script src="js/jquery.localscroll-1.2.7-min.js"></script>
+    <script src='js/purl.js'></script>
+
+	<!-- dataTables is for a sortable table-->
+	<!--<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/102/js/jquery.dataTables.min.js"></script>-->
+	
+	<script src="/js/googleAnalytics.js"></script>
+
+	
+
+	<script type="text/javascript">
+		$('body').prepend('<a href="#" class="back-to-top">Back to Top</a>');
+	</script>
+	
+
+</body>
+</html>
+

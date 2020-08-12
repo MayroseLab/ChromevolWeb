@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+
+<style>
+.form-radio
+{
+     -webkit-appearance: none;
+     -moz-appearance: none;
+     appearance: none;
+     display: inline-block;
+     position: relative;
+     background-color: #f1f1f1;
+     color: #666;
+     top: 10px;
+     height: 30px;
+     width: 30px;
+     border: 0;
+     border-radius: 50px;
+     cursor: pointer;     
+     margin-right: 7px;
+     outline: none;
+}
+.form-radio:checked::before
+{
+     position: absolute;
+     font: 13px/1 'Open Sans', sans-serif;
+     left: 11px;
+     top: 7px;
+     content: '\02143';
+     transform: rotate(40deg);
+}
+.form-radio:hover
+{
+     background-color: #f7f7f7;
+}
+.form-radio:checked
+{
+     background-color: #f1f1f1;
+}
+label
+{
+     font: 15px/1.7 'Open Sans', sans-serif;
+     color: #333;
+     -webkit-font-smoothing: antialiased;
+     -moz-osx-font-smoothing: grayscale;
+     cursor: pointer;
+} 
+
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+line {
+	width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+	height: 100px;
+	background-color:#2020ab;
+	opcaity: 0.5;
+}
+
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  padding: 4px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+div.content {
+	width: 1100px;
+	margin: auto;
+}
+
+ul {
+  list-style-type: none;
+  margin: auto;
+  /*padding: 6px;*/
+  text-align: center;
+  padding-left: 20px;
+  width: 1090px;
+  font-size:14px;
+  overflow: hidden;
+  background-color: #007399;
+}
+
+li {
+  float: left;
+}
+
+li.right {
+  float: right;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+
+header_font {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 45px;
+}
+header_small_font {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 20px;
+}
+
+</style>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"  content="width=device-width, initial-scale=1, user-scalable=yes">
+	<link rel="shortcut icon" href="images/shutterstock_443040703-1000x480.jpg"/>
+  <title>Welcome to chromEvol.tau.ac.il</title>
+
+	<link rel="stylesheet" type="text/css" href="chromEvol.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+
+    <!--script type='text/javascript' src='http://dstats.net/sitetracker.php?url=http://PhyComb.tau.ac.il/search'></script-->
+	
+	<script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.3.js"></script>
+	
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script> 
+	
+ 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+	
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+	
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+   
+
+	<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+	<script src="/jquery-csv-master/src/jquery.csv.js"></script>
+    <script src='js/purl.js'></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<script>
+
+	$(document).ready(function(){
+
+
+	//if(purl().param('jobId') == 'true') {
+	if ($.url().param('jobId')){
+		document.getElementById('editBoxOriginJobID').value = $.url().param('jobId');
+		getJobData();
+		window.location = '#rerun';
+	}
+	//-------------------------------------------------------------		
+	// Load file of user into Text Area of node dating section:
+	function readTextFile(file, callback, encoding) {
+		var reader = new FileReader();
+		reader.addEventListener('load', function (e) {
+			callback(this.result);
+		});
+		if (encoding) reader.readAsText(file, encoding);
+		else reader.readAsText(file);
+	}
+
+	function fileChosen(input, output) {
+		if (input.files && input.files[0]) {
+			readTextFile(
+				input.files[0],
+				function (str) {
+					output.value = str;
+				}
+			);
+		}
+	}
+
+
+	$('#TreeFile').on('change', function () {
+		fileChosen(this, document.getElementById('TreeFile_txt'));
+	});
+	
+	$('#CountsFile').on('change', function () {
+		fileChosen(this, document.getElementById('CountsFile_txt'));
+	});
+	
+
+	
+}); //END of Ready section
+//----------------------------------------------------------------------------------------------------
+
+	
+    function selectAll() {
+        var items = ["model_BASE_NUM","model_BASE_NUM_DUPL","model_CONST_RATE","model_CONST_RATE_NO_DUPL","model_CONST_RATE_DEMI","model_CONST_RATE_DEMI_EST"];
+        for (var i = 0; i < items.length; i++) {
+            document.getElementById(items[i]).checked  = true;
+        }
+    }
+
+    function UnSelectAll() {
+        var items = ["model_BASE_NUM","model_BASE_NUM_DUPL","model_CONST_RATE","model_CONST_RATE_NO_DUPL","model_CONST_RATE_DEMI","model_CONST_RATE_DEMI_EST"];
+        for (var i = 0; i < items.length; i++) {
+            document.getElementById(items[i]).checked  = false;
+        }
+    }	
+
+function eraseInputText() {
+    document.getElementById("inputText").value = "";
+}
+function eraseInputTextCounts() {
+    $(".inputTextCounts").text = "";
+    //document.getElementById("inputTextCounts").value = "";
+}
+
+
+  function handleFileSelect(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    var files = evt.dataTransfer.files; // FileList object.
+
+    // files is a FileList of File objects. List some properties.
+    var output = [];
+    for (var i = 0, f; f = files[i]; i++) {
+      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                  f.size, ' bytes, last modified: ',
+                  f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+                  '</li>');
+    }
+    document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+  }
+
+  function handleDragOver(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+  }
+
+
+  	function validateForm(){	
+	// verify there is input
+	var treeFile				= document.forms["myForm"]["TreeFile"].value;
+	var countsFile					= document.forms["myForm"]["CountsFile"].value;
+    var items = ["model_BASE_NUM","model_BASE_NUM_DUPL","model_CONST_RATE","model_CONST_RATE_NO_DUPL","model_CONST_RATE_DEMI","model_CONST_RATE_DEMI_EST"];
+	var flag_var = "false";	
+
+
+	if (document.getElementById('OriginJobID').value == "None"){
+				document.getElementById('OriginJobDir').value = "";
+			}
+			else{
+				document.getElementById('OriginJobDir').value = "/bioseq/data/results/chromEvol/" + document.getElementById('OriginJobID').value;			
+	}		
+	
+		if ( (treeFile == "") || (countsFile == "")) 
+		{
+			alert('Please enter tree and counts data !!');
+			return false;
+			//$('#myModal').find('.modal-header').html('<b>No input entered<b><br>');
+			//$('#myModal').find('.modal-body').html('<p>Please,<br>select your FASTA file,<br>or type your list of taxa,<br>or select at least one cluster to re-run.</p>');
+			//$("#myModal").modal();
+		}
+
+		//Verify at least one model was selected:
+		for (var i = 0; i < items.length; i++) {
+			if(document.getElementById(items[i]).checked)
+			{
+				flag_var = "true";
+			}
+		}
+
+		if (flag_var == "false")
+		{
+			alert('Please select at least one model !!');
+			return false;
+		}
+			
+			
+		// form has input. Do a trick to add unchecked checkboxes values to params.txt
+		if(document.getElementById("model_BASE_NUM").checked) {
+			document.getElementById('model_BASE_NUM_hidden').disabled = true;
+		}
+		if(document.getElementById("model_BASE_NUM_DUPL").checked) {
+			document.getElementById('model_BASE_NUM_DUPL_hidden').disabled = true;
+		}
+		if(document.getElementById("model_CONST_RATE").checked) {
+			document.getElementById('model_CONST_RATE_hidden').disabled = true;
+		}
+		if(document.getElementById("model_CONST_RATE_NO_DUPL").checked) {
+			document.getElementById('model_CONST_RATE_NO_DUPL_hidden').disabled = true;
+		}
+		if(document.getElementById("model_CONST_RATE_DEMI").checked) {
+			document.getElementById('model_CONST_RATE_DEMI_hidden').disabled = true;
+		}
+		if(document.getElementById("model_CONST_RATE_DEMI_EST").checked) {
+			document.getElementById('model_CONST_RATE_DEMI_EST_hidden').disabled = true;
+		}
+
+	}
+
+//------------------------------------------   Load params ------------------------------------
+	function parseOneParamFromResponse(param, response){
+		start	= response.indexOf(param)+param.length;
+		end		= start + response.substring(start).indexOf("\n");
+		return response.substring(start,end);
+	}
+
+	function load_params_file(userJobId){
+				var ajaxRequest = new Request({
+					url:"/chromEvol_results/" + userJobId + "/params.txt",
+      
+
+//AdeqTest:NO
+//AdeqTest:one
+//MA_AdequacyTest:AllModels
+//ploidy_ON:on
+	  
+					onSuccess:function(response){
+						// Running options:
+						
+						
+											
+						
+						param = "AdeqTest:";
+						vParam = parseOneParamFromResponse(param,response);
+						if (vParam == "NO"){
+							$("#radio-on").prop("checked", false);
+							$("#radio-off").prop('checked', true);
+						} else{
+							$("#radio-on").prop('checked', true);
+							$("#radio-off").prop('checked', false);
+						}
+						
+						param = "MA_AdequacyTest:";
+						vParam = parseOneParamFromResponse(param,response);
+						if (vParam == "ChromBestModel"){
+							$("#MA_AdequacyTest11").prop("checked", false);
+							$("#radio-off").prop('checked', true);
+						} else if (vParam == "MA_AdequacyTest_user"){
+							$("#MA_AdequacyTest22").prop('checked', true);
+							$("#radio-off").prop('checked', false);
+						} else { // MA_userModelSelect
+							$("#MA_AdequacyTest33").prop('checked', true);
+						}
+						
+						param = "model_BASE_NUM:";
+						vParam = parseOneParamFromResponse(param,response);
+						if (vParam == "on"){
+							$("#model_BASE_NUM").attr('checked', true);
+						}else{
+							$("#model_BASE_NUM").attr('checked', false);
+						}
+						
+						param = "model_BASE_NUM_DUPL:";
+						vParam = parseOneParamFromResponse(param,response);
+						if (vParam == "on"){
+							$("#model_BASE_NUM_DUPL").attr('checked', true);
+						}else{
+							$("#model_BASE_NUM_DUPL").attr('checked', false);
+						}
+						
+						param = "model_CONST_RATE:";
+						vParam = parseOneParamFromResponse(param,response);
+						if (vParam == "on"){
+							$("#model_CONST_RATE").attr('checked', true);
+						}else{
+							$("#model_CONST_RATE").attr('checked', false);
+						}
+						
+						param = "model_CONST_RATE_NO_DUPL:";
+						vParam = parseOneParamFromResponse(param,response);
+						if (vParam == "on"){
+							$("#model_CONST_RATE_NO_DUPL").attr('checked', true);
+						}else{
+							$("#model_CONST_RATE_NO_DUPL").attr('checked', false);
+						}
+						
+						param = "model_CONST_RATE_DEMI:";
+						vParam = parseOneParamFromResponse(param,response);
+						if (vParam == "on"){
+							$("#model_CONST_RATE_DEMI").attr('checked', true);
+						}else{
+							$("#model_CONST_RATE_DEMI").attr('checked', false);
+						}
+											
+						param = "model_CONST_RATE_DEMI_EST:";
+						vParam = parseOneParamFromResponse(param,response);
+						if (vParam == "on"){
+							$("#model_CONST_RATE_DEMI_EST").attr('checked', true);
+						}else{
+							$("#model_CONST_RATE_DEMI_EST").attr('checked', false);
+						}
+						
+						
+						
+						//param = "MSA_Software:";
+						//vParam = parseOneParamFromResponse(param,response);
+						//if (vParam == "MAFFT"){
+						//	document.getElementById("MSA_Software").options[0].selected=true;
+						//} else {
+						//	document.getElementById("MSA_Software").options[1].selected=true;
+						//}
+						//param = "MAFFT_maxiterate:";
+						//vParam = parseOneParamFromResponse(param,response);
+						//$("#MAFFT_maxiterate").val(vParam);
+						//param = "PairwiseAlignmentMethod:";
+						//vParam = parseOneParamFromResponse(param,response);
+						//$("#PairwiseAlignmentMethod").val(vParam);
+						//param = "FilterMSA_Method:";
+						//vParam = parseOneParamFromResponse(param,response);
+						//if (vParam == "None"){
+						//	document.getElementById("FilterMSA_Method").options[0].selected=true;
+						
+						//param = "Guidance_RowCol:";
+						//vParam = parseOneParamFromResponse(param,response);
+												
+						//param = "Tree_Type:";
+						//vParam = parseOneParamFromResponse(param,response);
+						//if (vParam == "ConcatTree"){ document.getElementById("Tree_Type").options[0].selected=true;}						
+						//else if (vParam == "PerLocusTree"){ document.getElementById("Tree_Type").options[1].selected=true;}						
+																
+					}
+				}).send(); 
+	}
+//---------------------------------------------------------------------------------------------------------------
+
+
+// this func is called when user presses the rerun btn
+function getJobData(){
+	// init: clear div, get job num, clear choose file and load example
+
+	var userJobId = document.getElementById('editBoxOriginJobID').value;
+	$("#inputFile").val("");
+	$("#inputText").val("");
+	//$("#NodeDateInputFile").val("");
+	
+
+	// create ajax request, connect events to it, and send it
+	var ajaxRequest = new Request({
+		//url:"http://chromEvol.tau.ac.il/chromEvol_results/" + userJobId + "/RESULT_PRINTOUT.csv",
+		onSuccess:function(response){
+
+			console.log("getJobData onSuccess");
+			document.getElementById('OriginJobID').value = userJobId;
+			document.getElementById('OriginJobDir').value = "/bioseq/data/results/chromEvol/" + userJobId;	
+			$("#divRerun").show();
+			$("#divRerunTxt").html("Selected models for Job Id #" + userJobId + " were:");
+			$("#divUplaodFile").hide();
+			$("#divOR").hide();
+			
+			$("#divRooted").hide();
+			
+			
+			load_params_file(userJobId);
+			
+			
+			
+			//$('#divClustersTable').html(html);
+			
+			//getRerunTaxaList();
+			//$('#myDataTable').DataTable( {
+			//	paging:		false, 
+			//	info:		false,
+			//	searching:	false,
+			//
+			//	//add these config to remove empty header
+			//	"bJQueryUI":true,
+			//	"sDom": 'lfrtip',
+			//	"order": [[0, "asc"]]
+			//} );
+		},
+
+		onFailure:function(response){
+			console.log("getJobData onError");
+			$('#myModal').find('.modal-header').html('<b>Result not found<b><br>');
+			$('#myModal').find('.modal-body').html('Sorry, result ID "'  + userJobId + '" was not found.');
+			$("#myModal").modal();
+			//$("#divUplaodFile").show();
+			//$("#divOR").show();
+
+		}
+		
+
+	}).send(); //Don't forget to send our request!
+	
+}
+
+</script> 
+
+ 
+ </head>
+<body>
+
+<div class="content">
+<!--{% include "PhyComb/PhyComb_Header.html" %}-->
+
+		<!-- Modal - to show msg -->
+		<div class="modal fade" id="myModal" role="dialog" tabindex='-1'>
+			  <div class="modal-dialog">
+
+			  <!-- Modal content-->
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <button type="button" class="close" data-dismiss="modal">&times;</button>
+				  <h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-default" data-dismiss="modal" align="center">Close</button>
+				</div>
+			  </div>
+			  
+			</div>
+		</div>
+	
+	
+	<div class="header_img">
+	<!--img src="../images/shutterstock_443040703-1000x480.jpg" width="200" height="120"><header_font> &nbsp; ChromEvol&nbsp;&nbsp;</header_font> <header_small_font>a tool for analyzing changes in chromosome-number</header_small_font-->
+	<img src="../images/PhyComb_img_Jan2020_v4.jpg" width="1093" height="190">
+	
+	</div>
+
+
+
+	<ul>
+	  <li><a href="index.html"><i class="fa fa-home"></i>&nbsp;Chromevol home</a></li> 
+	  <!--li><a class="active" href="#home">Home</a></li-->
+	  <li><a href="https://m.tau.ac.il/~itaymay/cp/chromEvol/index.html"  target="_blank" >News</a></li>
+	  <li><a href="#contact">Contact</a></li>
+	  <li><a href="DownloadCounts.html">Download CCDB counts</a></li>
+	  <li><a href="#about">About</a></li>
+	</ul>
+
+	
+
+	<!--br>
+	<a href="http://www.tau.ac.il/~itaymay/">Prof. Itay Mayrose Lab, TAU </a> - Plant Evolution, bioinformatics, & comparative genomics<br>
+	<br><br-->
+
+	<!-- class="topnav-right" -->
+<div class = "col-md-12 col-lg-12">
+	<div class="col-md-6 col-lg-6">
+		<font face="serif" size="4" color="#4271bc">
+		<input type="text" id="JobToLoadID" value="" placeholder="Enter your results ID"/>
+		<a href='' id="LoadJob_button" onclick="this.href='http://chromEvol.tau.ac.il/results.html?jobId='+document.getElementById('JobToLoadID').value+'&jobTitle=check'"></font>
+		<font face="serif bold" size="4" color="#4271bc">Load previous results</a></font>		
+	</div>
+	<div class="col-md-6 col-lg-6">
+		<p align=left><font face="serif" size="2.5" color="red"> <header_small_font>This is a beta version </header_small_font></font><br>
+			
+			<font face="serif bold" size="2.5" color="black">We are working on improving this site for enhanced flexibility and a better user interface.
+			If you run into problems please email evolseq@tauex.tau.ac.il and specify the job ID.	Thank you!</font>
+		</p>
+	</div>
+
+</div>
+	
+	<form name="myForm" method="post" action="../cgi-bin/chromEvol.cgi" enctype="multipart/form-data" onsubmit="return validateForm()">
+			
+
+			
+
+		<div class = "col-md-12 col-lg-12">
+				
+
+			<font face="serif bold" size="5" color="#4271bc"> <br>Basic instructions:<br></font><font face="serif" size="3.8">
+			<b>Model adequacy and Ploidy:
+			This page enables you to run Model adequacy and Ploidy inference on previuos chromevol jobs.<br> 
+			</b><br><br><br>
+		
+		</div>	
+		
+		
+			<p class="section" id="rerun"><span class="glyphicon glyphicon glyphicon-repeat"></span> Rerun your data:
+				<br>
+				<input type="hidden" id="OriginJobID" name="OriginJobID" value="None">
+				<input type="hidden" id="OriginJobDir" name="OriginJobDir" value="">
+				<!--input type="text" id="editBoxOriginJobID" value="1487493777" placeholder="Enter your results ID"></input-->
+				<input type="text" id="editBoxOriginJobID" placeholder="Enter your results ID"></input>
+				<input type="button" id="LoadRerunData" value="Load re-run data" onclick="getJobData()"></input>
+				<div class="fontMedium" id=divRerun style="display: none;">
+					<div id="divRerunTxt"></div>
+				</div>
+
+			</p>	
+
+			<div class="col-md-6 col-lg-6">	<font face="serif" size="4" color="black">
+					<input type="hidden" name="model_BASE_NUM" id ="model_BASE_NUM_hidden" value="off"> 
+					<input type="checkbox" name="model_BASE_NUM" id ="model_BASE_NUM" onclick="clearModelList()" disabled> BASE_NUM</input><br>
+					<input type="hidden" name="model_BASE_NUM_DUPL" id ="model_BASE_NUM_DUPL_hidden" value="off"> 
+					<input type="checkbox" name="model_BASE_NUM_DUPL" id="model_BASE_NUM_DUPL" onclick="clearModelList()" disabled> CONST_RATE_NO_DUPL</input><br>
+					<input type="hidden" name="model_CONST_RATE" id ="model_CONST_RATE_hidden" value="off"> 
+					<input type="checkbox" name="model_CONST_RATE" id="model_CONST_RATE" onclick="clearModelList()" disabled> CONST_RATE</input><br>
+					<input type="hidden" name="model_CONST_RATE_NO_DUPL" id ="model_CONST_RATE_NO_DUPL_hidden" value="off"> 
+					<input type="checkbox" name="model_CONST_RATE_NO_DUPL" id="model_CONST_RATE_NO_DUPL" onclick="clearModelList()" disabled> CONST_RATE_NO_DUPL</input><br>	
+					<input type="hidden" name="model_CONST_RATE_DEMI" id ="model_CONST_RATE_DEMI_hidden" value="off"> 					
+					<input type="checkbox" name="model_CONST_RATE_DEMI" id="model_CONST_RATE_DEMI" onclick="clearModelList()" disabled> CONST_RATE_DEMI_EST*</input><br>
+					<input type="hidden" name="model_CONST_RATE_DEMI_EST" id ="model_CONST_RATE_DEMI_EST_hidden" value="off"> 					
+					<input type="checkbox" name="model_CONST_RATE_DEMI_EST" id="model_CONST_RATE_DEMI_EST" onclick="clearModelList()" disabled> CONST_RATE_DEMI_EST</input><br>	
+
+					
+					<!-- select all boxes -->
+					
+				</div></font>							
+			<!--div class = "col-md-12 col-lg-12">
+				<div class="col-md-6 col-lg-6">
+				<font face="serif" size="5" color="#4271bc">Load your Tree file:</font><br>
+				<input type="file" id="TreeFile" name="TreeFile" >
+				<textarea id="TreeFile_txt" name="TreeFile_txt" rows=8 cols=50></textarea>
+				<br><br></div>
+				
+				<div class="col-md-6 col-lg-6">
+				<font face="serif" size="5" color="#4271bc">Load your chromosome counts file:</font><br>
+				<input type="file" id="CountsFile" name="CountsFile" >
+				<textarea id="CountsFile_txt" name="CountsFile_txt" rows=8 cols=50></textarea>
+				<br><br></div>
+			
+			</div-->
+
+
+			
+
+	
+    <script> 
+    $(function(){
+      $("#includedContent").load("results.html"); 
+    });
+    </script> 
+							
+			
+			<!--div class = "col-md-12 col-lg-12">
+				<div class="col-md-6 col-lg-6">
+				<font face="serif" size="5" color="#4271bc">Select model type:</font><br>
+				<!--/div-->
+				<!--div class="col-md-6 col-lg-6">	<font face="serif" size="4" color="black">
+					<input type="hidden" name="model_BASE_NUM" id ="model_BASE_NUM_hidden" value="off"> 
+					<input type="checkbox" name="model_BASE_NUM" id ="model_BASE_NUM" onclick="clearModelList()"> BASE NUM</input><br>
+					<input type="hidden" name="model_BASE_NUM_DUPL" id ="model_BASE_NUM_DUPL_hidden" value="off"> 
+					<input type="checkbox" name="model_BASE_NUM_DUPL" id="model_BASE_NUM_DUPL" onclick="clearModelList()"> BASE NUM DUPL</input><br>
+					<input type="hidden" name="model_CONST_RATE" id ="model_CONST_RATE_hidden" value="off"> 
+					<input type="checkbox" name="model_CONST_RATE" id="model_CONST_RATE" onclick="clearModelList()"> CONST RATE</input><br>
+					<input type="hidden" name="model_CONST_RATE_NO_DUPL" id ="model_CONST_RATE_NO_DUPL_hidden" value="off"> 
+					<input type="checkbox" name="model_CONST_RATE_NO_DUPL" id="model_CONST_RATE_NO_DUPL" onclick="clearModelList()"> CONST RATE NO DUPL</input><br>	
+					<input type="hidden" name="model_CONST_RATE_DEMI" id ="model_CONST_RATE_DEMI_hidden" value="off"> 					
+					<input type="checkbox" name="model_CONST_RATE_DEMI" id="model_CONST_RATE_DEMI" onclick="clearModelList()"> CONST RATE DEMI</input><br>
+					<input type="hidden" name="model_CONST_RATE_DEMI_EST" id ="model_CONST_RATE_DEMI_EST_hidden" value="off"> 					
+					<input type="checkbox" name="model_CONST_RATE_DEMI_EST" id="model_CONST_RATE_DEMI_EST" onclick="clearModelList()"> CONST RATE DEMI EST</input><br>	
+
+					
+					<!-- select all boxes -->
+					<!--p>
+						<input type="button" onclick='selectAll()' value="Select All"/>
+						<input type="button" onclick='UnSelectAll()' value="Unselect All"/>
+					</p>
+				</div></font>
+
+				</div><br>
+			
+			
+			</div-->
+			
+			
+			
+			<div class="col-md-12 col-lg-12">
+				<div class="col-md-6 col-lg-6">
+				<font face="serif" size="5" color="#4271bc">Run adequacy test:</font>			
+				<input type="radio" name="AdeqTest" value="YES" id="radio-on" class="form-radio" checked="checked" onclick='ShowAdeqTest()'><label for="radio-one">YES</label>
+				<input type="radio" name="AdeqTest" value="NO" id="radio-off" class="form-radio" onclick='RemoveAdeqTest()'><label for="radio-one">NO</label>
+
+				<div style="display:none;" id="AdeqTest_DIV">
+					<input class="testingDataSetCheckBox" type="radio" checked="checked" name="MA_AdequacyTest" id="MA_AdequacyTest11" value='ChromBestModel' onclick="MA_AdequacyTest_chrom()"/>&nbsp;Chromevol best model<br>
+					<input class="testingDataSetCheckBox" type="radio" name="MA_AdequacyTest" id="MA_AdequacyTest22" value='MA_AdequacyTest_user' onclick="MA_AdequacyTest_user()" />&nbsp;User selected model<br>
+					<div style="display:none;" id="MA_AdequacyTest_UserDiv">
+						<select type="text" name="MA_userModelSelect" id="MA_userModelSelect" class="form-control" />
+									<!--option value="BASE_NUM"> BASE NUM</option>
+									<option value="BASE_NUM_DUPL"> BASE NUM DUPL</option>
+									<option value="CONST_RATE"> CONST RATE</option>
+									<option value="CONST_RATE_NO_DUPL"> CONST RATE NO DUPL</option>
+									<option value="CONST_RATE_DEMI"> CONST RATE DEMI</option>
+									<option value="CONST_RATE_DEMI_EST"> CONST RATE DEMI EST</option-->
+						</select>
+					</div>
+					<input class="testingDataSetCheckBox" type="radio" name="MA_AdequacyTest" id="MA_AdequacyTest33" value='AllModels' onclick="MA_AdequacyTest_all()"/>&nbsp;All selected models<br><br><br>
+					
+				<div style="display:none;" id="MA_AdequacyTest_ChromDiv">
+					
+					
+
+				</div>
+				<!--div style="display:none;" id="MA_AdequacyTest_AllDiv">
+				<select type="text" name="MA_ModelList" id="MA_ModelList" class="form-control" /></select>
+				</div-->
+				</div>	
+				</div>
+			<br><br>
+			</div>
+
+
+			<br><br><br><br>
+			<div class="col-md-12 col-lg-12">
+					
+					<!--/div-->
+					<div class="col-md-6 col-lg-6">	<font face="serif" size="5" color="#4271bc">
+						<input type="checkbox" name="ploidy_ON" id ="ploidy_ON"> Perform ploidy inference</input><br>
+					</div><br></font>
+					<br><br><br>	
+			</div>				
+
+
+			<br><br>
+			<div class="col-md-12 col-lg-12" style="text-align:center">  
+				<p><input class="submitButton" type="submit" size="7" name="Submit" value="   Submit   " id="submitFormBtn" onsubmit="return validateForm()"></p>
+			</div>  
+
+
+			
+			<br><br><br><br><br><br><br><br>
+			<div class="col-md-12 col-lg-12" id="phyd3">phy3
+				<a href="http://chromevol.tau.ac.il/phyd3-master/view.php?id=example&f=newick" target="_blank">Interactive species tree</a>
+			</div>
+			<!--div class="col-md-12 col-lg-12">	
+				<br><br>
+				<font face="serif" size="5" color="#4271bc">Select number of Trees:</font>
+				<span class="glyphicon glyphicon-info-sign infoIcon" data-toggle="tooltip" title="Enter the number of trees to select from the input file"></span><br>
+				<input name="NumberOfTrees" type="number" value="1" min="1" max="100" step="1" default=> </input>
+			</div-->	
+
+	
+			<!-- glyphicon glyphicon-info-sign infoIcon -->
+			
+			<!--br><br><br><br><br><br><br><br>
+			<div class="col-md-12 col-lg-12">	
+			<select name="ModelSelect" id="ModelSelect">
+				<option value="BASE_NUM">BASE NUM</option>
+				<option value="BASE_NUM_DUPL">BASE NUM DUPL</option>
+				<option value="CONST_RATE_NO_DUPL">CONST RATE NO DUPL</option>
+				<option value="CONST_RATE_DEMI_EST">CONST RATE DEMI EST</option>
+				<option value="CONST_RATE_DEMI">CONST RATE DEMI</option>
+				<option value="CONST_RATE">CONST RATE</option>
+				<option value="CONST">ALL</option>
+			</select-->
+
+			
+    
+ 
+
+
+	</div>
+</form>
+
+	
+	<script>
+
+
+	
+	//function MA_AdequacyTest_user() {
+	//	var MA_user_div = document.getElementById("MA_AdequacyTest_UserDiv");
+	//	var MA_chrom_div = document.getElementById("MA_AdequacyTest_ChromDiv");
+	//	var MA_all_div = document.getElementById("MA_AdequacyTest_AllDiv");
+	//	MA_user_div.style.display = "block";
+	//	MA_chrom_div.style.display = "none";
+	//	MA_all_div.style.display = "none";
+	//
+	//}
+	
+	function MA_AdequacyTest_chrom() {
+		var MA_user_div = document.getElementById("MA_AdequacyTest_UserDiv");
+		var MA_chrom_div = document.getElementById("MA_AdequacyTest_ChromDiv");
+		//var MA_all_div = document.getElementById("MA_AdequacyTest_AllDiv");
+		MA_user_div.style.display = "none";
+		MA_chrom_div.style.display = "block";
+		//MA_all_div.style.display = "none";
+	
+	}
+	
+	var AdeqDiv = document.getElementById("AdeqTest_DIV");
+	AdeqDiv.style.display = "block";
+	
+	function ShowAdeqTest() {
+		var AdeqDiv = document.getElementById("AdeqTest_DIV");
+		AdeqDiv.style.display = "block";
+	}
+	
+	function RemoveAdeqTest() {
+		var AdeqDiv = document.getElementById("AdeqTest_DIV");
+		AdeqDiv.style.display = "none";
+	}
+	
+	
+	function clearModelList() {
+	
+		var list1 = document.getElementById('MA_userModelSelect');
+	 	var index=0;
+		list1.options.length=0;
+		
+		//Clear user chice to default:
+		//document.getElementById("MA_AdequacyTest").value = "ChromBestModel";
+
+		document.getElementById("MA_AdequacyTest11").val = "ChromBestModel";;
+		document.getElementById("MA_AdequacyTest11").checked = true;
+		//document.getElementById("MA_AdequacyTest_ChromDiv").val = false;;
+		//document.getElementById("MA_AdequacyTest_AllDiv").val = false;;
+		var MA_user_div = document.getElementById("MA_AdequacyTest_UserDiv");
+		var MA_chrom_div = document.getElementById("MA_AdequacyTest_ChromDiv");
+		//var MA_all_div = document.getElementById("MA_AdequacyTest_AllDiv");
+		var MA_userMo_div = document.getElementById("MA_userModelSelect");
+		MA_userMo_div.style.display = "none";
+		MA_user_div.style.display = "none";
+		MA_chrom_div.style.display = "block";
+		//MA_all_div.style.display = "none";
+
+		
+	}
+	
+	
+	
+	
+	
+	function MA_AdequacyTest_user() {
+
+		var model_BASE_NUM = $("#model_BASE_NUM").val();
+		var model_BASE_NUM_DUPL = $("#model_BASE_NUM_DUPL").val();
+		var model_CONST_RATE = $("#model_CONST_RATE").val();
+		var model_CONST_RATE_NO_DUPL = $("#model_CONST_RATE_NO_DUPL").val();
+		var model_CONST_RATE_DEMI = $("#model_CONST_RATE_DEMI").val();
+		var model_CONST_RATE_DEMI_EST = $("#model_CONST_RATE_DEMI_EST").val();
+		
+		//Code for populating dropdown lists:
+		var list1 = document.getElementById('MA_userModelSelect');
+	 	var index=0;
+		list1.options.length=0;
+		list1.options[0] = new Option('--Select--', '');
+		index=index+1;
+
+		if ($("#model_BASE_NUM").is(":checked")){
+			document.getElementById('model_BASE_NUM_hidden').disabled = true;
+			list1.options[index] = new Option('BASE_NUM', 'BASE_NUM');
+			index=index+1;
+		}
+		if ($("#model_BASE_NUM_DUPL").is(":checked")){
+			document.getElementById('model_BASE_NUM_DUPL_hidden').disabled = true;
+			list1.options[index] = new Option('BASE_NUM_DUPL', 'BASE_NUM_DUPL');
+			index=index+1;
+		}
+		if ($("#model_CONST_RATE").is(":checked")){
+			document.getElementById('model_CONST_RATE_hidden').disabled = true;
+			list1.options[index] = new Option('CONST_RATE', 'CONST_RATE');
+			index=index+1;
+		}
+		if ($("#model_CONST_RATE_NO_DUPL").is(":checked")){
+			document.getElementById('model_CONST_RATE_NO_DUPL_hidden').disabled = true;
+			list1.options[index] = new Option('CONST_RATE_NO_DUPL', 'CONST_RATE_NO_DUPL');
+			index=index+1;
+		}
+		if ($("#model_CONST_RATE_DEMI").is(":checked")){
+			list1.options[index] = new Option('CONST_RATE_DEMI', 'CONST_RATE_DEMI');
+			index=index+1;
+		}
+		if ($("#model_CONST_RATE_DEMI_EST").is(":checked")){
+			document.getElementById('model_CONST_RATE_DEMI_EST_hidden').disabled = true;
+			list1.options[index] = new Option('CONST_RATE_DEMI_EST', 'CONST_RATE_DEMI_EST');
+			index=index+1;
+		}
+
+		
+			var MA_chrom_div = document.getElementById("MA_AdequacyTest_ChromDiv");
+			var MA_user_div = document.getElementById("MA_AdequacyTest_UserDiv");
+			var MA_all_div = document.getElementById("MA_AdequacyTest_AllDiv");
+			var MA_userMo_div = document.getElementById("MA_userModelSelect");
+			MA_userMo_div.style.display = "block";
+			MA_chrom_div.style.display = "none";
+			MA_user_div.style.display = "block";
+			MA_all_div.style.display = "none";
+		
+	}	
+		
+	function MA_AdequacyTest_all() {
+
+		var MA_user_div = document.getElementById("MA_AdequacyTest_UserDiv");
+		var MA_userMo_div = document.getElementById("MA_userModelSelect");
+		MA_userMo_div.style.display = "none";
+		MA_user_div.style.display = "none";
+		
+	}
+		
+		
+	
+	</script>
+
+
+	 <br> <br> <br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br>
+	 <br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br>
+	 <br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br>
+	 <br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br>
+
+</div>
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js"></script>
+
+
+</body>
+
+</html>

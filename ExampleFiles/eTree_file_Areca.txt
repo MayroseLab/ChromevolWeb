@@ -1,0 +1,1 @@
+(((Areca_vestiaria:0.07011673,Areca_tunku:0.07011673):0.0192079,Areca_insignis:0.08932463):0.01607184,(((Areca_hutchinsoniana:0.0287815,Areca_catechu:0.0287815):0.01671283,((Areca_triandra:0.0006484751,Areca_concinna:0.0006484751):0.03548111,Areca_macrocalyx:0.03612959):0.009364735):0.009204093,Areca_rheophytica:0.05469841):0.05069806);
