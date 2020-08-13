@@ -110,9 +110,9 @@ header_small_font {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-	<link rel="shortcut icon" href="images/tree_1.jpg"/>
+	<link rel="shortcut icon" href="images/shutterstock_443040703-1000x480.jpg"/>
 	
-    <title>Welcome to chromEvol.tau.ac.il</title>
+    <title>chromEvol</title>
 
 	<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
 	<script src="/jquery-csv-master/src/jquery.csv.js"></script>
@@ -174,7 +174,7 @@ header_small_font {
             $("#popover3").popover({ container: 'body'});
             $("#popover4").popover({ container: 'body'});
             $("#popover5").popover({ container: 'body'});
-             $("#popover99").popover({ container: 'body'});
+            $("#popover6").popover({ container: 'body'});
     });
 
 	
@@ -312,28 +312,39 @@ function eraseInputTextCounts() {
 				<input type="text" id="JobToLoadID" value="" placeholder="Enter your results ID"/>
 				<a href='' id="LoadJob_button" onclick="this.href='http://chromEvol.tau.ac.il/results.html?jobId='+document.getElementById('JobToLoadID').value+'&jobTitle=check'">Load previous results</a>
 				</font-->
-
-			<font face="serif bold" size="5" color="#4271bc"> <br>Instructions:<br></font><font face="serif" size="3.8">
+			<br><br><br>
+			<div style="text-align:center"><font face = "serif" size = "5">ChromEvol analyzes changes in chromosome-numbers along a phylogeny and infers polyploidy upon request.<br>
+			Given a phylogeny and chromosome number data, the program infers the locations and types of chromosome number transitions along the tree.<br></font>
+			<font face = "serif" size = "4"> To download a stand-alone version please visit <a>https://www.tau.ac.il/~itaymay/cp/chromEvol/index.html</a></font><br><br>
+			<div style="text-align:center"><font face = "serif" size = "4" color="red"><span style="font-weight:bold">This is a BETA version.</span></font>
+			</div>
+			<br><br><br>
+			<!--font face="serif bold" size="5" color="#4271bc"> <br>Instructions:<br></font><font face="serif" size="3.8">
 			<b>Basic instructions:</b>
-			In order to run ChromEvol ... <!--you need to load a phylogeny in NEWICK format <a href="../ExampleFiles/eTree_file_Areca.txt" target="_blank">(tree_example)</a> and chromosome counts text file
+			In order to run ChromEvol you need to load a phylogeny in NEWICK format <a href="../ExampleFiles/eTree_file_Areca.txt" target="_blank">(tree_example)</a> and chromosome counts text file
 			 <a href="../ExampleFiles/eCounts_Areca.txt" target="_blank">(counts_example)</a>. A phylogeny can be generated using our OneTwoTree server, whereas chromosome counts can be downloaded from CCDB.
 			ChromEvol server will check your inputs and notify you in case of a mismatch that needs to be resolved.  Important notes:<br>
 			1. In case there is no counts data for a specific taxa please add it as 'X' as shown in the counts example file above. This is also the default of ChromEvol server.<br>
 			2. In case taxa in your counts file is missing from your phylogeny, the server will not perform the job and notify you to correct the data. <br>
 			3. The server will also check if taxa have data in CCDB (for chromosome count) and NCBI local database (for sequence data, used in OneTwoTree) and notify in case such data exists. <br> 
-			</b><br><br><br-->
+			</b-->
+			
+			
 		
 	</div>	
-		
+
+					
 			<div class = "col-md-12 col-lg-12">
 				<div class="col-md-6 col-lg-6">
-				<font face="serif" size="5" color="#4271bc">Load your Tree file:</font><br>
+				<font face="serif" size="5" color="#4271bc">Load your Tree file:</font><a id="popover5" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" 
+				data-content="Upload tree file in NEWICK format."><span class="glyphicon glyphicon-info-sign infoIcon"></span></a><br>
 				<input type="file" id="TreeFile" name="TreeFile" >
 				<textarea id="TreeFile_txt" name="TreeFile_txt" rows=8 cols=50></textarea>
 				<br><br></div>
 				
 				<div class="col-md-6 col-lg-6">
-				<font face="serif" size="5" color="#4271bc">Load your chromosome counts file:</font><br>
+				<font face="serif" size="5" color="#4271bc">Load your chromosome counts file:</font><a id="popover6" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" 
+				data-content="Upload counts data in FASTA format. For example:<br>>TAXON_NAME1<br>5<br>>TAXON_NAME2<br>7"><span class="glyphicon glyphicon-info-sign infoIcon"></span></a><br>
 				<input type="file" id="CountsFile" name="CountsFile" >
 				<textarea id="CountsFile_txt" name="CountsFile_txt" rows=8 cols=50></textarea>
 				<br><br></div>
@@ -353,12 +364,14 @@ function eraseInputTextCounts() {
 
 			<div class = "col-md-12 col-lg-12">
 				<div class="col-md-6 col-lg-6">
-				<font face="serif" size="5" color="#4271bc">Counts Vs. Phylogeny:</font><a id="popover1" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" data-content="Please replace this text with your info line."><span class="glyphicon glyphicon-info-sign infoIcon"></span></a><br>
+				<font face="serif" size="5" color="#4271bc">Match counts to phylogeny:</font><a id="popover1" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" 
+				data-content="(1) Remove from the tree taxa without counts data OR (2) Assign the missing taxa with an X in the counts data.<br>
+				NOTE: model adequacy test does not consider missing data."><span class="glyphicon glyphicon-info-sign infoIcon"></span></a><br>
 				<input type="radio" name="PruneCounts" value="PruneTree" id="PruneCounts" class="form-radio" checked="checked"><label for="radio-two">
 				Remove tips with no counts data</label>
 				<br>
 				<input type="radio" name="PruneCounts" value="Xcounts" id="PruneCounts" class="form-radio"><label for="radio-two">
-				Assign taxa with no counts as missing data ('x')</label>
+				Assign taxa with no counts as missing data ('X')</label>
 				</div><br>
 			</div><br>
 			
@@ -368,29 +381,30 @@ function eraseInputTextCounts() {
 
 			<div class = "col-md-12 col-lg-12">
 				<div class="col-md-6 col-lg-6">  
-				<font face="serif" size="5" color="#4271bc">Select model type:</font><a id="popover2" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" data-content="Please replace this text with your info line."><span class="glyphicon glyphicon-info-sign infoIcon"></span></a><br>
+				<font face="serif" size="5" color="#4271bc">Select model type:</font><a id="popover2" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" 
+				data-content="Select which models to run chromEvol on. Model names denote for the transition parameters allowed in each model:<br>Dys - dysploidy<br>Dup - duplication<br>Dem - half-duplication<br>Bnum - base number"><span class="glyphicon glyphicon-info-sign infoIcon"></span></a><br>
 				<!--/div-->
 				<!-- aug /20 changes in models names:
 				CONST_RATE_DEMI_EST  ->  DysDupDem
-				CONST_RATE_DEMI -> DysDupDem*
+				CONST_RATE_DEMI -> DysDupDem=
 				CONST_RATE_NO_DUPL -> Dys
 				CONST_RATE  -> DysDup
 				BASE_NUM_DUPL  -> DysBnumDup
 				BASE_NUM  -> DysBnum
 				-->
 						<div class="col-md-6 col-lg-6">	<font face="serif" size="4" color="black">
+						<input type="hidden" name="model_CONST_RATE_NO_DUPL" id ="model_CONST_RATE_NO_DUPL_hidden" value="off"> 
+						<input type="checkbox" name="model_CONST_RATE_NO_DUPL" id="model_CONST_RATE_NO_DUPL" onclick="clearModelList()"> Dys</input><br>
+						<input type="hidden" name="model_CONST_RATE" id ="model_CONST_RATE_hidden" value="off"> 
+						<input type="checkbox" name="model_CONST_RATE" id="model_CONST_RATE" onclick="clearModelList()"> DysDup</input><br>
+						<input type="hidden" name="model_CONST_RATE_DEMI" id ="model_CONST_RATE_DEMI_hidden" value="off"> 					
+						<input type="checkbox" name="model_CONST_RATE_DEMI" id="model_CONST_RATE_DEMI" onclick="clearModelList()"> DysDupDem=</input><br>
+						<input type="hidden" name="model_CONST_RATE_DEMI_EST" id ="model_CONST_RATE_DEMI_EST_hidden" value="off"> 					
+						<input type="checkbox" name="model_CONST_RATE_DEMI_EST" id="model_CONST_RATE_DEMI_EST" onclick="clearModelList()"> DysDupDem</input><br>
 						<input type="hidden" name="model_BASE_NUM" id ="model_BASE_NUM_hidden" value="off"> 
 						<input type="checkbox" name="model_BASE_NUM" id ="model_BASE_NUM" onclick="clearModelList()" > DysBnum</input><br>
 						<input type="hidden" name="model_BASE_NUM_DUPL" id ="model_BASE_NUM_DUPL_hidden" value="off"> 
-						<input type="checkbox" name="model_BASE_NUM_DUPL" id="model_BASE_NUM_DUPL" onclick="clearModelList()"> DysBnumDup</input><br>
-						<input type="hidden" name="model_CONST_RATE" id ="model_CONST_RATE_hidden" value="off"> 
-						<input type="checkbox" name="model_CONST_RATE" id="model_CONST_RATE" onclick="clearModelList()"> DysDup</input><br>
-						<input type="hidden" name="model_CONST_RATE_NO_DUPL" id ="model_CONST_RATE_NO_DUPL_hidden" value="off"> 
-						<input type="checkbox" name="model_CONST_RATE_NO_DUPL" id="model_CONST_RATE_NO_DUPL" onclick="clearModelList()"> Dys</input><br>	
-						<input type="hidden" name="model_CONST_RATE_DEMI" id ="model_CONST_RATE_DEMI_hidden" value="off"> 					
-						<input type="checkbox" name="model_CONST_RATE_DEMI" id="model_CONST_RATE_DEMI" onclick="clearModelList()"> DysDupDem*</input><br>
-						<input type="hidden" name="model_CONST_RATE_DEMI_EST" id ="model_CONST_RATE_DEMI_EST_hidden" value="off"> 					
-						<input type="checkbox" name="model_CONST_RATE_DEMI_EST" id="model_CONST_RATE_DEMI_EST" onclick="clearModelList()"> DysDupDem</input><br>		
+						<input type="checkbox" name="model_BASE_NUM_DUPL" id="model_BASE_NUM_DUPL" onclick="clearModelList()"> DysBnumDup</input><br>	
 
 						
 						<!-- select all boxes -->
@@ -410,7 +424,9 @@ function eraseInputTextCounts() {
 			
 			<div class="col-md-12 col-lg-12">
 				<div class="col-md-6 col-lg-6">
-				<font face="serif" size="5" color="#4271bc">Run adequacy test:</font><a id="popover3" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" data-content="Please replace this text with your info line."><span class="glyphicon glyphicon-info-sign infoIcon"></span></a>
+				<font face="serif" size="5" color="#4271bc">Run adequacy test:</font><a id="popover3" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" 
+				data-content="Select on which models to run model adequacy test:<br>(1) The best selected model (2) One of the models specified by the user (3) All selected models
+				<br><br>NOTE: running model adequacy on models that include the base-number parameter (DysBnum and DysBnumDup) performs another round of model optimization and will increase running time."><span class="glyphicon glyphicon-info-sign infoIcon"></span></a>
 				<input type="radio" name="AdeqTest" value="YES" id="radio-on" class="form-radio" checked="checked" onclick='ShowAdeqTest()'><label for="radio-one">YES</label>
 				<input type="radio" name="AdeqTest" value="NO" id="radio-off" class="form-radio" onclick='RemoveAdeqTest()'><label for="radio-one">NO</label>
 
@@ -447,10 +463,13 @@ function eraseInputTextCounts() {
 			<div class="col-md-12 col-lg-12">
 					
 					<!--/div-->
-					<div class="col-md-6 col-lg-6">	<font face="serif" size="5" color="#4271bc">
-						<input type="checkbox" name="ploidy_ON" id ="ploidy_ON" value="On"> Perform ploidy inference</input><a id="popover4" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" data-content="Please replace this text with your info line."><span class="glyphicon glyphicon-info-sign infoIcon"></span></a><br>
+					<!--COMMENTED OUT BY ANNA -- PROBLEM IN PLOIDY INFERENCE (PLOIDY.CSV)-->
+					<!--div class="col-md-6 col-lg-6">	<font face="serif" size="5" color="#4271bc">
+						<input type="checkbox" name="ploidy_ON" id ="ploidy_ON" value="On"> Perform ploidy inference</input><a id="popover4" data-trigger="hover" 
+						class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" data-content="Select if you wish to perform ploidy-level inference of the input taxa. This step is computationally intensive."><span class="glyphicon glyphicon-info-sign infoIcon"></span></a><br>
 					</div><br></font>
 					<br>	
+					</-->
 			</div>
 			
 			<div class="col-md-12 col-lg-12">			

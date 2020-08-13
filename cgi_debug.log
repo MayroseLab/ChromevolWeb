@@ -1,0 +1,9 @@
+2020-08-13 07:01:31 INFO     Entered create_job_directory_run_main
+2020-08-13 07:01:31 INFO     time Thu Aug 13 07:01:31 2020
+2020-08-13 07:01:31 INFO     Created the directoy /bioseq/data/results/pepitope/py_res/3756046997/, chmod 755 -> CompletedProcess(args='chmod 755 /bioseq/data/results/pepitope/py_res/3756046997/', returncode=0)
+2020-08-13 07:01:31 INFO     /bioseq/data/results/pepitope/py_res/3756046997/3756046997.log
+2020-08-13 07:01:31 INFO     Created the file log.log, chmod 755 -> CompletedProcess(args='chmod 755 /bioseq/data/results/pepitope/py_res/3756046997/log.log', returncode=0)
+2020-08-13 07:01:31 INFO     wrote to /bioseq/pepitope/pepitope.log
+2020-08-13 07:01:31 INFO     Created the file /bioseq/pepitope/pepitope.log, chmod 755 -> CompletedProcess(args='chmod 755 /bioseq/pepitope/pepitope.log', returncode=0)
+2020-08-13 07:01:31 INFO     Error!!!!!!!!!!!!!!
+[Errno 2] No such file or directory: 'echo "(cd  /bioseq/data/results/pepitope/py_res/3756046997/; chmod oug+wrx /bioseq/data/results/pepitope/py_res/3756046997/;)" | /bin/tcsh': 'echo "(cd  /bioseq/data/results/pepitope/py_res/3756046997/; chmod oug+wrx /bioseq/data/results/pepitope/py_res/3756046997/;)" | /bin/tcsh'
