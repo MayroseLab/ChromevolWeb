@@ -158,6 +158,7 @@ header_small_font {
     <script src="js/jquery.localscroll-1.2.7-min.js"></script>
 	<script src="/jquery-csv-master/src/jquery.csv.js"></script>
     <script src='js/purl.js'></script>
+	<script src="/js/googleAnalytics.js"></script>
 
 <script>
 
@@ -191,7 +192,7 @@ header_small_font {
 				jobId		= $.url().param('jobId');
 				
 				myTitle		=  "Job ID: " + jobId;
-				jobTitle	= "Chromevol Testing"; // $.url().param('jobTitle');
+				jobTitle	= $.url().param('jobTitle'); // removed comment by josef
 				if (jobTitle && jobTitle.trim())
 				{
 					myTitle += ", Job Name: " + jobTitle;
@@ -204,7 +205,11 @@ header_small_font {
 
 		});
 
-
+		$(document).keyup(function(event) {
+			if ($("#JobToLoadID").is(":focus") && event.key == "Enter") {
+				window.location.href ='http://chromEvol.tau.ac.il/results.html?jobId='+document.getElementById('JobToLoadID').value;
+			}
+		});
 	   
 		function SetMenuWidth() {
             var sizeOfList = $("#templatemo_menu ul li").size();
@@ -297,7 +302,30 @@ header_small_font {
 			}
 			if (str == "BASE_NUM_DUPL"){
 				return " DysBnumDup";
+			}
+            return str; // josef
+		}
+        
+        function oldModelName(str){  // josef
+			if (str == "Dys"){
+				return "CONST_RATE_NO_DUPL";
 			}	
+			if (str == "DysDup"){
+				return "CONST_RATE";
+			}
+			if (str == "DysDupDem="){
+				return "CONST_RATE_DEMI";
+			}
+			if (str == "DysDupDem"){
+				return "CONST_RATE_DEMI_EST";
+			}	
+			if (str == "DysBnum"){
+				return "BASE_NUM";
+			}
+			if (str == "DysBnumDup"){
+				return "BASE_NUM_DUPL";
+			}
+            return str; // josef
 		}
 		
 		function HandleData(data) {
@@ -400,15 +428,15 @@ header_small_font {
 				for (i = 0; i < vModelArray.length; i++)
 				{
 					$('#divChromevl_Models_resultsFiles').append("<br><div class=\"pretty p-icon p-toggle\"><input type=\"checkbox\" id=\"mod_"+vModelArray[i]+"\" onclick=\"myFunction(\'"+vModelArray[i]+"\')\">" +
-					"<div class=\"state p-on\"><i class=\"icon mdi mdi-minus-box\"></i><label>" + changeModelName(vModelArray[i]) + "</label></div><div class=\"state p-off\"><i class=\"icon mdi mdi-plus-box\"></i><label>" + changeModelName(vModelArray[i]) + "</label></div></div><br>" +
+					"<div class=\"state p-on\"><i class=\"icon mdi mdi-minus-box\"></i><label>" + vModelArray[i] + "</label></div><div class=\"state p-off\"><i class=\"icon mdi mdi-plus-box\"></i><label>" + vModelArray[i] + "</label></div></div><br>" +
 					//"<div id=\""+vModelArray[i] + "\" style=\"display:none\"><a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/" + vModelArray[i] + "_results.zip\" download>[Download All]</a><br>" + 
-					"<div id=\""+vModelArray[i] + "\" style=\"display:none\"><a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/" + vModelArray[i] + "_results.zip\" download></a><br>" + 
-					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/expectations.txt\" download>Expectations file, </a>" +
-					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/chromEvol.res\" download>ChromEvol results, </a>" + 
-					"<a href=\"http://chromEvol.tau.ac.il/phyd3-master/view.php?id=" + jobId + "&treeNum=1&model=" + vModelArray[i] + "&treeType=mlAncestors&f=xml_ml\" target=\"_blank\">mlAncestors tree, </a>" + 
-					"<a href=\"http://chromEvol.tau.ac.il/phyd3-master/view.php?id=" + jobId + "&treeNum=1&model=" + vModelArray[i] + "&treeType=posteriorAncestors&f=xml_post\" target=\"_blank\">posteriorAncestors tree, </a>" +
-					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/Results_ExpNum.csv\" download>Events expectation per node, </a>" +
-					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/Results_Events.csv\" download>Expected number of events from root to leaf</a></div>");
+					"<div id=\""+ vModelArray[i] + "\" style=\"display:none\"><a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/" + vModelArray[i] + "_results.zip\" download></a><br>" + 
+					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + oldModelName(vModelArray[i]) + "/expectations.txt\" download>Expectations file, </a>" +
+					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + oldModelName(vModelArray[i]) + "/chromEvol.res\" download>ChromEvol results, </a>" + 
+					"<a href=\"http://chromEvol.tau.ac.il/phyd3-master/view.php?id=" + jobId + "&treeNum=1&model=" + oldModelName(vModelArray[i]) + "&treeType=mlAncestors&f=xml_ml\" target=\"_blank\">mlAncestors tree, </a>" + 
+					"<a href=\"http://chromEvol.tau.ac.il/phyd3-master/view.php?id=" + jobId + "&treeNum=1&model=" + oldModelName(vModelArray[i]) + "&treeType=posteriorAncestors&f=xml_post\" target=\"_blank\">posteriorAncestors tree, </a>" +
+					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + oldModelName(vModelArray[i]) + "/Results_ExpNum.csv\" download>Events expectation per node, </a>" +
+					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + oldModelName(vModelArray[i]) + "/Results_Events.csv\" download>Expected number of events from root to leaf</a></div>");
 					
 
 				}
@@ -1153,7 +1181,7 @@ header_small_font {
 
 	<div class="topnav-right">
 				<input type="text" id="JobToLoadID" value="" placeholder="Enter your results ID"/>
-				<a href='' id="LoadJob_button" onclick="this.href='http://chromEvol.tau.ac.il/results.html?jobId='+document.getElementById('JobToLoadID').value+'&jobTitle=check'">Load previous results</a>
+				<a href='' id="LoadJob_button" onclick="this.href='http://chromEvol.tau.ac.il/results.html?jobId='+document.getElementById('JobToLoadID').value">Load previous results</a>
 
 	</div>	
 	<br><br>	

@@ -3,48 +3,57 @@
 <head>
 <style>
 
-.form-radio
-{
-     -webkit-appearance: none;
-     -moz-appearance: none;
-     appearance: none;
-     display: inline-block;
+.form-radio {
+    -webkit-appearance:none;
+    width:20px;
+    height:20px;
+    border:1px solid darkgray;
+    border-radius:50%;
+    outline:none;
+    cursor: pointer;     
+    margin-right: 7px;
+    display: inline-block;
      position: relative;
      background-color: #f1f1f1;
-     color: #666;
-     top: 10px;
-     height: 30px;
-     width: 30px;
-     border: 0;
-     border-radius: 50px;
-     cursor: pointer;     
-     margin-right: 7px;
-     outline: none;
+    // box-shadow:0 0 5px 0px gray inset;
 }
-.form-radio:checked::before
-{
-     position: absolute;
-     font: 13px/1 'Open Sans', sans-serif;
-     left: 11px;
-     top: 7px;
-     content: '\02143';
-     transform: rotate(40deg);
+.form-radio:hover {
+    box-shadow:0 0 5px 0px orange inset;
 }
-.form-radio:hover
-{
-     background-color: #f7f7f7;
+.form-radio:before {
+    content:'';
+    display:block;
+    width:10px; /* updated */
+    height:10px; /* updated */
+    margin: 20% auto;    
+    border-radius:50%;    
 }
-.form-radio:checked
-{
-     background-color: #f1f1f1;
+.form-radio:checked:before {
+    background-color: rgb(86,155,248); //blue;
+    font: 13px/1 'Open Sans', sans-serif;
+    outline:none;
 }
+.form-radio:checked:focus {
+    outline:none;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+}
+
 label
 {
      font: 15px/1.7 'Open Sans', sans-serif;
      color: #333;
      -webkit-font-smoothing: antialiased;
      -moz-osx-font-smoothing: grayscale;
-     cursor: pointer;
+     // cursor: pointer;
+     font-weight:normal !important;
 } 
 
 
@@ -157,16 +166,14 @@ header_small_font {
 		fileChosen(this, document.getElementById('CountsFile_txt'));
 	});
 	
-	
-
-	
-
-	
-
-	
 });
 	
 	
+$(document).keyup(function(event) {
+    if ($("#JobToLoadID").is(":focus") && event.key == "Enter") {
+        window.location.href ='http://chromEvol.tau.ac.il/results.html?jobId='+document.getElementById('JobToLoadID').value;
+    }
+});
 	
 	$(function () {
             $("#popover1").popover({ container: 'body'});
@@ -297,7 +304,7 @@ function eraseInputTextCounts() {
 	
 	<div class="topnav-right">
 				<input type="text" id="JobToLoadID" value="" placeholder="Enter your results ID"/>
-				<a href='' id="LoadJob_button" onclick="this.href='http://chromEvol.tau.ac.il/results.html?jobId='+document.getElementById('JobToLoadID').value+'&jobTitle=check'">Load previous results</a>
+				<a href='' id="LoadJob_button" onclick="this.href='http://chromEvol.tau.ac.il/results.html?jobId='+document.getElementById('JobToLoadID').value">Load previous results</a>
 
 	</div>	
 	
@@ -315,7 +322,7 @@ function eraseInputTextCounts() {
 			<br><br><br>
 			<div style="text-align:center"><font face = "serif" size = "5">ChromEvol analyzes changes in chromosome-numbers along a phylogeny and infers polyploidy upon request.<br>
 			Given a phylogeny and chromosome number data, the program infers the locations and types of chromosome number transitions along the tree.<br></font>
-			<font face = "serif" size = "4"> To download a stand-alone version please visit <a>https://www.tau.ac.il/~itaymay/cp/chromEvol/index.html</a></font><br><br>
+			<font face = "serif" size = "4"> To download a stand-alone version please visit <a href="https://www.tau.ac.il/~itaymay/cp/chromEvol/index.html" target='_blank'>https://www.tau.ac.il/~itaymay/cp/chromEvol/index.html</a></font><br><br>
 			<div style="text-align:center"><font face = "serif" size = "4" color="red"><span style="font-weight:bold">This is a BETA version.</span></font>
 			</div>
 			<br><br><br>
@@ -368,10 +375,10 @@ function eraseInputTextCounts() {
 				data-content="(1) Remove from the tree taxa without counts data OR (2) Assign the missing taxa with an X in the counts data.<br>
 				NOTE: model adequacy test does not consider missing data."><span class="glyphicon glyphicon-info-sign infoIcon"></span></a><br>
 				<input type="radio" name="PruneCounts" value="PruneTree" id="PruneCounts" class="form-radio" checked="checked"><label for="radio-two">
-				Remove tips with no counts data</label>
+				&nbsp&nbsp Remove tips with no counts data</label>
 				<br>
 				<input type="radio" name="PruneCounts" value="Xcounts" id="PruneCounts" class="form-radio"><label for="radio-two">
-				Assign taxa with no counts as missing data ('X')</label>
+				&nbsp&nbsp Assign taxa with no counts as missing data ('X')</label>
 				</div><br>
 			</div><br>
 			
@@ -424,26 +431,29 @@ function eraseInputTextCounts() {
 			
 			<div class="col-md-12 col-lg-12">
 				<div class="col-md-6 col-lg-6">
-				<font face="serif" size="5" color="#4271bc">Run adequacy test:</font><a id="popover3" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" 
+                <input type="hidden" name="AdeqTest" value='YES' />
+				<input type="checkbox" checked="checked" class="checkmark" onclick='onClickAdequacyText(this)'>
+                <font face="serif" size="5" color="#4271bc">&nbsp&nbsp Run adequacy test:</font><a id="popover3" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" 
 				data-content="Select on which models to run model adequacy test:<br>(1) The best selected model (2) One of the models specified by the user (3) All selected models
 				<br><br>NOTE: running model adequacy on models that include the base-number parameter (DysBnum and DysBnumDup) performs another round of model optimization and will increase running time."><span class="glyphicon glyphicon-info-sign infoIcon"></span></a>
-				<input type="radio" name="AdeqTest" value="YES" id="radio-on" class="form-radio" checked="checked" onclick='ShowAdeqTest()'><label for="radio-one">YES</label>
-				<input type="radio" name="AdeqTest" value="NO" id="radio-off" class="form-radio" onclick='RemoveAdeqTest()'><label for="radio-one">NO</label>
+                
+				<!--<input type="radio" name="AdeqTest" value="YES" id="radio-on" class="form-radio" checked="checked" onclick='ShowAdeqTest()'><label for="radio-one">YES</label>
+				<input type="radio" name="AdeqTest" value="NO" id="radio-off" class="form-radio" onclick='RemoveAdeqTest()'><label for="radio-one">NO</label>-->
 
-				<div style="display:none;" id="AdeqTest_DIV">
+				<div style="display:block;" id="AdeqTest_DIV">
 					<input class="testingDataSetCheckBox" type="radio" checked="checked" name="MA_AdequacyTest" id="MA_AdequacyTest11" value='ChromBestModel' onclick="MA_AdequacyTest_chrom()"/>&nbsp;Chromevol best model<br>
 					<input class="testingDataSetCheckBox" type="radio" name="MA_AdequacyTest" id="MA_AdequacyTest22" value='MA_AdequacyTest_user' onclick="MA_AdequacyTest_user()" />&nbsp;User selected model<br>
 					<div style="display:none;" id="MA_AdequacyTest_UserDiv">
 						<select type="text" name="MA_userModelSelect" id="MA_userModelSelect" class="form-control" />
-									<!--option value="BASE_NUM"> BASE NUM</option>
-									<option value="BASE_NUM_DUPL"> BASE NUM DUPL</option>
-									<option value="CONST_RATE"> CONST RATE</option>
-									<option value="CONST_RATE_NO_DUPL"> CONST RATE NO DUPL</option>
-									<option value="CONST_RATE_DEMI"> CONST RATE DEMI</option>
-									<option value="CONST_RATE_DEMI_EST"> CONST RATE DEMI EST</option-->
+									<!--option value="BASE_NUM"> DysBnum</option>
+									<option value="BASE_NUM_DUPL"> DysBnumDup</option>
+									<option value="CONST_RATE"> DysDup</option>
+									<option value="CONST_RATE_NO_DUPL"> Dys</option>
+									<option value="CONST_RATE_DEMI"> DysDupDem=</option>
+									<option value="CONST_RATE_DEMI_EST"> DysBnumDup</option-->
 						</select>
 					</div>
-					<input class="testingDataSetCheckBox" type="radio" name="MA_AdequacyTest" id="MA_AdequacyTest33" value='AllModels' onclick="MA_AdequacyTest_all()"/>&nbsp;All selected models<br><br><br>
+					<input class="testingDataSetCheckBox" type="radio" name="MA_AdequacyTest" id="MA_AdequacyTest33" value='AllModels'  class="form-radio" onclick="MA_AdequacyTest_all()"/>&nbsp;All selected models<br><br>
 					
 				<div style="display:none;" id="MA_AdequacyTest_ChromDiv">
 					
@@ -455,11 +465,9 @@ function eraseInputTextCounts() {
 				</div-->
 				</div>	
 				</div>
-			<br><br>
 			</div>
 
 
-			<br><br><br><br>
 			<div class="col-md-12 col-lg-12">
 					
 					<!--/div-->
@@ -476,10 +484,18 @@ function eraseInputTextCounts() {
 				<div class="col-md-6 col-lg-6">	
 					<label for="inputEmail"><font face="serif" size="5" color="#4271bc">Email address for notifications:</font></label>
 					<input type="email" class="form-control" name="inputEmail" placeholder="Enter email" required>
-					<br><br>
+					<br>
 				</div>
+                
 			</div>
 			
+            <div class="col-md-12 col-lg-12">
+                <div class="col-md-6 col-lg-6">	
+					<label for="jobTitle"><font face="serif" size="5" color="#4271bc">Job Name:</font></label>
+					<input type="text" class="form-control" name="jobTitle" placeholder="Enter Job Name" required>
+				</div>
+            </div>
+            
 			<br><br>
 			<div class="col-md-12 col-lg-12" style="text-align:center">  
 				<p><input class="submitButton" type="submit" size="7" name="Submit" value="   Submit   " id="submitFormBtn" onsubmit="return validateForm()"></p>
@@ -634,16 +650,42 @@ function getFoodItem(){
 	var AdeqDiv = document.getElementById("AdeqTest_DIV");
 	AdeqDiv.style.display = "block";
 	
+    function onClickAdequacyText(cb) {
+        if (cb.checked) {
+           ShowAdeqTest();
+        }
+        else {
+           RemoveAdeqTest();
+        }           
+    }
+    
 	function ShowAdeqTest() {
 		var AdeqDiv = document.getElementById("AdeqTest_DIV");
 		//document.getElementById("AdeqTest").value = "On";
-		AdeqDiv.style.display = "block";
+        AdeqDiv.disabled = false;
+        var nodes = AdeqDiv.getElementsByTagName('*');
+        for(var i = 0; i < nodes.length; i++){
+            nodes[i].disabled = false;
+        }
+         AdeqDiv.style.opacity = 1.0;
+         var AdeqTest = document.getElementsByName("AdeqTest"); 
+         AdeqTest[0].value = "YES";
+         
+        //AdeqDiv.style.display = "block";
 	}
 	
 	function RemoveAdeqTest() {
 		var AdeqDiv = document.getElementById("AdeqTest_DIV");
 		//document.getElementById("AdeqTest").value = "Off";
-		AdeqDiv.style.display = "none";
+		//AdeqDiv.style.display = "none";
+        AdeqDiv.disabled = true;
+        var nodes = AdeqDiv.getElementsByTagName('*');
+        for(var i = 0; i < nodes.length; i++){
+            nodes[i].disabled = true;
+        }
+        AdeqDiv.style.opacity = 0.7;
+        var AdeqTest = document.getElementsByName("AdeqTest"); 
+         AdeqTest[0].value = "NO";
 	}
 	
 	
@@ -656,8 +698,8 @@ function getFoodItem(){
 		//Clear user chice to default:
 		//document.getElementById("MA_AdequacyTest").value = "ChromBestModel";
 
-		document.getElementById("MA_AdequacyTest11").val = "ChromBestModel";;
-		document.getElementById("MA_AdequacyTest11").checked = true;
+		//document.getElementById("MA_AdequacyTest11").val = "ChromBestModel"; // js commented out
+		//document.getElementById("MA_AdequacyTest11").checked = true;         // js commented out
 		//document.getElementById("MA_AdequacyTest_ChromDiv").val = false;;
 		//document.getElementById("MA_AdequacyTest_AllDiv").val = false;;
 		var MA_user_div = document.getElementById("MA_AdequacyTest_UserDiv");
@@ -694,31 +736,31 @@ function getFoodItem(){
 
 		if ($("#model_BASE_NUM").is(":checked")){
 			document.getElementById('model_BASE_NUM_hidden').disabled = true;
-			list1.options[index] = new Option('BASE_NUM', 'BASE_NUM');
+			list1.options[index] = new Option('DysBnum', 'BASE_NUM');
 			index=index+1;
 		}
 		if ($("#model_BASE_NUM_DUPL").is(":checked")){
 			document.getElementById('model_BASE_NUM_DUPL_hidden').disabled = true;
-			list1.options[index] = new Option('BASE_NUM_DUPL', 'BASE_NUM_DUPL');
+			list1.options[index] = new Option('DysBnumDup', 'BASE_NUM_DUPL');
 			index=index+1;
 		}
 		if ($("#model_CONST_RATE").is(":checked")){
 			document.getElementById('model_CONST_RATE_hidden').disabled = true;
-			list1.options[index] = new Option('CONST_RATE', 'CONST_RATE');
+			list1.options[index] = new Option('DysDup', 'CONST_RATE');
 			index=index+1;
 		}
 		if ($("#model_CONST_RATE_NO_DUPL").is(":checked")){
 			document.getElementById('model_CONST_RATE_NO_DUPL_hidden').disabled = true;
-			list1.options[index] = new Option('CONST_RATE_NO_DUPL', 'CONST_RATE_NO_DUPL');
+			list1.options[index] = new Option('Dys', 'CONST_RATE_NO_DUPL');
 			index=index+1;
 		}
 		if ($("#model_CONST_RATE_DEMI").is(":checked")){
-			list1.options[index] = new Option('CONST_RATE_DEMI', 'CONST_RATE_DEMI');
+			list1.options[index] = new Option('DysDupDem=', 'CONST_RATE_DEMI');
 			index=index+1;
 		}
 		if ($("#model_CONST_RATE_DEMI_EST").is(":checked")){
 			document.getElementById('model_CONST_RATE_DEMI_EST_hidden').disabled = true;
-			list1.options[index] = new Option('CONST_RATE_DEMI_EST', 'CONST_RATE_DEMI_EST');
+			list1.options[index] = new Option('DysDupDem', 'CONST_RATE_DEMI_EST');
 			index=index+1;
 		}
 
