@@ -160,6 +160,7 @@ header_small_font {
   	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js"></script>
     <script src="js/jquery.localscroll-1.2.7-min.js"></script>
     <script src='js/purl.js'></script>
+	<script src="/js/googleAnalytics.js"></script>
 
 <script>
 
@@ -343,10 +344,10 @@ header_small_font {
 
 				$('#div_CheckParamsFile').empty();
 				$('#div_CheckParamsFile').append("<br><font face=\"serif\" size=\"4\" color=\"#4271bc\"><a\">Counts file: </a>");
-				$('#div_CheckParamsFile').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/countsFile\" download>[download]</a> ");
+				$('#div_CheckParamsFile').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/countsFile\" download onclick=\"ga('send', 'event', 'Download', 'Downloaded', 'Counts file download');\">[download]</a> ");
 				$('#div_CheckParamsFile').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/countsFile\" target=\"_blank\">[open]</a> <br>");
 				$('#div_CheckParamsFile').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a\">Input Tree File: </a>");
-				$('#div_CheckParamsFile').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/TreesFile.txt\" download>[download]</a> ");
+				$('#div_CheckParamsFile').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/TreesFile.txt\" download onclick=\"ga('send', 'event', 'Download', 'Downloaded', 'Input Tree File');\">[download]</a> ");
 				$('#div_CheckParamsFile').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/TreesFile.txt\" target=\"_blank\">[open]</a> <br>");
 						
 					
