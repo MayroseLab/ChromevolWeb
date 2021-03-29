@@ -112,9 +112,6 @@ header_small_font {
   font-size: 20px;
 }
 
-.topnav-right {
-	padding-left: 25px;
-}
 </style>
 
 	<meta charset="utf-8">
@@ -245,8 +242,8 @@ function eraseInputTextCounts() {
 	
 		if ( (treeFile == "") || (countsFile == "")) 
 		{
-			alert('Please enter tree and counts data !!');
-			return false;
+			//alert('Please enter tree and counts data !!');
+			//return false;
 			//$('#myModal').find('.modal-header').html('<b>No input entered<b><br>');
 			//$('#myModal').find('.modal-body').html('<p>Please,<br>select your FASTA file,<br>or type your list of taxa,<br>or select at least one cluster to re-run.</p>');
 			//$("#myModal").modal();
@@ -290,7 +287,7 @@ function eraseInputTextCounts() {
 	}
 	
 	$(function(){
-	  $("#header").load("header.html"); 
+	  $("#header").load("header_dailyTest.html"); 
 	  //$("#footer").load("footer.html"); 
 	});
 
@@ -305,10 +302,8 @@ function eraseInputTextCounts() {
 
 <div id="header"></div>
 	
-	
-	
 	<div class="topnav-right">
-				<br><input type="text" id="JobToLoadID" value="" placeholder="Enter your results ID"/>
+				<input type="text" id="JobToLoadID" value="" placeholder="Enter your results ID"/>
 				<a href='' id="LoadJob_button" onclick="this.href='http://chromEvol.tau.ac.il/results.html?jobId='+document.getElementById('JobToLoadID').value">Load previous results</a>
 
 	</div>	
@@ -320,17 +315,28 @@ function eraseInputTextCounts() {
 
 	<div class = "col-md-12 col-lg-12">
 				
-			<br><br>
-			<div style="text-align:justify"><font face = "serif" size = "5">ChromEvol analyzes changes in chromosome-numbers along a phylogeny and infers polyploidy upon request.<br>
+				<!--font face="serif" size="4" color="#4271bc">
+				<input type="text" id="JobToLoadID" value="" placeholder="Enter your results ID"/>
+				<a href='' id="LoadJob_button" onclick="this.href='http://chromEvol.tau.ac.il/results.html?jobId='+document.getElementById('JobToLoadID').value+'&jobTitle=check'">Load previous results</a>
+				</font-->
+			<br><br><br>
+			<div style="text-align:center"><font face = "serif" size = "5">ChromEvol analyzes changes in chromosome-numbers along a phylogeny and infers polyploidy upon request.<br>
 			Given a phylogeny and chromosome number data, the program infers the locations and types of chromosome number transitions along the tree.<br></font>
-			<br><div style="text-align:justify"><font face = "serif" size = "4" >
-				<span style="font-weight:normal">
-				If you use (1) chromEvol or the (2) model adequacy framework, please use the following citations:<br>
-				(1) Glick, Lior, and Itay Mayrose. "ChromEvol: assessing the pattern of chromosome number evolution and the inference of polyploidy along a phylogeny." Molecular Biology and Evolution 31.7 (2014): 1914-1922. <a href="https://doi.org/10.1093/molbev/msu122" target='_blank'>Abstract</a><br>
-				(2) Rice, Anna, and Itay Mayrose. "Model Adequacy Tests for Probabilistic Models of Chromosome-Number Evolution." New Phytologist (2020). <a href="https://doi.org/10.1111/nph.17106" target='_blank'>Abstract</a>
-				</span></font>
+			<font face = "serif" size = "4"> To download a stand-alone version please visit <a href="https://www.tau.ac.il/~itaymay/cp/chromEvol/index.html" target='_blank'>https://www.tau.ac.il/~itaymay/cp/chromEvol/index.html</a></font><br><br>
+			<div style="text-align:center"><font face = "serif" size = "4" color="red"><span style="font-weight:bold">This is a BETA version.</span></font>
 			</div>
-			<br><br>
+			<br><br><br>
+			<!--font face="serif bold" size="5" color="#4271bc"> <br>Instructions:<br></font><font face="serif" size="3.8">
+			<b>Basic instructions:</b>
+			In order to run ChromEvol you need to load a phylogeny in NEWICK format <a href="../ExampleFiles/eTree_file_Areca.txt" target="_blank">(tree_example)</a> and chromosome counts text file
+			 <a href="../ExampleFiles/eCounts_Areca.txt" target="_blank">(counts_example)</a>. A phylogeny can be generated using our OneTwoTree server, whereas chromosome counts can be downloaded from CCDB.
+			ChromEvol server will check your inputs and notify you in case of a mismatch that needs to be resolved.  Important notes:<br>
+			1. In case there is no counts data for a specific taxa please add it as 'X' as shown in the counts example file above. This is also the default of ChromEvol server.<br>
+			2. In case taxa in your counts file is missing from your phylogeny, the server will not perform the job and notify you to correct the data. <br>
+			3. The server will also check if taxa have data in CCDB (for chromosome count) and NCBI local database (for sequence data, used in OneTwoTree) and notify in case such data exists. <br> 
+			</b-->
+			
+			
 		
 	</div>	
 
@@ -339,15 +345,42 @@ function eraseInputTextCounts() {
 				<div class="col-md-6 col-lg-6">
 				<font face="serif" size="5" color="#4271bc">Load your Tree file:</font><a id="popover5" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" 
 				data-content="Upload tree file in NEWICK format."><span class="glyphicon glyphicon-info-sign infoIcon"></span></a><br>
-				<input type="file" id="TreeFile" name="TreeFile" >
-				<textarea id="TreeFile_txt" name="TreeFile_txt" rows=8 cols=50></textarea>
+				<input type="file" id="TreeFile" name="TreeFile">
+				<textarea id="TreeFile_txt" name="TreeFile_txt" rows=8 cols=50 >((((Abutilon_purpusii:0.0148873,Abutilon_geminiflorum:0.0148873):0.016554473,(Abutilon_muelleri_fridericii:0.024721147,Abutilon_regnellii:0.02472114):0.006720628):0.008213082,Abutilon_megapotamicum:0.039654854):0.04234435,(((Abutilon_theophrasti:0.05533544,(Abutilon_fruticosum:0.01260136,Abutilon_indicum:0.01260136):0.04273407):0.005922509,((Abutilon_malacum:0.04835173,(Abutilon_incanum:0.03468077,Abutilon_menziesii:0.03468078):0.01367096):0.005972893,Abutilon_abutiloides:0.05432462):0.006933321):0.006492928,Abutilon_grandifolium:0.06775088):0.01424833);</textarea>
 				<br><br></div>
 				
 				<div class="col-md-6 col-lg-6">
 				<font face="serif" size="5" color="#4271bc">Load your chromosome counts file:</font><a id="popover6" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" 
 				data-content="Upload counts data in FASTA format. For example:<br>>TAXON_NAME1<br>5<br>>TAXON_NAME2<br>7"><span class="glyphicon glyphicon-info-sign infoIcon"></span></a><br>
-				<input type="file" id="CountsFile" name="CountsFile" >
-				<textarea id="CountsFile_txt" name="CountsFile_txt" rows=8 cols=50></textarea>
+				<input type="file" id="CountsFile" name="CountsFile">
+				<textarea id="CountsFile_txt" name="CountsFile_txt" rows=8 cols=50>
+>Abutilon_theophrasti
+7
+>Abutilon_incanum
+7
+>Abutilon_muelleri_fridericii
+8
+>Abutilon_indicum
+7
+>Abutilon_abutiloides
+3
+>Abutilon_fruticosum
+7
+>Abutilon_grandifolium
+7
+>Abutilon_regnellii
+8
+>Abutilon_purpusii
+8
+>Abutilon_menziesii
+3
+>Abutilon_megapotamicum
+8
+>Abutilon_geminiflorum
+8
+>Abutilon_malacum
+7
+				</textarea>
 				<br><br></div>
 			
 			</div>
@@ -394,18 +427,18 @@ function eraseInputTextCounts() {
 				BASE_NUM  -> DysBnum
 				-->
 						<div class="col-md-6 col-lg-6">	<font face="serif" size="4" color="black">
-						<input type="hidden" name="model_CONST_RATE_NO_DUPL" id ="model_CONST_RATE_NO_DUPL_hidden" value="off"> 
-						<input type="checkbox" name="model_CONST_RATE_NO_DUPL" id="model_CONST_RATE_NO_DUPL" onclick="clearModelList()"> Dys</input><br>
-						<input type="hidden" name="model_CONST_RATE" id ="model_CONST_RATE_hidden" value="off"> 
-						<input type="checkbox" name="model_CONST_RATE" id="model_CONST_RATE" onclick="clearModelList()"> DysDup</input><br>
-						<input type="hidden" name="model_CONST_RATE_DEMI" id ="model_CONST_RATE_DEMI_hidden" value="off"> 					
-						<input type="checkbox" name="model_CONST_RATE_DEMI" id="model_CONST_RATE_DEMI" onclick="clearModelList()"> DysDupDem=</input><br>
-						<input type="hidden" name="model_CONST_RATE_DEMI_EST" id ="model_CONST_RATE_DEMI_EST_hidden" value="off"> 					
-						<input type="checkbox" name="model_CONST_RATE_DEMI_EST" id="model_CONST_RATE_DEMI_EST" onclick="clearModelList()"> DysDupDem</input><br>
-						<input type="hidden" name="model_BASE_NUM" id ="model_BASE_NUM_hidden" value="off"> 
-						<input type="checkbox" name="model_BASE_NUM" id ="model_BASE_NUM" onclick="clearModelList()" > DysBnum</input><br>
-						<input type="hidden" name="model_BASE_NUM_DUPL" id ="model_BASE_NUM_DUPL_hidden" value="off"> 
-						<input type="checkbox" name="model_BASE_NUM_DUPL" id="model_BASE_NUM_DUPL" onclick="clearModelList()"> DysBnumDup</input><br>	
+						<input type="hidden" name="model_CONST_RATE_NO_DUPL" id ="model_CONST_RATE_NO_DUPL_hidden" value="on" > 
+						<input type="checkbox" name="model_CONST_RATE_NO_DUPL" id="model_CONST_RATE_NO_DUPL" onclick="clearModelList()"checked> Dys</input><br>
+						<input type="hidden" name="model_CONST_RATE" id ="model_CONST_RATE_hidden" value="on"> 
+						<input type="checkbox" name="model_CONST_RATE" id="model_CONST_RATE" onclick="clearModelList()" checked> DysDup</input><br>
+						<input type="hidden" name="model_CONST_RATE_DEMI" id ="model_CONST_RATE_DEMI_hidden" value="on"> 					
+						<input type="checkbox" name="model_CONST_RATE_DEMI" id="model_CONST_RATE_DEMI" onclick="clearModelList()" checked> DysDupDem=</input><br>
+						<input type="hidden" name="model_CONST_RATE_DEMI_EST" id ="model_CONST_RATE_DEMI_EST_hidden" value="on"> 					
+						<input type="checkbox" name="model_CONST_RATE_DEMI_EST" id="model_CONST_RATE_DEMI_EST" onclick="clearModelList()" checked> DysDupDem</input><br>
+						<input type="hidden" name="model_BASE_NUM" id ="model_BASE_NUM_hidden" value="on"> 
+						<input type="checkbox" name="model_BASE_NUM" id ="model_BASE_NUM" onclick="clearModelList()" checked> DysBnum</input><br>
+						<input type="hidden" name="model_BASE_NUM_DUPL" id ="model_BASE_NUM_DUPL_hidden" value="on"> 
+						<input type="checkbox" name="model_BASE_NUM_DUPL" id="model_BASE_NUM_DUPL" onclick="clearModelList()" checked> DysBnumDup</input><br>	
 
 						
 						<!-- select all boxes -->

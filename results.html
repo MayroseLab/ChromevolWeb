@@ -713,7 +713,8 @@ header_small_font {
 
 				//var html = '<br><br>Chromevol results:<br>';
 				//var html = '<br><br><font face="serif" size="3.5" color=black>** Output files will be stored on chromEvol server for one month. It is advisable to download the output Files.<br><br>';
-				var html = '<table style="table-layout: fixed; width: 100%" id="myDataTable" name="myDataTable" class="table Tablefont table-responsive table-bordered rerunTable">';
+				var html = '<label style="font-weight:normal">Numbers denote for two-sided midpoint P-values</label><br>';
+				html += '<table style="table-layout: fixed; width: 100%" id="myDataTable" name="myDataTable" class="table Tablefont table-responsive table-bordered rerunTable">';
 				//html += '<col style="width:30%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:15%"><col style="width:10%"><col style="width:20%">';
 				
 				var num_data_col = Object.keys(data[0]).length - 1;
@@ -761,48 +762,48 @@ header_small_font {
 					// name of image for graphs -> for each model dir -> dists.pdf
 					var num = parseFloat(data[i].Header2)
 					if (num && statis_img_link=='OFF'){
-						if (num < 97.5 && num > 2.5){
-							html += '<td align="center"><font color="Blue">' +num.toFixed(2) +'</font></td>';
+						if (num < 0.05){
+							html += '<td align="center"><font color="Red">' +num.toFixed(2) +'</font></td>';
 						} else {
-							html += '<td align="center"><font color="Red">' + num.toFixed(2) +'</font></td>';
+							html += '<td align="center"><font color="Blue">' + num.toFixed(2) +'</font></td>';
 						}
 					} else if (data[i].Header2 && statis_img_link=='ON'){ 
 						html += '<td align="center"><a href=\"http://chromEvol.tau.ac.il/chromEvol_results/' + jobId + '/ChromEvol_Tree_1/'+data[0].Header2+'/dists.pdf\" target=\"_blank\">Get distributions</a></td>';
 					}
 					if (data[i].Header3){
 						if (data[i].Header3.length && statis_img_link=='OFF'){
-							html += '<td align="center">' +data[i].Header3 +'</td>';
+							html += '<td align="center">'+format_header_value(data[i].Header3)+'</td>';
 						} else if (data[i].Header3 && statis_img_link=='ON'){ 
 							html += '<td align="center"><a href=\"http://chromEvol.tau.ac.il/chromEvol_results/' + jobId + '/ChromEvol_Tree_1/'+data[0].Header3+'/dists.pdf\" target=\"_blank\">Get distributions</a></td>';
 						}
 					}
 					if (data[i].Header4 && statis_img_link=='OFF'){
-						html += '<td align="center">' +data[i].Header4 +'</td>'; 
+						html += '<td align="center">'+format_header_value(data[i].Header4)+'</td>';
 					} else if (data[i].Header4 && statis_img_link=='ON'){ 
 						html += '<td align="center"><a href=\"http://chromEvol.tau.ac.il/chromEvol_results/' + jobId + '/ChromEvol_Tree_1/'+data[0].Header4+'/dists.pdf\" target=\"_blank\">Get distributions</a></td>';
 					}
 					if (data[i].Header5 && statis_img_link=='OFF'){
-						html += '<td align="center">' + data[i].Header5 + '</td>';					
+						html += '<td align="center">'+format_header_value(data[i].Header5)+'</td>';					
 					} else if (data[i].Header5 && statis_img_link=='ON'){ 
 						html += '<td align="center"><a href=\"http://chromEvol.tau.ac.il/chromEvol_results/' + jobId + '/ChromEvol_Tree_1/'+data[0].Header5+'/dists.pdf\" target=\"_blank\">Get distributions</a></td>';
 					}
 					if (data[i].Header6 && statis_img_link=='OFF'){
-						html += '<td align="center">' + data[i].Header6 + '</td>';					
+						html += '<td align="center">'+format_header_value(data[i].Header6)+'</td>';					
 					} else if (data[i].Header6 && statis_img_link=='ON'){ 
 						html += '<td align="center"><a href=\"http://chromEvol.tau.ac.il/chromEvol_results/' + jobId + '/ChromEvol_Tree_1/'+data[0].Header6+'/dists.pdf\" target=\"_blank\">Get distributions</a></td>';
 					}
 					if (data[i].Header7 && statis_img_link=='OFF'){
-						html += '<td align="center">' + data[i].Header7 + '</td>';					
+						html += '<td align="center">'+format_header_value(data[i].Header7)+'</td>';						
 					} else if (data[i].Header7 && statis_img_link=='ON'){ 
 						html += '<td align="center"><a href=\"http://chromEvol.tau.ac.il/chromEvol_results/' + jobId + '/ChromEvol_Tree_1/'+data[0].Header7+'/dists.pdf\" target=\"_blank\">Get distributions</a></td>';
 					}
 					if (data[i].Header8 && statis_img_link=='OFF'){
-						html += '<td align="center">' + data[i].Header8 + '</td>';					
+						html += '<td align="center">'+format_header_value(data[i].Header8)+'</td>';						
 					} else if (data[i].Header8 && statis_img_link=='ON'){ 
 						html += '<td align="center"><a href=\"http://chromEvol.tau.ac.il/chromEvol_results/' + jobId + '/selected_models.txt\" target=\"_blank\">' +data[0].Header8 +'_Dist</a></td>';
 					}
 					if (data[i].Header9 && statis_img_link=='OFF'){
-						html += '<td align="center">' + data[i].Header9 + '</td>';					
+						html += '<td align="center">'+format_header_value(data[i].Header9)+'</td>';					
 					} else if (data[i].Header9 && statis_img_link=='ON'){ 
 						html += '<td align="center"><a href=\"http://chromEvol.tau.ac.il/chromEvol_results/' + jobId + '/selected_models.txt\" target=\"_blank\">' +data[0].Header9 +'_Dist</a></td>';
 					}
@@ -840,6 +841,21 @@ header_small_font {
 		//$('#divOutput_Clusters').append("<h5> ** Output files will be stored on chromEvol server for one month. It is advisable to download the output Files.</h5>");
 	}			
 
+	function format_header_value(str){
+		var num = parseFloat(str);
+		if (num) {
+			if (num < 0.05){
+				return '<font color="Red">' +num.toFixed(2) +'</font>';
+			} 
+			else {
+				return '<font color="Blue">' + num.toFixed(2) +'</font>';
+			}
+		}
+		else {
+				return str;
+		}
+	}
+							
 	function OnErrorUrl(url){
 				console.log("getJobData onError");
 				$('#myModal').find('.modal-header').html('<b>Result not found<b><br>');
