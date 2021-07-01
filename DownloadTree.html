@@ -148,42 +148,20 @@ header_small_font {
 </style>
 <html lang="en">
 <head>
-  <!--<link rel="shortcut icon" type="image/png" href="{% static 'favicon/favicon.png' %}?ver=2"/>-->
   <meta charset="utf-8">
   <meta name="viewport"  content="width=device-width, initial-scale=1, user-scalable=yes">
 	<link rel="shortcut icon" href="images/shutterstock_443040703-1000x480.jpg"/>
   <title>chromEvol</title>
 
-
-	<!--<link rel="stylesheet" type="text/css" href="chromEvol1.css">-->
-	<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">-->
-
-	<!--<link rel="icon" href="data:;base64,=">-->
-    <!--script type='text/javascript' src='http://dstats.net/sitetracker.php?url=http://PhyComb.tau.ac.il/search'></script-->
-	
-	<!--<script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.3.js"></script>-->
 	<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
 	<script src="/jquery-csv-master/src/jquery.csv.js"></script>
     <script src='js/purl.js'></script>
-	
-	<!--<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script> 
-	
- 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-	
-	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
-	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-	
-	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>-->
 
 	<script src="/js/googleAnalytics.js"></script>
 	
 <script>
 
-	$(document).ready(function(){
+$(document).ready(function(){
     
     $("#header").load("header.html"); 
     
@@ -243,7 +221,7 @@ function eraseInputTextCounts() {
 }
 
 
-  function handleFileSelect(evt) {
+function handleFileSelect(evt) {
     evt.stopPropagation();
     evt.preventDefault();
 
@@ -258,36 +236,44 @@ function eraseInputTextCounts() {
                   '</li>');
     }
     document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-  }
+}
 
   function handleDragOver(evt) {
     evt.stopPropagation();
     evt.preventDefault();
     evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
   }
+	
+	
+function constructTree(){
+	
+	var countsTxt = document.getElementById("CountsFile_txt").value;
 
+	if (countsTxt == "")  
+	{
+		alert('Please upload counts file !!');
+		return false;
+		
+	}
 
-  	function validateForm(){	
-		// verify there is input
-		var treeTxt = document.getElementById("TreeFile_txt").value;
+	var species_list = createSpeciesList(countsTxt);
+	url = "http://onetwotree.tau.ac.il" + "?species_list=" + species_list
+	window.open(url, '_blank').focus();
+}
 
-		if (treeTxt == "")  
-		{
-			alert('Please upload tree file !!');
-			return false;
-			
+function createSpeciesList(countsTxt) {
+	var lines = countsTxt.split('\n');
+	let txt = "";
+	let comma = "";
+	for (var i = 0; i < lines.length; i++) {
+		if (lines[i].charAt(0) == '>') {
+			txt += comma + lines[i].substring(1).replaceAll('_',' ');
+			comma = ","
 		}
-		return true;
-	}
-	
-	
-	function returnResults(){
-	
-		jobID_var = $.url().param('OriginJobID');
-		document.writeIn(jobId + 'cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx <br>');
-	}
+	}	
+	return txt;
+}
 
-	
 
 </script> 
 
@@ -308,34 +294,17 @@ function eraseInputTextCounts() {
 	
 	<br><br>
 
-
-	<form name="myForm" method="post" action="../cgi-bin/chromEvol_Counts.cgi" enctype="multipart/form-data" onsubmit="return validateForm()">
 			
 		<div class = "col-md-12 col-lg-12" style="visibility: visible">
-				<font face="serif" size="5" color="#4271bc">Load your Tree file:</font><a id="popover5" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" data-content="Load your tree in a NEWICK format. Counts will be searched for the tips names. Select which statistic to return in case of multiple counts per taxon."><span class="glyphicon glyphicon-info-sign infoIcon"></span></a><br>
+				<font face="serif" size="5" color="#4271bc">Load your Counts file:</font><a id="popover5" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" data-content="Load your counts file in FASTA format. Taxa names will be sent automatically to OneTwoTree for an automatic tree reconstruction."><span class="glyphicon glyphicon-info-sign infoIcon"></span></a><br>
 				<br>
-				<input type="file" id="TreeFile" name="TreeFile" >
-				<textarea id="TreeFile_txt" name="TreeFile_txt" rows=10 cols=60></textarea>
+				<input type="file" id="CountsFile" name="CountsFile" >
+				<textarea id="CountsFile_txt" name="CountsFile_txt" rows=10 cols=60></textarea>
 		</div>
-			
-			<div class="col-md-12 col-lg-12" style="visibility: visible">	
-				<br><br>
-				<font face="serif" size="5" color="#4271bc">Select Counts Summary Statistic:</font><a id="popover4" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" data-content="In case of multiple counts per one taxon select the requested summary statistic.">
-				<span class="glyphicon glyphicon-info-sign infoIcon" data-toggle="tooltip"></span></a><br>
-				<br>
-				<select name="countsType">
-				  <option value="median">Median</option>
-				  <option value="min">Minimum</option>
-				  <option value="max">Max</option>
-				  <option value="distribution">Distribution</option>
-				</select>
 
-			</div>	
-
-
-			<br><br>
 			<div class="col-md-12 col-lg-12" style="text-align:center"> 
-				<p><input class="submitButton" type="submit" name="Submit" value="   Get Counts   " id="submitFormBtn" onsubmit="returnResults(); return False"></p>
+			<br><br><br>
+				<p><button type="button" class="submitButton" name="Submit" onclick="constructTree();">   Reconstruct your tree   </button></p>
 			</div>  
 
 		<a style="text-decoration:none" id="Counts_output" ></a>
@@ -344,8 +313,6 @@ function eraseInputTextCounts() {
 		
 		<link rel="stylesheet" type="text/css" media="screen and (min-aspect-ratio: 1/1)" href="http://OneTwoTree.tau.ac.il/css/onetwotree_web.css">
 		<link rel="stylesheet" type="text/css" media="screen and (max-aspect-ratio: 1/1)" href="http://OneTwoTree.tau.ac.il/css/onetwotree_mobile.css">
-	
-	</form>
 
 
 		

@@ -115,6 +115,34 @@ header_small_font {
 .topnav-right {
 	padding-left: 25px;
 }
+
+.table_div {
+	position: relative;
+	height: 50px;
+	width: 200px;
+}
+
+.cell_checkbox {
+	position: absolute;
+	top: 30%;
+	left: 0%;
+}
+
+.cell_span {
+	position: absolute;
+	float: left;
+	top: 5%;
+	left: 12%;
+}
+
+.cell_select {
+	position: absolute;
+	float: left;
+	top: 45%;
+	left: 12%;
+	background-color: inherit;
+}
+
 </style>
 
 	<meta charset="utf-8">
@@ -135,8 +163,20 @@ header_small_font {
 	
 <script>
 
+var data;
+var num_data_col;
+var params_list;
+
 	$(document).ready(function(){
 
+	data = [];
+	
+	params_list = ['_baseNumberR', '_duplConstR', '_gainConstR', '_lossConstR', '_demiPloidyR'];
+	params_list_UI_names = ['Base (monoploid) number addition rate', 'Duplication rate', 'Ascending dysploidy rate', 'Descending dysploidy rate', 'Duplication by 1.5 rate'];
+
+	num_data_col = 0;
+	
+	LoadParamTable()
 
 	//-------------------------------------------------------------		
 	// Load file of user into Text Area of node dating section:
@@ -178,40 +218,39 @@ $(document).keyup(function(event) {
     }
 });
 	
-	$(function () {
-            $("#popover1").popover({ container: 'body'});
-            $("#popover2").popover({ container: 'body'});
-            $("#popover3").popover({ container: 'body'});
-            $("#popover4").popover({ container: 'body'});
-            $("#popover5").popover({ container: 'body'});
-            $("#popover6").popover({ container: 'body'});
-    });
+$(function () {
+		$("#popover1").popover({ container: 'body'});
+		$("#popover2").popover({ container: 'body'});
+		$("#popover3").popover({ container: 'body'});
+		$("#popover4").popover({ container: 'body'});
+		$("#popover5").popover({ container: 'body'});
+		$("#popover6").popover({ container: 'body'});
+});
 
 	
-    function selectAll() {
-        var items = ["model_BASE_NUM","model_BASE_NUM_DUPL","model_CONST_RATE","model_CONST_RATE_NO_DUPL","model_CONST_RATE_DEMI","model_CONST_RATE_DEMI_EST"];
-        for (var i = 0; i < items.length; i++) {
-            document.getElementById(items[i]).checked  = true;
-        }
-    }
+function selectAll() {
+	var items = ["model_BASE_NUM","model_BASE_NUM_DUPL","model_CONST_RATE","model_CONST_RATE_NO_DUPL","model_CONST_RATE_DEMI","model_CONST_RATE_DEMI_EST"];
+	for (var i = 0; i < items.length; i++) {
+		document.getElementById(items[i]).checked  = true;
+	}
+}
 
-    function UnSelectAll() {
-        var items = ["model_BASE_NUM","model_BASE_NUM_DUPL","model_CONST_RATE","model_CONST_RATE_NO_DUPL","model_CONST_RATE_DEMI","model_CONST_RATE_DEMI_EST"];
-        for (var i = 0; i < items.length; i++) {
-            document.getElementById(items[i]).checked  = false;
-        }
-    }	
+function UnSelectAll() {
+	var items = ["model_BASE_NUM","model_BASE_NUM_DUPL","model_CONST_RATE","model_CONST_RATE_NO_DUPL","model_CONST_RATE_DEMI","model_CONST_RATE_DEMI_EST"];
+	for (var i = 0; i < items.length; i++) {
+		document.getElementById(items[i]).checked  = false;
+	}
+}	
 
 function eraseInputText() {
     document.getElementById("inputText").value = "";
 }
 function eraseInputTextCounts() {
     $(".inputTextCounts").text = "";
-    //document.getElementById("inputTextCounts").value = "";
 }
 
 
-  function handleFileSelect(evt) {
+function handleFileSelect(evt) {
     evt.stopPropagation();
     evt.preventDefault();
 
@@ -228,75 +267,54 @@ function eraseInputTextCounts() {
     document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
   }
 
-  function handleDragOver(evt) {
+function handleDragOver(evt) {
     evt.stopPropagation();
     evt.preventDefault();
     evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
   }
 
 
-  	function validateForm(){	
+function validateForm() {	
 	// verify there is input
 	var treeFile				= document.forms["myForm"]["TreeFile"].value;
 	var countsFile					= document.forms["myForm"]["CountsFile"].value;
-    var items = ["model_BASE_NUM","model_BASE_NUM_DUPL","model_CONST_RATE","model_CONST_RATE_NO_DUPL","model_CONST_RATE_DEMI","model_CONST_RATE_DEMI_EST"];
 	var flag_var = "false";	
 		
 	
-		if ( (treeFile == "") || (countsFile == "")) 
-		{
-			alert('Please enter tree and counts data !!');
-			return false;
-			//$('#myModal').find('.modal-header').html('<b>No input entered<b><br>');
-			//$('#myModal').find('.modal-body').html('<p>Please,<br>select your FASTA file,<br>or type your list of taxa,<br>or select at least one cluster to re-run.</p>');
-			//$("#myModal").modal();
-		}
+	if ( (treeFile == "") || (countsFile == "")) 
+	{
+		alert('Please enter tree and counts data !!');
+		return false;
+	}
 
-		//Verify at least one model was selected:
-		for (var i = 0; i < items.length; i++) {
-			if(document.getElementById(items[i]).checked)
-			{
-				flag_var = "true";
-			}
+	//remove empty entries
+	data_condensed = []
+	var i;
+	for (i = 0; i < data.length; i++) {
+		if (!data_record_is_empty(data[i])) {
+			data_condensed.push(data[i]);
 		}
-
-		if (flag_var == "false")
-		{
-			alert('Please select at least one model !!');
-			return false;
-		}
-			
-			
-		// form has input. Do a trick to add unchecked checkboxes values to params.txt
-		if(document.getElementById("model_BASE_NUM").checked) {
-			document.getElementById('model_BASE_NUM_hidden').disabled = true;
-		}
-		if(document.getElementById("model_BASE_NUM_DUPL").checked) {
-			document.getElementById('model_BASE_NUM_DUPL_hidden').disabled = true;
-		}
-		if(document.getElementById("model_CONST_RATE").checked) {
-			document.getElementById('model_CONST_RATE_hidden').disabled = true;
-		}
-		if(document.getElementById("model_CONST_RATE_NO_DUPL").checked) {
-			document.getElementById('model_CONST_RATE_NO_DUPL_hidden').disabled = true;
-		}
-		if(document.getElementById("model_CONST_RATE_DEMI").checked) {
-			document.getElementById('model_CONST_RATE_DEMI_hidden').disabled = true;
-		}
-		if(document.getElementById("model_CONST_RATE_DEMI_EST").checked) {
-			document.getElementById('model_CONST_RATE_DEMI_EST_hidden').disabled = true;
-		}
-
 	}
 	
-	$(function(){
-	  $("#header").load("header.html"); 
-	  //$("#footer").load("footer.html"); 
-	});
+	//alert(data.length);
 
-    </script>
+	if (data_condensed.length == 0) {
+		alert('Please define at least one model !!');
+		return false;
+	}
+	
+	document.getElementById('definedModels').value = JSON.stringify(data_condensed).replace(/\\"/g, '"').slice(1, -1);
+	
+}
+	
+$(function(){
+  $("#header").load("header.html"); 
+  //$("#footer").load("footer.html"); 
+});
 
-	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</script>
+
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   
 </head>
 <body onload="javascript:myOnLoad()">
@@ -313,6 +331,7 @@ function eraseInputTextCounts() {
 
 	</div>	
 	
+	<!-- chromEvol_newGUI.cgi testModels.cgi-->
 	<form name="myForm" method="post" action="../cgi-bin/chromEvol.cgi" enctype="multipart/form-data" onsubmit="return validateForm()">
 			
 
@@ -356,11 +375,11 @@ function eraseInputTextCounts() {
 			
 
 	
-    <script> 
-    $(function(){
-      $("#includedContent").load("results.html"); 
-    });
-    </script> 
+<script> 
+$(function(){
+  $("#includedContent").load("results.html"); 
+});
+</script> 
 							
 
 			<div class = "col-md-12 col-lg-12">
@@ -379,43 +398,22 @@ function eraseInputTextCounts() {
 			
 			
 
-
 			<div class = "col-md-12 col-lg-12">
-				<div class="col-md-6 col-lg-6">  
-				<font face="serif" size="5" color="#4271bc">Select model type:</font><a id="popover2" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" 
-				data-content="Select which models to run chromEvol on. Model names denote for the transition parameters allowed in each model:<br>Dys - dysploidy<br>Dup - duplication<br>Dem - half-duplication<br>Bnum - base number"><span class="glyphicon glyphicon-info-sign infoIcon"></span></a><br>
-				<!--/div-->
-				<!-- aug /20 changes in models names:
-				CONST_RATE_DEMI_EST  ->  DysDupDem
-				CONST_RATE_DEMI -> DysDupDem=
-				CONST_RATE_NO_DUPL -> Dys
-				CONST_RATE  -> DysDup
-				BASE_NUM_DUPL  -> DysBnumDup
-				BASE_NUM  -> DysBnum
-				-->
-						<div class="col-md-6 col-lg-6">	<font face="serif" size="4" color="black">
-						<input type="hidden" name="model_CONST_RATE_NO_DUPL" id ="model_CONST_RATE_NO_DUPL_hidden" value="off"> 
-						<input type="checkbox" name="model_CONST_RATE_NO_DUPL" id="model_CONST_RATE_NO_DUPL" onclick="clearModelList()"> Dys</input><br>
-						<input type="hidden" name="model_CONST_RATE" id ="model_CONST_RATE_hidden" value="off"> 
-						<input type="checkbox" name="model_CONST_RATE" id="model_CONST_RATE" onclick="clearModelList()"> DysDup</input><br>
-						<input type="hidden" name="model_CONST_RATE_DEMI" id ="model_CONST_RATE_DEMI_hidden" value="off"> 					
-						<input type="checkbox" name="model_CONST_RATE_DEMI" id="model_CONST_RATE_DEMI" onclick="clearModelList()"> DysDupDem=</input><br>
-						<input type="hidden" name="model_CONST_RATE_DEMI_EST" id ="model_CONST_RATE_DEMI_EST_hidden" value="off"> 					
-						<input type="checkbox" name="model_CONST_RATE_DEMI_EST" id="model_CONST_RATE_DEMI_EST" onclick="clearModelList()"> DysDupDem</input><br>
-						<input type="hidden" name="model_BASE_NUM" id ="model_BASE_NUM_hidden" value="off"> 
-						<input type="checkbox" name="model_BASE_NUM" id ="model_BASE_NUM" onclick="clearModelList()" > DysBnum</input><br>
-						<input type="hidden" name="model_BASE_NUM_DUPL" id ="model_BASE_NUM_DUPL_hidden" value="off"> 
-						<input type="checkbox" name="model_BASE_NUM_DUPL" id="model_BASE_NUM_DUPL" onclick="clearModelList()"> DysBnumDup</input><br>	
-
-						
-						<!-- select all boxes -->
-						<p>
-							<input type="button" onclick='selectAll()' value="Select All"/>
-							<input type="button" onclick='UnSelectAll()' value="Unselect All"/>
-						</p>
-					</div></font>
-
-				</div><br>
+				<!--<div class="col-md-6 col-lg-6" >-->
+					<font face="serif" size="5" color="#4271bc">Define models:</font><a id="popover2" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" 
+					data-content="Select which models to run chromEvol on. Each model is defined by a set of rate parameters. Ascending and descending dysploidies can be executed using constant or linear functions. Click Add model and define its name to load a single model. Click Load default models to use six pre-defined models. The maximal number of evaluated models is six."><span class="glyphicon glyphicon-info-sign infoIcon"></span></a><br>
+					<button type="button" onclick="AddModel()" id="addModel">+ Add model</button>
+					<input type="text" id="addModelText" size="6">
+					<button type="button" onclick="AddDefaultModel()">Load default models</button>
+					<button type="button" id="clearModels" onclick="ClearModels()">Clear All</button>
+					<div id='paramTable'>
+					</div>
+					<input type="hidden" name="definedModels" id="definedModels" value="value of definedModels">
+				<!--</div>-->
+			</div><br>
+			
+			<div class = "col-md-12 col-lg-12">
+				
 			</div><br>
 				
 				
@@ -428,26 +426,17 @@ function eraseInputTextCounts() {
                 <input type="hidden" name="AdeqTest" value='YES' />
 				<input type="checkbox" checked="checked" class="checkmark" onclick='onClickAdequacyText(this)'>
                 <font face="serif" size="5" color="#4271bc">&nbsp&nbsp Run adequacy test:</font><a id="popover3" data-trigger="hover" class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" 
-				data-content="Select on which models to run model adequacy test:<br>(1) The best selected model (2) One of the models specified by the user (3) All selected models
-				<br><br>NOTE: running model adequacy on models that include the base-number parameter (DysBnum and DysBnumDup) performs another round of model optimization and will increase running time."><span class="glyphicon glyphicon-info-sign infoIcon"></span></a>
-                
-				<!--<input type="radio" name="AdeqTest" value="YES" id="radio-on" class="form-radio" checked="checked" onclick='ShowAdeqTest()'><label for="radio-one">YES</label>
-				<input type="radio" name="AdeqTest" value="NO" id="radio-off" class="form-radio" onclick='RemoveAdeqTest()'><label for="radio-one">NO</label>-->
+				data-content="Select on which models to run model adequacy test:<br>(1) The best selected model (2) One of the models specified by the user (3) All selected models<br>NOTE: running model adequacy on models that include the base-number parameter  performs another round of model optimization and will increase running time"><span class="glyphicon glyphicon-info-sign infoIcon"></span></a>
 
 				<div style="display:block;" id="AdeqTest_DIV">
 					<input class="testingDataSetCheckBox" type="radio" checked="checked" name="MA_AdequacyTest" id="MA_AdequacyTest11" value='ChromBestModel' onclick="MA_AdequacyTest_chrom()"/>&nbsp;Chromevol best model<br>
-					<input class="testingDataSetCheckBox" type="radio" name="MA_AdequacyTest" id="MA_AdequacyTest22" value='MA_AdequacyTest_user' onclick="MA_AdequacyTest_user()" />&nbsp;User selected model<br>
+					<input class="testingDataSetCheckBox" type="radio" name="MA_AdequacyTest" id="MA_AdequacyTest22" value='MA_AdequacyTest_user' onclick="MA_AdequacyTest_user()" />&nbsp;Select model<br>
 					<div style="display:none;" id="MA_AdequacyTest_UserDiv">
 						<select type="text" name="MA_userModelSelect" id="MA_userModelSelect" class="form-control" />
-									<!--option value="BASE_NUM"> DysBnum</option>
-									<option value="BASE_NUM_DUPL"> DysBnumDup</option>
-									<option value="CONST_RATE"> DysDup</option>
-									<option value="CONST_RATE_NO_DUPL"> Dys</option>
-									<option value="CONST_RATE_DEMI"> DysDupDem=</option>
-									<option value="CONST_RATE_DEMI_EST"> DysBnumDup</option-->
+
 						</select>
 					</div>
-					<input class="testingDataSetCheckBox" type="radio" name="MA_AdequacyTest" id="MA_AdequacyTest33" value='AllModels'  class="form-radio" onclick="MA_AdequacyTest_all()"/>&nbsp;All selected models<br><br>
+					<input class="testingDataSetCheckBox" type="radio" name="MA_AdequacyTest" id="MA_AdequacyTest33" value='AllModels'  class="form-radio" onclick="MA_AdequacyTest_all()"/>&nbsp;All models<br><br>
 					
 				<div style="display:none;" id="MA_AdequacyTest_ChromDiv">
 					
@@ -466,12 +455,12 @@ function eraseInputTextCounts() {
 					
 					<!--/div-->
 					<!--COMMENTED OUT BY ANNA -- PROBLEM IN PLOIDY INFERENCE (PLOIDY.CSV)-->
-					<!--div class="col-md-6 col-lg-6">	<font face="serif" size="5" color="#4271bc">
-						<input type="checkbox" name="ploidy_ON" id ="ploidy_ON" value="On"> Perform ploidy inference</input><a id="popover4" data-trigger="hover" 
+					<div class="col-md-6 col-lg-6">	<font face="serif" size="5" color="#4271bc">
+						<input type="checkbox" name="ploidy_ON" id ="ploidy_ON" value="On" class="checkmark" >&nbsp&nbsp Perform ploidy inference</input>
+						<a id="popover4" data-trigger="hover" 
 						class="btn btn-default transparentBorder fontSize_23px" rel="popover" data-html="true" data-content="Select if you wish to perform ploidy-level inference of the input taxa. This step is computationally intensive."><span class="glyphicon glyphicon-info-sign infoIcon"></span></a><br>
 					</div><br></font>
 					<br>	
-					</-->
 			</div>
 			
 			<div class="col-md-12 col-lg-12">			
@@ -508,24 +497,6 @@ function eraseInputTextCounts() {
 				<span class="glyphicon glyphicon-info-sign infoIcon" data-toggle="tooltip" title="Enter the number of trees to select from the input file"></span><br>
 				<input name="NumberOfTrees" type="number" value="1" min="1" max="100" step="1" default=> </input>
 			</div-->	
-
-	
-			<!-- glyphicon glyphicon-info-sign infoIcon -->
-			
-			<!--br><br><br><br><br><br><br><br>
-			<div class="col-md-12 col-lg-12">	
-			<select name="ModelSelect" id="ModelSelect">
-				<option value="BASE_NUM">BASE NUM</option>
-				<option value="BASE_NUM_DUPL">BASE NUM DUPL</option>
-				<option value="CONST_RATE_NO_DUPL">CONST RATE NO DUPL</option>
-				<option value="CONST_RATE_DEMI_EST">CONST RATE DEMI EST</option>
-				<option value="CONST_RATE_DEMI">CONST RATE DEMI</option>
-				<option value="CONST_RATE">CONST RATE</option>
-				<option value="CONST">ALL</option>
-			</select-->
-
-			
-    
  
 
 
@@ -553,25 +524,240 @@ function eraseInputTextCounts() {
 	
 	<script src="/js/googleAnalytics.js"></script>	
 	
-
-
-<!--		
-_treesFile /groups/itay_mayrose/michaldrori/MSA_JmodelTree/output_MD/Acanthus/Acanthus_Chromevol_prune_ver1/parsemb_trees.tre
-_dataFile /groups/itay_mayrose/michaldrori/MSA_JmodelTree/output_MD/Acanthus/Acanthus_Chromevol_prune_ver1/Acanthus.counts
-_outDir /groups/itay_mayrose/michaldrori/MSA_JmodelTree/output_MD/Acanthus/Acanthus_Chromevol_prune_ver1/chromevol_out
-_name Acanthus
-_paramTemplates /groups/itay_mayrose/michaldrori/Pipeline_Files/power_PARAM_templates/
-_chromevolExe /groups/itay_mayrose/michaldrori/scripts/chromEvol_v2.exe
-_cpusNum 1
-_runModels CONST
--->
-
-	
 	
 	</form>
 
 	
 	<script>
+
+function AddModel() {
+	num_data_col = data.length;
+	data[num_data_col] = { name: '', _baseNumberR: 0, _duplConstR: 0, _gainConstR: 1, _lossConstR: 1, _demiPloidyR: 0};
+	if (document.getElementById("addModelText").value != "") {
+		data[num_data_col].name = document.getElementById("addModelText").value;
+	} else {
+		data[num_data_col].name = 'model'+(num_data_col+1).toString();
+	}
+	document.getElementById("addModelText").value = '';
+	LoadParamTable();
+}
+
+function AddDefaultModel() {
+
+	data = [];
+	data[0] = { name: 'DysBnum', _baseNumberR: 1, _duplConstR: 0, _gainConstR: 1, _lossConstR: 1, _demiPloidyR: 0};
+	data[1] = { name: 'DysBnumDup', _baseNumberR: 1, _duplConstR: 1, _gainConstR: 1, _lossConstR: 1, _demiPloidyR: 0};
+	data[2] = { name: 'DysDup', _baseNumberR: 0, _duplConstR: 1, _gainConstR: 1, _lossConstR: 1, _demiPloidyR: 0};
+	data[3] = { name: 'DysDupDem=', _baseNumberR: 0, _duplConstR: 1, _gainConstR: 1, _lossConstR: 1, _demiPloidyR: -2};
+	data[4] = { name: 'DysDupDem', _baseNumberR: 0, _duplConstR: 1, _gainConstR: 1, _lossConstR: 1, _demiPloidyR: 1};
+	data[5] = { name: 'Dys', _baseNumberR: 0, _duplConstR: 0, _gainConstR: 1, _lossConstR: 1, _demiPloidyR: 0};
+	num_data_col = 6;
+	
+	LoadParamTable();
+}
+
+function ClearModels() {
+	data = [];
+	num_data_col = 0;
+	LoadParamTable();
+}
+	
+function RemoveModel(i) {
+	if (data.length > 0) {
+		data.splice(i,1);
+	}
+	LoadParamTable();
+	
+}
+
+function checkTransition(e, i, j) {
+	
+	var disabled;
+	var opacity;
+	var val;
+	if (e.checked) {
+		disabled = false;
+		opacity = 1.0;
+		val = 1;
+	}
+	else {
+		disabled = true;
+		opacity = 0.3;
+		val = 0;
+	}
+	var div = e.parentElement;
+	div.disabled = disabled;
+	var nodes = div.getElementsByTagName('*');
+	for(var k = 0; k < nodes.length; k++){
+		if (nodes[k].getAttribute('type') != 'checkbox') {
+			nodes[k].disabled = disabled;
+			nodes[k].style.opacity = opacity;
+		}
+	}
+	
+	switch (j) {
+		case 1: data[i]._baseNumberR = val;
+			break;
+		case 2: data[i]._duplConstR = val;
+			break;
+		case 3: data[i]._gainConstR = val;
+			break;
+		case 4: data[i]._lossConstR = val;
+			break;
+		case 5: data[i]._demiPloidyR = val;
+			break;
+		default: break;
+	}
+	
+	//alert(JSON.stringify(data).replace(/\\"/g, '"').slice(1, -1));
+}
+
+function selectParam(e, i, j) {
+	
+	switch (j) {
+		case 1: data[i]._baseNumberR = parseInt(e.value);
+			break;
+		case 2: data[i]._duplConstR = parseInt(e.value);
+			break;
+		case 3: data[i]._gainConstR = parseFloat(e.value);
+			break;
+		case 4: data[i]._lossConstR = parseFloat(e.value);
+			break;
+		case 5: data[i]._demiPloidyR = parseInt(e.value);
+			break;
+		default: break;
+	}
+}
+
+function LoadParamTable() {
+		
+		var html = '<table style="table-layout: fixed; width: 100%; background-color: #F9F9F7;" id="myDataTable" name="myDataTable" class="table Tablefont table-responsive table-bordered rerunTable">';
+		
+		num_data_col = data.length + 1;
+		
+		var width_num = ( 85 / num_data_col).toString();
+		//var header_col = (100 - num_data_col*(( 85 / num_data_col))).toString();
+		var header_col = '15%';
+
+		html += '<col align="center" style="width:'+ header_col + ';">';
+		
+		if (num_data_col > 1) { 
+			for (var head_i = 0; head_i < num_data_col-1; head_i++){
+			
+				html += '<col align="center" style="width:' + width_num + '%; ">';
+			}
+
+			html += '<thead><tr bgcolor="#c0c0c0"><td align="center" style="font-size:15px"><span style="font-weight:bold">Transition Type / Model</td></span>';
+			
+			for (var head_i = 0; head_i < num_data_col-1; head_i++){
+				
+				html += '<td align="center" style="font-size:15px; padding-top:5; padding-right:0;">\
+					<div style="position:relative; overflow: auto; height: 100%;">\
+					<span style="font-weight:bold;">'+data[head_i].name +'<div style="position:absolute; top:-6px; right:0px;">\
+					<button type="button" onclick="RemoveModel(' + head_i + ')" style="font-size: 6px;">X</button>\
+					</div></td></span>\
+					</div>'
+			}
+			html += '</thead><tbody>';
+				
+			for (var i = 1; i < 6; i++) {
+				
+				html += '<tr>';
+				
+				html += '<td align="center" style="vertical-align:middle;">'+params_list_UI_names[i-1]+'</td>';
+				
+				for (var head_i = 0; head_i < num_data_col-1; head_i++){
+					
+					switch (i) {
+						case 1: val = data[head_i]._baseNumberR;
+							break;
+						case 2: val = data[head_i]._duplConstR;
+							break;
+						case 3: val = data[head_i]._gainConstR;
+							break;
+						case 4: val = data[head_i]._lossConstR;
+							break;
+						case 5: val = data[head_i]._demiPloidyR;
+							break;
+						default: break;
+					}
+					
+					onchangeArgs = 'this, ' + head_i + ',' + i;
+					checkedStr = '';
+					optionStr = '';
+					selectedStr = '';
+					opacityStr = 'style="opacity: 0.3;"';
+					disabledStr = 'disabled';
+					
+					if (val != 0) {
+						checkedStr = 'checked';
+						opacityStr = 'style="opacity: 1.0;"';
+						disabledStr = ''
+						
+					}
+					
+					if (params_list[i-1] == '_demiPloidyR') {
+						if (val == -2) {
+							selectedStr = 'selected';
+						}
+							
+						optionStr = '<option value="-2" ' + selectedStr + '>= dupl. rate</option>';
+					}
+					else if (params_list[i-1] == '_gainConstR' || params_list[i-1] == '_lossConstR') {
+						if (val == 0.5) {
+							selectedStr = 'selected';
+						}
+						
+						optionStr = '<option value="0.5" ' + selectedStr + '>linear</option>';
+					}
+						
+					html += '<td style="height:inherit" align="center">\
+								<div class="table_div">\
+									<input type="checkbox" class="cell_checkbox" onchange="checkTransition(' + onchangeArgs + ')" ' + checkedStr + '>\
+									<span class="cell_span" ' + opacityStr + '>&nbsp function:</span>\
+									<select class="cell_select" ' + opacityStr + ' onchange="selectParam(' + onchangeArgs + ')" ' + disabledStr + '>\
+										<option value="1">constant</option>\
+										' + optionStr + '\
+									</select>\
+								</div>\
+							</td>';
+					
+					
+				} 
+			}
+			if (num_data_col == 7) {
+				document.getElementById("addModel").disabled = true;
+				document.getElementById("addModelText").placeholder = '';
+			}
+			else {
+				document.getElementById("addModel").disabled = false;
+				document.getElementById("addModelText").placeholder = 'model'+ num_data_col.toString();
+			}
+			document.getElementById("clearModels").disabled = false;
+		} 
+		else {
+			document.getElementById("addModel").disabled = false;
+			document.getElementById("clearModels").disabled = true;
+			document.getElementById("addModelText").placeholder = 'model'+ num_data_col.toString();
+		}
+		
+		// close table tags
+		html += '</tbody>';
+		html += '</table>';
+		
+		document.getElementById("paramTable").innerHTML = html;
+		//$('#paramTable').innerHTML = html;
+}
+
+function data_record_is_empty(r) {
+	//alert ('hi' + r._baseNumberR + ' ' + r._duplConstR + ' ' + r._gainConstR + ' ' + r._lossConstR + ' ' + r._demiPloidyR);
+	if (r._baseNumberR ==0 && r._duplConstR ==0 && r._gainConstR ==0 && r._lossConstR ==0 && r._demiPloidyR ==0) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
 
 function getFoodItem(){
  
@@ -682,45 +868,8 @@ function getFoodItem(){
          AdeqTest[0].value = "NO";
 	}
 	
-	
-	function clearModelList() {
-	
-		var list1 = document.getElementById('MA_userModelSelect');
-	 	var index=0;
-		list1.options.length=0;
-		
-		//Clear user chice to default:
-		//document.getElementById("MA_AdequacyTest").value = "ChromBestModel";
-
-		//document.getElementById("MA_AdequacyTest11").val = "ChromBestModel"; // js commented out
-		//document.getElementById("MA_AdequacyTest11").checked = true;         // js commented out
-		//document.getElementById("MA_AdequacyTest_ChromDiv").val = false;;
-		//document.getElementById("MA_AdequacyTest_AllDiv").val = false;;
-		var MA_user_div = document.getElementById("MA_AdequacyTest_UserDiv");
-		var MA_chrom_div = document.getElementById("MA_AdequacyTest_ChromDiv");
-		//var MA_all_div = document.getElementById("MA_AdequacyTest_AllDiv");
-		var MA_userMo_div = document.getElementById("MA_userModelSelect");
-		MA_userMo_div.style.display = "none";
-		MA_user_div.style.display = "none";
-		MA_chrom_div.style.display = "block";
-		//MA_all_div.style.display = "none";
-
-		
-	}
-	
-	
-	
-	
-	
 	function MA_AdequacyTest_user() {
 
-		var model_BASE_NUM = $("#model_BASE_NUM").val();
-		var model_BASE_NUM_DUPL = $("#model_BASE_NUM_DUPL").val();
-		var model_CONST_RATE = $("#model_CONST_RATE").val();
-		var model_CONST_RATE_NO_DUPL = $("#model_CONST_RATE_NO_DUPL").val();
-		var model_CONST_RATE_DEMI = $("#model_CONST_RATE_DEMI").val();
-		var model_CONST_RATE_DEMI_EST = $("#model_CONST_RATE_DEMI_EST").val();
-		
 		//Code for populating dropdown lists:
 		var list1 = document.getElementById('MA_userModelSelect');
 	 	var index=0;
@@ -728,48 +877,23 @@ function getFoodItem(){
 		list1.options[0] = new Option('--Select--', '');
 		index=index+1;
 
-		if ($("#model_BASE_NUM").is(":checked")){
-			document.getElementById('model_BASE_NUM_hidden').disabled = true;
-			list1.options[index] = new Option('DysBnum', 'BASE_NUM');
+		var i;
+		for (i = 0; i < num_data_col-1; i++) {
+			model = data[i].name;
+			list1.options[index] = new Option(model, model);
 			index=index+1;
 		}
-		if ($("#model_BASE_NUM_DUPL").is(":checked")){
-			document.getElementById('model_BASE_NUM_DUPL_hidden').disabled = true;
-			list1.options[index] = new Option('DysBnumDup', 'BASE_NUM_DUPL');
-			index=index+1;
-		}
-		if ($("#model_CONST_RATE").is(":checked")){
-			document.getElementById('model_CONST_RATE_hidden').disabled = true;
-			list1.options[index] = new Option('DysDup', 'CONST_RATE');
-			index=index+1;
-		}
-		if ($("#model_CONST_RATE_NO_DUPL").is(":checked")){
-			document.getElementById('model_CONST_RATE_NO_DUPL_hidden').disabled = true;
-			list1.options[index] = new Option('Dys', 'CONST_RATE_NO_DUPL');
-			index=index+1;
-		}
-		if ($("#model_CONST_RATE_DEMI").is(":checked")){
-			list1.options[index] = new Option('DysDupDem=', 'CONST_RATE_DEMI');
-			index=index+1;
-		}
-		if ($("#model_CONST_RATE_DEMI_EST").is(":checked")){
-			document.getElementById('model_CONST_RATE_DEMI_EST_hidden').disabled = true;
-			list1.options[index] = new Option('DysDupDem', 'CONST_RATE_DEMI_EST');
-			index=index+1;
-		}
-
 		
-			var MA_chrom_div = document.getElementById("MA_AdequacyTest_ChromDiv");
-			var MA_user_div = document.getElementById("MA_AdequacyTest_UserDiv");
-			var MA_all_div = document.getElementById("MA_AdequacyTest_AllDiv");
-			var MA_userMo_div = document.getElementById("MA_userModelSelect");
-			MA_userMo_div.style.display = "block";
-			MA_chrom_div.style.display = "none";
-			MA_user_div.style.display = "block";
-			MA_all_div.style.display = "none";
-		
+		var MA_chrom_div = document.getElementById("MA_AdequacyTest_ChromDiv");
+		var MA_user_div = document.getElementById("MA_AdequacyTest_UserDiv");
+		var MA_all_div = document.getElementById("MA_AdequacyTest_AllDiv");
+		var MA_userMo_div = document.getElementById("MA_userModelSelect");
+		MA_userMo_div.style.display = "block";
+		MA_chrom_div.style.display = "none";
+		MA_user_div.style.display = "block";
+		MA_all_div.style.display = "none";
 	}	
-		
+	
 	function MA_AdequacyTest_all() {
 
 		var MA_user_div = document.getElementById("MA_AdequacyTest_UserDiv");

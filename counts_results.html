@@ -132,10 +132,13 @@ header_small_font {
   <meta charset="utf-8">
   <meta name="viewport"  content="width=device-width, initial-scale=1, user-scalable=yes">
 	<link rel="shortcut icon" href="images/shutterstock_443040703-1000x480.jpg"/>
-  <title>Welcome to chromEvol.tau.ac.il</title>
+  <title>chromEvol</title>
 
  	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+	
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
+	<link rel="stylesheet" href="//cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
 	
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
@@ -159,6 +162,7 @@ header_small_font {
 	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script> 
   	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js"></script>
     <script src="js/jquery.localscroll-1.2.7-min.js"></script>
+	<script src="/jquery-csv-master/src/jquery.csv.js"></script>
     <script src='js/purl.js'></script>
 	<script src="/js/googleAnalytics.js"></script>
 
@@ -173,19 +177,20 @@ header_small_font {
 		}
 	    });	
 
-		
+		var CONTENT;
+		fetch("http://chromevol.tau.ac.il/chromEvol_results/1624954511/species_list").then((r)=>{r.text().then((d)=>{let CONTENT = d})});
 	
 		$(document).ready(function () {
 
-		document.getElementById("JobToLoadID")
+			document.getElementById("JobToLoadID")
 			.addEventListener("keyup", function(event) {
-			event.preventDefault();
-			if (event.keyCode == 13) {
-				document.getElementById("LoadJob_button").click();
-			}
-		});	
+				event.preventDefault();
+				if (event.keyCode == 13) {
+					document.getElementById("LoadJob_button").click();
+				}
+			});	
 
-		$.localScroll();
+			$.localScroll();
 
             SetMenuWidth();
 
@@ -223,7 +228,8 @@ header_small_font {
 
 			$("#resultsData").css("display", "block");
 
-			HandleData(data)
+			//alert ("status = " + data.errorOccured + ' ' + data.jobStatus);
+			//HandleData(data)
 			
 			if (data.errorOccured) {
                HandleError(data.error);
@@ -233,17 +239,18 @@ header_small_font {
             }
             
             var jobStatus = data.jobStatus;
-
+			
             if (jobStatus != 'PASS' ) {
 				setTimeout(function () { 
 				location.reload();
-				}, 90 * 100); // 30 seconds
-			//If status is PASS then it will slow sown the refresh rate 
+				}, 30 * 1000); // 30 seconds
             } else {
+				//If status is PASS then it will slow sown the refresh rate 
 				setTimeout(function () { 
 				location.reload();
-				}, 90 * 10000); // 30 seconds
+				}, 90 * 1000); // 30 seconds
 			}
+			
         }
 
         function HandleError(error) {
@@ -314,10 +321,13 @@ header_small_font {
 			displayParams(jobId);
 			
 			if(jobStatus == "PASS")	{
-			//divChromResults
+			
+				//divChromResults
 				$("#divOutput2").empty();
 				$("#divOutput2").show();
+				$('#divOutput2').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/countsFile\" download onclick=\"ga('send', 'event', 'Download', 'Downloaded', 'Counts file download');\">[download]</a> ");
 				$('#divOutput2').append("<br><iframe width=\"50%\" style=\"border:2px solid blue\"; src=\"chromEvol_results/" + jobId + "/countsFile\"></iframe><br><br>");
+				
 				// Present the results when the run is done:
 				//check for each tree result:
 				var res = vTreePathArr.split(",");
@@ -325,9 +335,6 @@ header_small_font {
 						var Tree_path = res[i]
 						$('#divOutput2').append("<br><font face=\"serif\" size=\"4\" color=\"#4271bc\"><a\">Result summary for Tree #" + i + ": </a>");
 						$('#divOutput2').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_" + i + "/result_sum.csv\" download>[download] </a>");
-						//$('#divOutput2').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_" + i + "/result_sum.csv\" target=\"_blank\">[open]</a></font>");
-
-						
 				}
 			
 			}
@@ -343,9 +350,9 @@ header_small_font {
 				$("#divOutput3").show();
 
 				$('#div_CheckParamsFile').empty();
-				$('#div_CheckParamsFile').append("<br><font face=\"serif\" size=\"4\" color=\"#4271bc\"><a\">Counts file: </a>");
-				$('#div_CheckParamsFile').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/countsFile\" download onclick=\"ga('send', 'event', 'Download', 'Downloaded', 'Counts file download');\">[download]</a> ");
-				$('#div_CheckParamsFile').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/countsFile\" target=\"_blank\">[open]</a> <br>");
+				//$('#div_CheckParamsFile').append("<br><font face=\"serif\" size=\"4\" color=\"#4271bc\"><a\">Counts file: </a>");
+				//$('#div_CheckParamsFile').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/countsFile\" download onclick=\"ga('send', 'event', 'Download', 'Downloaded', 'Counts file download');\">[download]</a> ");
+				//$('#div_CheckParamsFile').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/countsFile\" target=\"_blank\">[open]</a> <br>");
 				$('#div_CheckParamsFile').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a\">Input Tree File: </a>");
 				$('#div_CheckParamsFile').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/TreesFile.txt\" download onclick=\"ga('send', 'event', 'Download', 'Downloaded', 'Input Tree File');\">[download]</a> ");
 				$('#div_CheckParamsFile').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/TreesFile.txt\" target=\"_blank\">[open]</a> <br>");
@@ -405,16 +412,16 @@ header_small_font {
 					$('#divOutput_tree').append("<div id=\"divWasabiDynamic\"><iframe id=\"iframeWasabiDynamic\" src=\"" + urlTree + "\" style=\"position:relative; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:500px; border:none; margin:0; padding:0; overflow:hidden; z-index:0;\">Your browser doesn't support iframes</iframe></div>");
 					
 					// wait & showWasabi only after it is ready
-					showWasabi();
-					var checkExist = setInterval(function() 
-					{
-						if ($('#iframeWasabiDynamic').height) 
-						{
-							showWasabi();
-							clearInterval(checkExist);
+					//showWasabi();
+					//var checkExist = setInterval(function() 
+					//{
+					//	if ($('#iframeWasabiDynamic').height) 
+					//	{
+					//		showWasabi();
+					//		clearInterval(checkExist);
 					
-						}
-					}, 500); // check every 500ms	
+					//	}
+					//}, 500); // check every 500ms	
 			
 					// this shows the clusters table
 					getJobData(jobId); 
@@ -1035,7 +1042,7 @@ header_small_font {
 
  
  </head>
-<body>
+<body style="background: #F9F9F7 url('http://clumpak.tau.ac.il/img/a1.gif') repeat-x;">
 
 <div class="content">
 
@@ -1073,8 +1080,6 @@ header_small_font {
 
 			</div>
 		
-		
-
 
 	 
 	 <br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br>
