@@ -380,7 +380,7 @@ header_small_font {
 					
 			
 			if(vInput_report) {
-				$('#div_InputReport').append("<div> <font face=\"serif\" size=\"5\" style=\"color:red\">"+vInput_report+"</div></font>");
+				$('#div_InputReport').append("<div> <font face=\"serif\" size=\"4\" style=\"color:red\">"+vInput_report+"</div></font>");
 				
 			} else {
 				$('#div_InputReport').append("<div> Checking input files...<br> </div>");
@@ -418,7 +418,7 @@ header_small_font {
 					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/expectations.txt\" download>Expectations file, </a>" +
 					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/chromEvol.res\" download>ChromEvol results, </a>" + 
 					"<a href=\"http://chromEvol.tau.ac.il/phyd3-master/view.php?id=" + jobId + "&treeNum=1&model=" + vModelArray[i] + "&treeType=mlAncestors&f=xml_ml\" target=\"_blank\">mlAncestors tree, </a>" + 
-					"<a href=\"http://chromEvol.tau.ac.il/phyd3-master/view.php?id=" + jobId + "&treeNum=1&model=" + vModelArray[i] + "&treeType=posteriorAncestors&f=xml_post\" target=\"_blank\">posteriorAncestors tree, </a>" +
+					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/posteriorAncestors.tree\" download>posteriorAncestors tree, </a>" +
 					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/Results_ExpNum.csv\" download>Events expectation per node, </a>" +
 					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/Results_Events.csv\" download>Expected number of events from root to leaf</a></div>");
 					
