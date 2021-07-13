@@ -172,7 +172,7 @@ var params_list;
 	data = [];
 	
 	params_list = ['_baseNumberR', '_duplConstR', '_gainConstR', '_lossConstR', '_demiPloidyR'];
-	params_list_UI_names = ['Base (monoploid) number addition rate', 'Duplication rate', 'Ascending dysploidy rate', 'Descending dysploidy rate', 'Duplication by 1.5 rate'];
+	params_list_UI_names = ['Base (monoploid) number addition', 'Duplication', 'Ascending dysploidy', 'Descending dysploidy', 'Duplication by 1.5'];
 
 	num_data_col = 0;
 	
@@ -647,7 +647,7 @@ function LoadParamTable() {
 				html += '<col align="center" style="width:' + width_num + '%; ">';
 			}
 
-			html += '<thead><tr bgcolor="#c0c0c0"><td align="center" style="font-size:15px"><span style="font-weight:bold">Transition Type / Model</td></span>';
+			html += '<thead><tr bgcolor="#c0c0c0"><td align="center" style="font-size:15px"><span style="font-weight:bold">Transition Type Rate / Model</td></span>';
 			
 			for (var head_i = 0; head_i < num_data_col-1; head_i++){
 				
@@ -664,7 +664,7 @@ function LoadParamTable() {
 				
 				html += '<tr>';
 				
-				html += '<td align="center" style="vertical-align:middle;">'+params_list_UI_names[i-1]+'</td>';
+				html += '<td align="left" style="vertical-align:middle;">'+params_list_UI_names[i-1]+'</td>';
 				
 				for (var head_i = 0; head_i < num_data_col-1; head_i++){
 					

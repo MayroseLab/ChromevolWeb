@@ -126,6 +126,13 @@ header_small_font {
   font-size: 20px;
 }
 
+.chromevol_label {
+	color: #009710;
+}
+
+.chromevol_link {
+	color: #4271bc;
+}
 
 </style>
 <html lang="en">
@@ -270,8 +277,9 @@ header_small_font {
 			var vInput_report = data.input_files_report;
 			var vChromParams = data.chrom_counts_data;
 			var vDone_file = data.done_file;
+			var runTime = data.runTime;
 			
-			if (jobStatus === 'RUNNING') {
+			if (jobStatus === 'RUNNING' && runTime < 2) {
 				setTimeout(function () { 
 				location.reload();
 				}, 30 * 1000); // 30 seconds
@@ -342,11 +350,12 @@ header_small_font {
 			var vTreePathArr = data.TreesDirArr;
 			var vModel = data.SelectedModel;
 			var vInput_report = data.input_files_report;
+			var vPloidy_inference_error = data.ploidy_inference_error;
+			var vModel_adequacy_error = data.model_adequacy_error;
 			var vChromParams = data.chrom_counts_data;
 			var vAdequacy_data = data.adequacy_data;
 			var vploidy_ON = data.ploidy_ON;
-			
-			
+						
 			var best_model = vBestModelArr[0];
 			best_model = changeModelName(best_model);
 
@@ -363,7 +372,7 @@ header_small_font {
 
             var jobStatus = data.jobStatus;
 			var jobStatusMsg  = data.jobStatusMsg;
-			
+
 			$("#jobStatus").append( jobStatusMsg);
 			
 			displayParams(jobId);
@@ -374,16 +383,21 @@ header_small_font {
 			}
 			
 			
-			$('#div_InputReport').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/countsFile\" target=\"_blank\">Counts file, </a></font>");
-			$('#div_InputReport').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/TreesFile.txt\" target=\"_blank\">Tree file, </a>");
-			$('#div_InputReport').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/defined_models.txt\" target=\"_blank\">Defined Models</a></font>");
+			$('#div_InputReport').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a class=\"chromevol_link\" href=\"chromEvol_results/" + jobId + "/countsFile\" target=\"_blank\">Counts file</a>&nbsp&nbsp|&nbsp&nbsp</font>");
+			$('#div_InputReport').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a class=\"chromevol_link\" href=\"chromEvol_results/" + jobId + "/TreesFile.txt\" target=\"_blank\">Tree file</a>&nbsp&nbsp|&nbsp&nbsp</font>");
+			$('#div_InputReport').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a class=\"chromevol_link\" href=\"chromEvol_results/" + jobId + "/defined_models.txt\" target=\"_blank\">Defined models</a></font>");
 					
 			
 			if(vInput_report) {
-				$('#div_InputReport').append("<div> <font face=\"serif\" size=\"4\" style=\"color:red\">"+vInput_report+"</div></font>");
-				
-			} else {
-				$('#div_InputReport').append("<div> Checking input files...<br> </div>");
+				$('#div_InputReport').append("<br><div> <font face=\"serif\" size=\"4\" style=\"color:black\">"+vInput_report+"</div></font>");
+			} 
+			
+			if(vPloidy_inference_error) {
+				$('#divPloidyError').append("<div> <font face=\"serif\" size=\"4\" style=\"color:black\">"+vPloidy_inference_error+"</div></font>");
+			}
+			
+			if(vModel_adequacy_error) {
+				$('#divModelAedquacyError').append("<div> <font face=\"serif\" size=\"4\" style=\"color:black\">"+vModel_adequacy_error+"</div></font>");
 			}
 			
 			if(vChromParams){
@@ -399,35 +413,33 @@ header_small_font {
 				//---------------------------------------------------------------------
 				$('#divChromevl_selModel_and_Table').show();
 				//selected model for tree 1 (may chnage to multiple trees in the future:
-				$('#divChromevl_selModel_and_Table').append("<br><font face=\"serif\" size=\"4\" color=\"#4271bc\"><b>Best model is: </b>" + best_model + "   </font>");
+				$('#divChromevl_selModel_and_Table').append("<br><font face=\"serif\" size=\"4\" color=\"#009710\"><b>Best model is: </b>" + best_model + "   </font>");
 				//$('#divChromevl_selModel_and_Table').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/result_sum.txt\" target=\"_blank\">  [Chromevol result summary]</a></font>");
 				
 				// this shows the clusters table
-				getJobData(jobId); 
+				getJobData(jobId, best_model); 
 				//getJobData_singleTree(jobId); 
 
-				$('#divChromevl_Models_resultsFiles').append("<br><font face=\"serif\" size=\"4\" color=\"#4271bc\"><b><u>Tested models results files: </u></b></font>");
+				$('#divChromevl_Models_resultsFiles').append("<br><font face=\"serif\" size=\"4\" color=\"#009710\"><b><u>Tested models results files: </u></b></font>");
 				$('#divChromevl_Models_resultsFiles').append("<div class=\"boxes\">");
 				vModelArray = vModelArray
 				for (i = 0; i < vModelArray.length; i++)
 				{
 					$('#divChromevl_Models_resultsFiles').append("<br><div class=\"pretty p-icon p-toggle\"><input type=\"checkbox\" id=\"mod_"+vModelArray[i]+"\" onclick=\"myFunction(\'"+vModelArray[i]+"\')\">" +
 					"<div class=\"state p-on\"><i class=\"icon mdi mdi-minus-box\"></i><label>" + vModelArray[i] + "</label></div><div class=\"state p-off\"><i class=\"icon mdi mdi-plus-box\"></i><label>" + vModelArray[i] + "</label></div></div><br>" +
-					//"<div id=\""+vModelArray[i] + "\" style=\"display:none\"><a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/" + vModelArray[i] + "_results.zip\" download>[Download All]</a><br>" + 
 					"<div id=\""+ vModelArray[i] + "\" style=\"display:none\"><a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/" + vModelArray[i] + "_results.zip\" download></a><br>" + 
-					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/expectations.txt\" download>Expectations file, </a>" +
-					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/chromEvol.res\" download>ChromEvol results, </a>" + 
-					"<a href=\"http://chromEvol.tau.ac.il/phyd3-master/view.php?id=" + jobId + "&treeNum=1&model=" + vModelArray[i] + "&treeType=mlAncestors&f=xml_ml\" target=\"_blank\">mlAncestors tree, </a>" + 
-					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/posteriorAncestors.tree\" download>posteriorAncestors tree, </a>" +
-					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/Results_ExpNum.csv\" download>Events expectation per node, </a>" +
-					"<a href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/Results_Events.csv\" download>Expected number of events from root to leaf</a></div>");
+					"<a class=\"chromevol_link\" href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/chromEvol.res\" download>Results summary</a>" + "&nbsp&nbsp | &nbsp&nbsp" +
+					"<a class=\"chromevol_link\" href=\"http://chromEvol.tau.ac.il/phyd3-master/view.php?id=" + jobId + "&treeNum=1&model=" + vModelArray[i] + "&treeType=mlAncestors&f=xml_ml\" target=\"_blank\">ML Ancestors Tree</a>" + "&nbsp&nbsp | &nbsp&nbsp" +
+					"<a class=\"chromevol_link\" href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/ancestorsProbs.txt\" download>Ancestors distribution Table</a>" + "&nbsp&nbsp | &nbsp&nbsp" +
+					"<a class=\"chromevol_link\" href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/expectations.txt\" download>Inferred Transitions</a>"  + "&nbsp&nbsp | &nbsp&nbsp" +
+					"<a class=\"chromevol_link\" href=\"chromEvol_results/" + jobId + "/ChromEvol_Tree_1/" + vModelArray[i] + "/allNodes.tree\" download>All Nodes Tree </a>");
 					
 
 				}
 				// COMMENTED OUT BY ANNA -- PROBLEM IN PLOIDY INFERENCE (PLOIDY.CSV)
-				if(vMA_Ploidy_Arr[0] == 'ON'){
-					$('#divChromevl_Models_resultsFiles').append("<br><font face=\"serif\" size=\"4\" color=\"#4271bc\"><b><a href=\"chromEvol_results/" + jobId + "/ploidy.csv\" download>Download ploidy-level results</a></b>");
-				}
+				//if(vMA_Ploidy_Arr[0] == 'ON'){
+				//	$('#ploidy_results').append("<font face=\"serif\" size=\"4\" color=\"#4271bc\"><b><a href=\"chromEvol_results/" + jobId + "/ploidy.csv\" download>Download ploidy-level results</a></b></font>");
+				//}
 				$('#divChromevl_Models_resultsFiles').append("<\div>");
 				
 				
@@ -489,7 +501,22 @@ header_small_font {
 		}
 	}	
 	
+	function myFunction_Ploidy() {
+		
+		// Get the checkbox
+		var checkBox = document.getElementById("ploidy_check");
+		// Get the output text
+		
+		//alert("mod_"+model);
+		var text = document.getElementById("ploidy_results");
 
+		// If the checkbox is checked, display the output text
+		if (checkBox.checked == true){
+			text.style.display = "block";
+		} else {
+			text.style.display = "none";
+		}
+	}	
 	
 
 
@@ -557,7 +584,7 @@ header_small_font {
 
 
 		// this shows the clusters table
-	function getJobData(jobId){
+	function getJobData(jobId, best_model){
 		console.log("getJobData");
 
 		//create ajax request, connect events to it, and send it
@@ -607,9 +634,9 @@ header_small_font {
 					}
 					if (data[i].Header1){
 						if (data[i].Header1.includes("Distance from best AIC")){
-							html += '<td align="center">'+ '<i class="fa fa-delta"></i> &Delta;AIC from best model</td>';
+							html += '<td align="left">'+ '<i class="fa fa-delta"></i> &Delta;AIC from best model</td>';
 							} else {
-							html += '<td align="center">'+data[i].Header1 +'</td>';
+							html += '<td align="left">'+data[i].Header1 +'</td>';
 						}
 					} 
 					if (data[i].Header2){
@@ -719,7 +746,7 @@ header_small_font {
 					//	html += '<tr>';
 					//}
 					if (data[i].Header1){
-						html += '<td align="center">' +data[i].Header1 +'</td>';
+						html += '<td align="left">' +data[i].Header1 +'</td>';
 						//if (data[i].Header1.includes("Distance from best AIC")){
 						//	html += '<td align="center">'+ '<i class="fa fa-delta"></i> AIC</td>';
 						//	} else {
@@ -729,13 +756,19 @@ header_small_font {
 							statis_img_link='ON';
 						}
 					} 
-					// name of image for graphs -> for each model dir -> dists.pdf
 					var num = parseFloat(data[i].Header2)
-					if (num && statis_img_link=='OFF'){
+					if (num != NaN && statis_img_link=='OFF'){
+						var num_str = num.toFixed(2);
+						var num_2 = parseFloat(num_str);
+						// check if value < 0.01 after rounding
+						if (num != 0 && num_2 < 0.01) {
+							num_str = '< 0.01';
+						}
+						
 						if (num < 0.05){
-							html += '<td align="center"><font color="Red">' +num.toFixed(2) +'</font></td>';
+							html += '<td align="center"><font color="Red">' + num_str +'</font></td>';
 						} else {
-							html += '<td align="center"><font color="Blue">' + num.toFixed(2) +'</font></td>';
+							html += '<td align="center"><font color="Blue">' + num_str +'</font></td>';
 						}
 					} else if (data[i].Header2 && statis_img_link=='ON'){ 
 						html += '<td align="center"><a href=\"http://chromEvol.tau.ac.il/chromEvol_results/' + jobId + '/ChromEvol_Tree_1/'+data[0].Header2+'/dists.pdf\" target=\"_blank\">Get distributions</a></td>';
@@ -780,11 +813,9 @@ header_small_font {
 				}
 				
 				$("#divAdequacyExpand").show();
-				//$('#divAdequacyExpand').append("<div class=\"pretty p-icon p-smooth\"><input type=\"checkbox\" id=\"Adeq_check\" onclick=\"myFunction_Adeq()\"><div class=\"state p-success\">" + 
-				//"<i class=\"icon fa fa-plus-square-o\"></i><label>Model Adequacy results</label></div></div>");
 				
 				$('#divAdequacyExpand').append("<div class=\"pretty p-icon p-toggle\"><input type=\"checkbox\" id=\"Adeq_check\" onclick=\"myFunction_Adeq()\"><div class=\"state p-on\">" +
-				"<i class=\"icon mdi mdi-minus-box\"></i><label>Model Adequacy results</label></div><div class=\"state p-off\"><i class=\"icon mdi mdi-plus-box\"></i><label>Model Adequacy results</label></div></div><br>");
+				"<i class=\"icon mdi mdi-minus-box\"></i><label><font face=\"serif\" size=\"4\" color=\"#009710\"><b><u>Model adequacy results</u></b></label></div><div class=\"state p-off\"><i class=\"icon mdi mdi-plus-box\"></i><label><b><u>Model adequacy results</u></b></font></label></div></div><br>");
 							
 				$("#Adeq_results").hide();
 				$('#Adeq_results').append(html);
@@ -808,17 +839,139 @@ header_small_font {
 				$("#myModal").modal();
 			}
 		}).send(); //Don't forget to send our request!
-		//$('#divOutput_Clusters').append("<h5> ** Output files will be stored on chromEvol server for one month. It is advisable to download the output Files.</h5>");
+		
+		//Ploidy read results:
+		//create ajax request, connect events to it, and send it
+		var ajaxRequest = new Request({
+			url:"http://chromEvol.tau.ac.il/chromEvol_results/" + jobId + "/ploidy_html.csv",
+			
+			onSuccess:function(response){
+				console.log("getJobData onSuccess");
+				
+				// get csv data as objects
+				var data = $.csv.toObjects(response);
+				//console.log(data);
+				
+
+				// construct table
+				//var arr_headers = [data[0].Header2,data[0].Header3,data[0].Header4,data[0].Header5,data[0].Header6,data[0].Header7,data[0].Header8,data[0].Header9,data[0].Header10]
+				var arr_headers = [data[0].Header1,data[0].Header2,data[0].Header3,data[0].Header4,data[0].Header5,data[0].Header6,data[0].Header7,data[0].Header8,data[0].Header10];
+				
+				var html = "<font face=\"serif\" size=\"4\" color=\"#4271bc\"><a class=\"chromevol_link\" href=\"chromEvol_results/" + jobId + "/ploidy.csv\" download>Download ploidy-level results</a>"  + "&nbsp&nbsp | &nbsp&nbsp";
+				html += "<a class=\"chromevol_link\" href=\"http://chromEvol.tau.ac.il/phyd3-master/view.php?id=" + jobId + "&treeNum=1&model=" + best_model + "&treeType=mlAncestors&f=xml_ml\" target=\"_blank\">View results on tree</a></font><br><br>";
+				
+				html += '<table style="table-layout: fixed; width: 100%" id="myDataTable" name="myDataTable" class="table Tablefont table-responsive table-bordered rerunTable">';
+				
+				var num_data_col = Object.keys(data[0]).length;
+				var width_num = ( 80 / num_data_col).toString();
+				var header_col = (100 - num_data_col*(( 80 / num_data_col))).toString();
+				
+				html += '<col align="center" style="width:'+ header_col + '%">';
+				for (var head_i = 0; head_i < num_data_col-1; head_i++){
+				
+					html += '<col align="center" style="width:' + width_num + '%">';
+				}
+		
+				for (var head_i = 0; head_i < num_data_col; head_i++){
+						html += '<td align="center" style="font-size:15px"><span style="font-weight:bold">'+ arr_headers[head_i] +'</font></td></span>'
+				}
+				html += '</thead><tbody>';
+
+				
+				statis_img_link='OFF';
+				for (var i = 1; i < data.length; i++) {
+					
+					html += '<tr>';
+					
+					if (data[i].Header1){
+						html += '<td align="left" style="word-break:break-all;">' +data[i].Header1 +'</td>';
+					}
+					
+					if (data[i].Header2){
+						if (data[i].Header2.length){
+							html += '<td align="center">'+format_header_value(data[i].Header2, 'int')+'</td>';
+						}
+					}
+					if (data[i].Header3){
+						if (data[i].Header3.length){
+							html += '<td align="center">'+format_header_value(data[i].Header3, 'ploidy_infer')+'</td>';
+						}
+					}
+					
+					if (data[i].Header4){
+						if (data[i].Header4.length){
+							html += '<td align="center">'+format_header_value(data[i].Header4)+'</td>';
+						}
+					}
+					if (data[i].Header5){
+						if (data[i].Header5.length){
+							html += '<td align="center">'+format_header_value(data[i].Header5)+'</td>';
+						}
+					}
+					if (data[i].Header6){
+						if (data[i].Header6.length){
+							html += '<td align="center">'+format_header_value(data[i].Header6)+'</td>';
+						}
+					}
+				}
+								
+				$("#divPloidyExpand").show();
+				
+				$('#divPloidyExpand').append("<div class=\"pretty p-icon p-toggle\"><input type=\"checkbox\" id=\"ploidy_check\" onclick=\"myFunction_Ploidy()\"><div class=\"state p-on\">" +
+				"<i class=\"icon mdi mdi-minus-box\"></i><label><font face=\"serif\" size=\"4\" color=\"#009710\"><b><u>Ploidy-level results</u></b></label></div><div class=\"state p-off\"><i class=\"icon mdi mdi-plus-box\"></i><label><b><u>Ploiy-level results</u></b></font></label></div></div><br>");
+							
+				$("#ploidy_results").hide();
+				$('#ploidy_results').append(html);
+				
+				$('#myDataTable2').DataTable( {
+					paging:		false, 
+					info:		false,
+					searching:	false,
+        
+					//add these config to remove empty header
+					"bJQueryUI":true,
+					"sDom": 'lfrtip',
+					"order": [[0, "asc"]]
+				} );
+			},
+        
+			onFailure:function(response){
+				console.log("getJobData onError");
+				$('#myModal').find('.modal-header').html('<b>Result not found<b><br>');
+				$('#myModal').find('.modal-body').html('Sorry, result ID "'  + userJobId + '" was not found.');
+				$("#myModal").modal();
+			}
+		}).send(); //Don't forget to send our request!
+		
 	}			
 
-	function format_header_value(str){
+	function format_header_value(str, type){
 		var num = parseFloat(str);
-		if (num) {
-			if (num < 0.05){
-				return '<font color="Red">' +num.toFixed(2) +'</font>';
+		
+		if (typeof type == 'undefined') {
+			type = 'float';
+		}
+		
+		if (num != NaN) {
+			if (type == 'float') {
+				num_str = num.toFixed(2);
+			}
+			else if (type == 'int') {
+				num_str = parseInt(num).toString();
+			}
+			else if (type == 'ploidy_infer') {
+				if (num == 1) {
+					num_str = 'Polyploid';
+				}
+				else {
+					num_str = 'Diploid';
+				}
+			}
+			if (num < 0.05) {
+				return '<font color="black">' + num_str  +'</font>';
 			} 
 			else {
-				return '<font color="Blue">' + num.toFixed(2) +'</font>';
+				return '<font color="black">' + num_str +'</font>';
 			}
 		}
 		else {
@@ -1174,7 +1327,7 @@ header_small_font {
 								
 		
 		<center> <font face="serif" size="6" color="#000000">Status:
-		<a style="text-decoration:none" id="jobStatus" style="display: none;"></a><br> </font>
+		<a class="chromevol_label" style="text-decoration:none" id="jobStatus" style="display: none;"></a><br> </font>
 		<font face="serif" size="5" color="#000000" id="resultsHeader"></font><br>
 		<font face="serif" size="3.5" color=black>Output files will be stored on chromEvol server for one month</center> 
 		
@@ -1184,16 +1337,22 @@ header_small_font {
 			
 			
 			</font>
-				<u><font face="serif" size="5" color="#000000">User inputs: <br></font></u>
+				<u><font face="serif" size="5" color="#000000">User inputs: <br></font></u><br>
 				<p style="text-decoration:none" id="div_InputReport" style="display: none;"></p>
 				<u><font face="serif" size="5" color="#000000">Chromevol results: </font></u>&nbsp&nbsp
 				<!-- Removed by Anna <font face="serif" size="3.5" color=black>** Output files will be stored on chromEvol server for one month. <!--It is advisable to download the output Files.<br>-->
 				<p style="text-decoration:none" id="divChromevl_selModel_and_Table" style="display: none;"></p>
+				<p style="text-decoration:none" id="divChromevl_Models_resultsFiles" style="display: none;"></p>
+				<p style="text-decoration:none" id="PostRun" style="display: none;"></p>
+				<br>
+				<p style="text-decoration:none" id="divModelAedquacyError"></p>
 				<p style="text-decoration:none" id="divAdequacyExpand" style="display: none;"></p>
 				<p style="text-decoration:none" id="Adeq_results" style="display: none;"></p>
 				<br>
-				<p style="text-decoration:none" id="divChromevl_Models_resultsFiles" style="display: none;"></p>
-				<p style="text-decoration:none" id="PostRun" style="display: none;"></p>
+				<p style="text-decoration:none" id="divPloidyError"></p>
+				<p style="text-decoration:none" id="divPloidyExpand" style="display: none;"></p>
+				<p style="text-decoration:none" id="ploidy_results" style="display: none;"></p>
+				<!--<p style="text-decoration:none" id="div_ploidy_results"></p>-->
 				
 
 			</div>
